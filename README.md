@@ -4,7 +4,7 @@
 A Duolingo-style learning app for Data Structures and Algorithms
 
 ## Team Details
-- Team #7
+- Team Number: LAB101-7
 - Team Members:
   - Erfan Ghafoori - [e2ghafoo@uwaterloo.ca](mailto:e2ghafoo@uwaterloo.ca)
   - Raiyan Sayeed - [mrbsayee@uwaterloo.ca](mailto:mrbsayee@uwaterloo.ca)
