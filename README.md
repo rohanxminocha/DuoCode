@@ -11,4 +11,4 @@ A Duolingo-style learning app for Data Structures and Algorithms
   - Rohan Minocha - [rminocha@uwaterloo.ca](mailto:rminocha@uwaterloo.ca)
   - Sara Zufishan - [szufisha@uwaterloo.ca](mailto:szufisha@uwaterloo.ca)
 - [Team Contract](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Team-Contract)
-- [Projact Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Project-Proposal)
+- [Project Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Project-Proposal)
