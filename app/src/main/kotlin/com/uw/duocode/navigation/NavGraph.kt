@@ -1,0 +1,21 @@
+package com.uw.duocode.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import com.google.firebase.auth.FirebaseAuth
+
+@Composable
+fun SetupNavGraph(
+    navController: NavHostController
+) {
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    NavHost(
+        navController = navController,
+        startDestination = if (currentUser != null) DASHBOARD else AUTH
+    ) {
+        homeNavGraph(navController = navController)
+        authNavGraph(navController = navController)
+    }
+}
