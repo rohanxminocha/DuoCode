@@ -61,6 +61,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("sh.calvin.reorderable:reorderable:2.4.3")
     implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
     implementation(platform("com.google.firebase:firebase-auth:23.1.0"))
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
