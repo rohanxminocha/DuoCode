@@ -1,4 +1,4 @@
-package com.uw.duocode.screens
+package com.uw.duocode.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,9 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.uw.duocode.ui.screens.profile.AchievementsView
+import com.uw.duocode.ui.screens.profile.ProfileView
+import com.uw.duocode.ui.screens.questmap.QuestMapView
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun HomeView(navController: NavHostController) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Quest Map", "Achievements", "Profile")
     val icons = listOf(
@@ -50,9 +53,9 @@ fun MainScreen(navController: NavHostController) {
                 .padding(padding)
         ) {
             when (selectedTab) {
-                0 -> QuestMapScreen()
-                1 -> AchievementsScreen()
-                2 -> ProfileScreen(navController)
+                0 -> QuestMapView(navController)
+                1 -> AchievementsView()
+                2 -> ProfileView(navController)
             }
         }
     }

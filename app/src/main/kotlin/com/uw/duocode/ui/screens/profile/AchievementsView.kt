@@ -1,4 +1,4 @@
-package com.uw.duocode.screens
+package com.uw.duocode.ui.screens.profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun QuestMapScreen() {
+fun AchievementsView() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -19,7 +19,7 @@ fun QuestMapScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Quest Map",
+            text = "Achievements",
             style = MaterialTheme.typography.headlineMedium
         )
     }

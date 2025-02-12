@@ -1,4 +1,4 @@
-package com.uw.duocode.navigation
+package com.uw.duocode.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

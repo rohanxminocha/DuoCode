@@ -1,10 +1,10 @@
-package com.uw.duocode.navigation
+package com.uw.duocode.ui.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.uw.duocode.screens.AuthScreen
+import com.uw.duocode.ui.screens.auth.AuthScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController
