@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.uw.duocode.navigation.SetupNavGraph
+import com.uw.duocode.ui.navigation.SetupNavGraph
 import com.uw.duocode.ui.theme.DuocodeTheme
 
 

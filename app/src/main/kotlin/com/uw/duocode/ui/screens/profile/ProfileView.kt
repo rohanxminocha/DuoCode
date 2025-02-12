@@ -1,4 +1,4 @@
-package com.uw.duocode.screens
+package com.uw.duocode.ui.screens.profile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,18 +6,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
-import com.uw.duocode.navigation.AUTH
+import com.uw.duocode.ui.navigation.AUTH
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileView(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,10 +36,10 @@ fun ProfileScreen(navController: NavHostController) {
         val currentUser = auth.currentUser
 
         currentUser?.let { user ->
-            Text("Email: ${user.email}")
             user.displayName?.let { name ->
                 Text("Name: $name")
             }
+            Text("Email: ${user.email}")
         }
 
         Button(
@@ -47,7 +49,11 @@ fun ProfileScreen(navController: NavHostController) {
                     AUTH
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF6A4CAF),
+                contentColor = Color.White
+            ),
         ) {
             Text("Sign Out")
         }
