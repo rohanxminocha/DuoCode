@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MatchScreenViewModel : ViewModel() {
+class MatchViewModel : ViewModel() {
     val questionText = "Match each data structure with its primary operation or characteristic."
     val correctPairs: Map<String, String> = mapOf(
         "Stack" to "Push/Pop",

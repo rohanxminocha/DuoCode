@@ -8,6 +8,7 @@ import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
 import com.uw.duocode.ui.screens.questions.MatchView
+import com.uw.duocode.ui.screens.questions.MultipleChoiceView
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController
@@ -29,6 +30,10 @@ fun NavGraphBuilder.homeNavGraph(
 
         composable<Match>{
             MatchView(navController = navController)
+        }
+
+        composable<MultipleChoice>{
+            MultipleChoiceView(navController = navController)
         }
     }
 }
