@@ -20,14 +20,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import com.uw.duocode.ui.navigation.LessonArrays
 import com.uw.duocode.ui.navigation.Match
 
 @Composable
 fun QuestMapView(
-    navController: NavHostController,
-    userName: String = "John"
+    navController: NavHostController
 ) {
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +39,7 @@ fun QuestMapView(
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
-            text = "Welcome back, $userName! \uD83D\uDC4B",
+            text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
         )
 

@@ -4,11 +4,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.uw.duocode.DragDropView
 import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
 import com.uw.duocode.ui.screens.questions.MatchView
 import com.uw.duocode.ui.screens.questions.MultipleChoiceView
+import com.uw.duocode.ui.screens.questions.ResultView
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController
@@ -34,6 +36,14 @@ fun NavGraphBuilder.homeNavGraph(
 
         composable<MultipleChoice>{
             MultipleChoiceView(navController = navController)
+        }
+
+        composable<DragDrop>{
+            DragDropView(navController = navController)
+        }
+
+        composable<Results>{
+            ResultView(navController = navController)
         }
     }
 }
