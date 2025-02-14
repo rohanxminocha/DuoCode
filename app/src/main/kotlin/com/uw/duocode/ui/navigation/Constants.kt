@@ -9,4 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable object QuestMap
 @Serializable object Match
 @Serializable object MultipleChoice
+@Serializable object DragDrop
+@Serializable object Results
 @Serializable object LessonArrays
