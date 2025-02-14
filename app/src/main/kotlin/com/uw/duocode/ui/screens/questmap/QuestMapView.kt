@@ -2,13 +2,28 @@ package com.uw.duocode.ui.screens.questmap
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,11 +91,7 @@ fun QuestMapView(
 
         SectionCard(
             title = "Linked Lists",
-            buttonText = "Lessons",
-            icon = Icons.Default.SwapHoriz,
-            onButtonClick = {
-                navController.navigate(LessonArrays)
-            }
+            icon = Icons.Default.SwapHoriz
         )
 
         LessonItem(
@@ -101,8 +112,8 @@ fun QuestMapView(
 @Composable
 fun SectionCard(
     title: String,
-    buttonText: String,
-    icon: ImageVector,
+    buttonText: String? = null,
+    icon: ImageVector? = null,
     onButtonClick: () -> Unit = {}
 ) {
     Card(
@@ -119,8 +130,9 @@ fun SectionCard(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconContainer(icon = icon)
-
+            if (icon != null) {
+                IconContainer(icon = icon)
+            }
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(modifier = Modifier.weight(1f)) {
@@ -132,15 +144,18 @@ fun SectionCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Button(
-                onClick = onButtonClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7F5CE5),
-                    contentColor = Color.White
-                )
-            ) {
-                Text(text = buttonText)
+            if (buttonText != null) {
+                Button(
+                    onClick = onButtonClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF7F5CE5),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = buttonText)
+                }
             }
+
         }
     }
 }
