@@ -8,14 +8,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MatchViewModel : ViewModel() {
-    val questionText = "Match each data structure with its primary operation or characteristic."
-    val correctPairs: Map<String, String> = mapOf(
-        "Stack" to "Push/Pop",
-        "Queue" to "Enqueue/Dequeue",
-        "Linked List" to "Head/Tail",
-        "Binary Tree" to "Two Children"
-    )
+class MatchViewModel(val questionText: String,
+    val correctPairs: Map<String, String>,
+    private val onQuestionCompleted: () -> Unit, val progress: Float) : ViewModel() {
 
     // shuffle match options
     private val shuffledItems1 = correctPairs.keys.shuffled()
@@ -75,5 +70,9 @@ class MatchViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun continueToNext() {
+        onQuestionCompleted()
     }
 }

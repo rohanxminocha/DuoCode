@@ -2,15 +2,14 @@ package com.uw.duocode.ui.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.uw.duocode.DragDropView
 import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
+import com.uw.duocode.ui.screens.questions.QuestionLoadingScreen
 import com.uw.duocode.ui.screens.questmap.QuestMapView
-import com.uw.duocode.ui.screens.questions.MatchView
-import com.uw.duocode.ui.screens.questions.MultipleChoiceView
-import com.uw.duocode.ui.screens.questions.ResultView
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController
@@ -26,24 +25,38 @@ fun NavGraphBuilder.homeNavGraph(
             QuestMapView(navController = navController)
         }
 
-        composable<LessonArrays>{
-            LessonView(navController = navController)
+        composable(route = "lessons/{topicId}/{subtopicId}",
+        arguments = listOf(
+            navArgument("topicId") {
+                type = NavType.StringType
+                nullable = false
+            },
+            navArgument("subtopicId") {
+                type = NavType.StringType
+                nullable = false
+            }
+        )){ backStackEntry ->
+            val topicId = backStackEntry.arguments?.getString("topicId") ?: ""
+            val subtopicId = backStackEntry.arguments?.getString("subtopicId") ?: ""
+            LessonView(
+                navController = navController,
+                topicId = topicId,
+                subtopicId = subtopicId
+            )
         }
 
-        composable<Match>{
-            MatchView(navController = navController)
-        }
-
-        composable<MultipleChoice>{
-            MultipleChoiceView(navController = navController)
-        }
-
-        composable<DragDrop>{
-            DragDropView(navController = navController)
-        }
-
-        composable<Results>{
-            ResultView(navController = navController)
+        composable(route = "questions/{subtopicId}",
+            arguments = listOf(
+                navArgument("subtopicId") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )){ backStackEntry ->
+            val subtopicId = backStackEntry.arguments?.getString("subtopicId") ?: ""
+            QuestionLoadingScreen(
+                navController = navController,
+                subtopicId = subtopicId
+            )
         }
     }
 }

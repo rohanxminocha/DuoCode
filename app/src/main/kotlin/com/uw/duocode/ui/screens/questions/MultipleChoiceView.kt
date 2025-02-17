@@ -2,13 +2,28 @@ package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,10 +34,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.CheckContinueButton
+import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.ResultBanner
-import com.uw.duocode.ui.navigation.DragDrop
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +49,7 @@ fun MultipleChoiceView(
     val selectedOption = viewModel.selectedOption
     val answerChecked = viewModel.answerChecked
     val isAnswerCorrect = viewModel.isAnswerCorrect
+    val progress = viewModel.progress
 
     Scaffold(
         topBar = {
@@ -54,7 +69,7 @@ fun MultipleChoiceView(
                             )
                         }
                         ProgressBar(
-                            progress = 0.5f,
+                            progress = progress,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -73,7 +88,7 @@ fun MultipleChoiceView(
                         if (!answerChecked) {
                             viewModel.checkAnswer()
                         } else {
-                            navController.navigate(DragDrop)
+                            viewModel.continueToNext()
                         }
                     },
                     enabled = if (!answerChecked) selectedOption != null else true,
@@ -114,17 +129,20 @@ fun MultipleChoiceView(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(options) { option ->
+                item(options) { }
+                itemsIndexed(options) { index, option ->
                     val isSelected = selectedOption == option
                     val borderColor = if (!answerChecked) {
                         if (isSelected) Color(0xFF6A4CAF) else Color.Gray
                     } else {
+                        val isCorrect = viewModel.correctAnswer.find { a -> a == index } != null
                         when {
-                            option == viewModel.correctAnswer -> Color(0xFF4CAF50)
-                            isSelected && option != viewModel.correctAnswer -> Color(0xFFD32F2F)
+                            isCorrect -> Color(0xFF4CAF50)
+                            isSelected && !isCorrect -> Color(0xFFD32F2F)
                             else -> Color.Gray
                         }
                     }
+
 
                     OutlinedCard(
                         onClick = { viewModel.onOptionSelected(option) },

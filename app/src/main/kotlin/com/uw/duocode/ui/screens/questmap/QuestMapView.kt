@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -25,6 +24,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,78 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
-import com.uw.duocode.ui.navigation.LessonArrays
-import com.uw.duocode.ui.navigation.Match
-
-@Composable
-fun QuestMapView(
-    navController: NavHostController
-) {
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
-    ) {
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Text(
-            text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        SectionCard(
-            title = "Arrays",
-            buttonText = "Lessons",
-            icon = Icons.Default.Code,
-            onButtonClick = {
-                navController.navigate(LessonArrays)
-            }
-        )
-
-        LessonItem(
-            title = "Static Arrays",
-            icon = Icons.Default.Code,
-            showActionButton = true,
-            buttonText = "Start",
-            onButtonClick = {
-                navController.navigate(Match)
-            }
-        )
-        LessonItem(
-            title = "Dynamic Arrays",
-            icon = Icons.Default.Code,
-        )
-        LessonItem(
-            title = "Stacks",
-            icon = Icons.Default.Code
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        SectionCard(
-            title = "Linked Lists",
-            icon = Icons.Default.SwapHoriz
-        )
-
-        LessonItem(
-            title = "Singly Linked Lists",
-            icon = Icons.Default.SwapHoriz
-        )
-        LessonItem(
-            title = "Doubly Linked Lists",
-            icon = Icons.Default.SwapHoriz
-        )
-        LessonItem(
-            title = "Queues",
-            icon = Icons.Default.SwapHoriz
-        )
-    }
-}
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
+import com.uw.duocode.data.model.SubtopicInfo
+import com.uw.duocode.data.model.TopicInfo
 
 @Composable
 fun SectionCard(
@@ -212,5 +148,103 @@ fun IconContainer(icon: ImageVector) {
             contentDescription = null,
             tint = Color(0xFF7F5CE5)
         )
+    }
+}
+
+@Composable
+fun QuestMapView(
+    navController: NavHostController
+) {
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+
+    var topics by remember { mutableStateOf(listOf<TopicInfo>()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var error by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        try {
+            db.collection("topics")
+                .get()
+                .addOnSuccessListener { topicsRes ->
+                    topics = topicsRes.map { x -> x.toObject<TopicInfo>() }
+
+                    db.collection("subtopics")
+                        .whereIn("topicId", topics.map { it.id })
+                        .get()
+                        .addOnSuccessListener { result ->
+                            var subtopics = result.map { x -> x.toObject<SubtopicInfo>() }
+                            for (subTopic in subtopics) {
+                                var topicIdx = topics.indexOfFirst { it.id == subTopic.topicId }
+                                topics[topicIdx].subtopics.add(subTopic)
+                            }
+                            isLoading = false
+                        }
+                        .addOnFailureListener { e ->
+                            error = "Error loading lesson: ${e.message}"
+                            isLoading = false
+                        }
+
+
+                        .addOnFailureListener { e ->
+                            error = "Error loading lesson: ${e.message}"
+                            isLoading = false
+                        }
+                }
+        } catch (e: Exception) {
+            error = "Error: ${e.message}"
+            isLoading = false
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Text(
+            text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
+            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        when {
+            isLoading -> {
+                Text("Loading...")
+            }
+
+            else -> {
+                topics.forEach { topic ->
+                    SectionCard(
+                        title = topic.name,
+                        buttonText = "Learn",
+                        icon = Icons.Default.Code, // TODO have icon based on topic in schema? 
+                        onButtonClick = {
+                            navController.navigate("lessons/${topic.id}/${topic.subtopics[0].id}")
+                        }
+                    )
+
+                    topic.subtopics.forEach { subtopic ->
+                        LessonItem(
+                            title = subtopic.name,
+                            icon = Icons.Default.Code,
+                            showActionButton = true,
+                            buttonText = "Start",
+                            onButtonClick = {
+                                navController.navigate("questions/${subtopic.id}")
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }

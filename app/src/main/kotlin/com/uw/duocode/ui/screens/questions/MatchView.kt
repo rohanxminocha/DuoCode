@@ -1,7 +1,16 @@
 package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -9,12 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +36,6 @@ import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.ResultBanner
-import com.uw.duocode.ui.navigation.MultipleChoice
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +49,7 @@ fun MatchView(
     val correctMatches = matchViewModel.correctMatches
     val showErrorDialog = matchViewModel.showErrorDialog
     val allMatchesCorrect = matchViewModel.allMatchesCorrect
+    val progress = matchViewModel.progress
 
     Scaffold(
         topBar = {
@@ -60,7 +69,7 @@ fun MatchView(
                             )
                         }
                         ProgressBar(
-                            progress = 0.3f,
+                            progress = progress,
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -75,7 +84,7 @@ fun MatchView(
             ) {
                 CheckContinueButton(
                     text = "Continue",
-                    onClick = { navController.navigate(MultipleChoice) },
+                    onClick = { matchViewModel.continueToNext() },
                     enabled = allMatchesCorrect,
                     containerColor = Color(0xFF6A4CAF),
                     modifier = Modifier

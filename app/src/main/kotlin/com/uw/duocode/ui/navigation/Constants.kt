@@ -7,8 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable object Home
 @Serializable object LoginAndSignup
 @Serializable object QuestMap
+@Serializable object Question
 @Serializable object Match
 @Serializable object MultipleChoice
 @Serializable object DragDrop
 @Serializable object Results
-@Serializable object LessonArrays
+@Serializable object Lesson

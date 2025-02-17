@@ -5,24 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class DragDropViewModel : ViewModel() {
+class DragDropViewModel(val questionText: String,
+    initialSteps: List<String>,
+    private val onQuestionCompleted: () -> Unit, val progress: Float) : ViewModel()
+     {
 
-    val questionText = "Drag these steps to order them correctly for the Merge Sort algorithm."
 
     var steps by mutableStateOf(
-        listOf(
-            "Sort each half recursively",
-            "Split the list into two halves",
-            "Merge the two sorted halves"
-        )
+        initialSteps.shuffled()
     )
         private set
 
-    private val correctOrder = listOf(
-        "Split the list into two halves",
-        "Sort each half recursively",
-        "Merge the two sorted halves"
-    )
+    private val correctOrder = initialSteps
 
     var answerChecked by mutableStateOf(false)
         private set
@@ -45,11 +39,10 @@ class DragDropViewModel : ViewModel() {
 
     fun continueToNext() {
         steps = listOf(
-            "Sort each half recursively",
-            "Split the list into two halves",
-            "Merge the two sorted halves"
+            
         )
         answerChecked = false
         isAnswerCorrect = false
+        onQuestionCompleted()
     }
 }
