@@ -5,18 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class MultipleChoiceViewModel : ViewModel() {
-    val questionText =
-        "In a graph traversal, which traversal technique explores all neighbours of a node before moving on to the next node?"
-
-    val options = listOf(
-        "Depth-First Search (DFS)",
-        "Breadth-First Search (BFS)",
-        "Dijkstra’s Algorithm",
-        "Topological Sort"
-    )
-
-    val correctAnswer = "Breadth-First Search (BFS)"
+class MultipleChoiceViewModel(
+    val questionText: String,
+    val options: List<String>,
+    val correctAnswer: List<Int>,
+    private val onQuestionCompleted: () -> Unit,
+    val progress: Float
+) : ViewModel() {
 
     var selectedOption by mutableStateOf<String?>(null)
         private set
@@ -36,7 +31,7 @@ class MultipleChoiceViewModel : ViewModel() {
     fun checkAnswer() {
         if (selectedOption != null && !answerChecked) {
             answerChecked = true
-            isAnswerCorrect = selectedOption == correctAnswer
+            isAnswerCorrect = correctAnswer.find { a -> a == options.indexOf(selectedOption) } != null
         }
     }
 
@@ -44,5 +39,6 @@ class MultipleChoiceViewModel : ViewModel() {
         selectedOption = null
         answerChecked = false
         isAnswerCorrect = false
+        onQuestionCompleted()
     }
 }
