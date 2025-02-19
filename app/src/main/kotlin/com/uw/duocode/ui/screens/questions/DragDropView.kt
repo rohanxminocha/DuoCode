@@ -104,7 +104,7 @@ fun DragDropView(
                 if (answerChecked) {
                     ResultBanner(
                         isCorrect = isAnswerCorrect,
-                        message = if (isAnswerCorrect) "Correct!" else "Incorrect! Try Again",
+                        message = if (isAnswerCorrect) "Correct!" else "Incorrect!",
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .zIndex(0f)

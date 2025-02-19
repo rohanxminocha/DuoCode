@@ -3,7 +3,8 @@ package com.uw.duocode.data.model
 import com.google.firebase.firestore.DocumentId
 
 enum class Difficulty {
-                      EASY, MEDIUM, HARD;
+    EASY, MEDIUM, HARD;
+
     companion object {
         fun fromString(value: String): Difficulty? {
             return try {
@@ -14,7 +15,10 @@ enum class Difficulty {
         }
     }
 }
-enum class QuestionType { MULTIPLE_CHOICE, MATCHING, DRAG_DROP;
+
+enum class QuestionType {
+    MULTIPLE_CHOICE, MATCHING, DRAG_DROP;
+
     companion object {
         fun fromString(value: String): QuestionType? {
             return try {
@@ -23,7 +27,8 @@ enum class QuestionType { MULTIPLE_CHOICE, MATCHING, DRAG_DROP;
                 null
             }
         }
-    }}
+    }
+}
 
 open class Question(
     @DocumentId

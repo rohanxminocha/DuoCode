@@ -6,5 +6,7 @@ data class SubtopicInfo (
     @DocumentId
     var id: String = "",
     var name: String = "",
-    var topicId: String = ""
+    var order: Int = 0,
+    var topicId: String = "",
+    var isCompleted: Boolean = false
 )
