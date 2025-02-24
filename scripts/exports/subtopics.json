@@ -1,0 +1,116 @@
+[
+  {
+    "topicId": "5uU3SDiwKI83WhtWVV4g",
+    "order": 1,
+    "name": "1-Dimensional DP",
+    "id": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "topicId": "fqYEML7BjrI44WyQOGx1",
+    "order": 1,
+    "name": "Static Arrays",
+    "id": "3KFDkaMUldzOYB265HhU"
+  },
+  {
+    "topicId": "hV468wa0mTFhW0bZIeUf",
+    "order": 3,
+    "name": "Queues",
+    "id": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "topicId": "fqYEML7BjrI44WyQOGx1",
+    "order": 2,
+    "name": "Dynamic Arrays",
+    "id": "4ZYUDUddEfItaBKCFivf"
+  },
+  {
+    "topicId": "fqYEML7BjrI44WyQOGx1",
+    "order": 3,
+    "name": "Stacks",
+    "id": "7QBjY3TB0CVu3ZrR1Oh2"
+  },
+  {
+    "topicId": "1fNau8iGX1RawAsl6clQ",
+    "order": 1,
+    "name": "Search Array",
+    "id": "ANXFboJHfR4Mfc2lv42G"
+  },
+  {
+    "topicId": "IibHDQgxiJUgtkwGjp8X",
+    "order": 4,
+    "name": "Breadth-First Search",
+    "id": "CQ8NqMZAKQCc9XrEo4qZ"
+  },
+  {
+    "topicId": "1fNau8iGX1RawAsl6clQ",
+    "order": 2,
+    "name": "Search Range",
+    "id": "GABlt2fzYt99zyB9WrDL"
+  },
+  {
+    "topicId": "IibHDQgxiJUgtkwGjp8X",
+    "order": 2,
+    "name": "Binary Search Tree",
+    "id": "Mq9KI04lKaWEyB9OT6cP"
+  },
+  {
+    "topicId": "hV468wa0mTFhW0bZIeUf",
+    "order": 2,
+    "name": "Doubly Linked Lists",
+    "id": "OaAD5Flszoi2FMWhaIfY"
+  },
+  {
+    "topicId": "M10Y6qjfjsbkguU0FTxa",
+    "order": 1,
+    "name": "Heap Properties",
+    "id": "Oj1HrmRv6qyslpc8t52B"
+  },
+  {
+    "topicId": "QlnvqEoOD6P0oVWI2dEa",
+    "order": 2,
+    "name": "Adjacency List",
+    "id": "PCNnC1lDdtyQEzTQVglL"
+  },
+  {
+    "topicId": "IibHDQgxiJUgtkwGjp8X",
+    "order": 1,
+    "name": "Binary Tree",
+    "id": "WLb6xyl82xGisd7msKYY"
+  },
+  {
+    "topicId": "M10Y6qjfjsbkguU0FTxa",
+    "order": 2,
+    "name": "Heapify",
+    "id": "WPsWVNS2rVKG2zcfeH1D"
+  },
+  {
+    "topicId": "fqYEML7BjrI44WyQOGx1",
+    "order": 4,
+    "name": "Hashing",
+    "id": "dCE0IT7YZ3RZMPLCfd8X"
+  },
+  {
+    "topicId": "QlnvqEoOD6P0oVWI2dEa",
+    "order": 1,
+    "name": "Intro to Graphs",
+    "id": "qWYdCytlaOhoeCaGYX73"
+  },
+  {
+    "topicId": "hV468wa0mTFhW0bZIeUf",
+    "order": 1,
+    "name": "Singly Linked Lists",
+    "id": "sfFzjXaPQfL2fiFLG80h"
+  },
+  {
+    "topicId": "IibHDQgxiJUgtkwGjp8X",
+    "order": 3,
+    "name": "Depth-First Search",
+    "id": "snaPr7iMCcZy1IpoewHM"
+  },
+  {
+    "topicId": "5uU3SDiwKI83WhtWVV4g",
+    "order": 2,
+    "name": "2-Dimensional DP",
+    "id": "wvAjMA3fQrK9ReRQDnPq"
+  }
+]

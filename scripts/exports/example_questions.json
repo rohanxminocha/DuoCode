@@ -1,0 +1,44 @@
+[
+  {
+    "description": "Drag these steps to order them correctly for the Merge Sort algorithm.",
+    "questionType": "DRAG_DROP",
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "options": [
+      "Split the list into two halves",
+      "Sort each half recursively",
+      "Merge the two sorted halves"
+    ],
+    "id": "6piVXr8pIAew9jDpLXrH"
+  },
+  {
+    "description": "In a graph traversal, which traversal technique explores all neighbours of a node before moving on to the next node?",
+    "questionType": "MULTIPLE_CHOICE",
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "options": [
+      "Depth-First Search (DFS)",
+      "Breadth-First Search (BFS)",
+      "Dijkstra\u2019s Algorithm",
+      "Topological Sort"
+    ],
+    "correctAnswer": [
+      1
+    ],
+    "id": "Ok6ZeHlHieu7pGaRTJQq"
+  },
+  {
+    "hints": [
+      ""
+    ],
+    "description": "Match each data structure with its primary operation or characteristic.",
+    "matches": {
+      "Stack": "Push/Pop",
+      "Binary Tree": "Two Children",
+      "Queue": "Enqueue/Dequeue",
+      "Linked List": "Head/Tail"
+    },
+    "difficulty": "",
+    "questionType": "MATCHING",
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "id": "qHJh2O9d4FSVUTh3gDt7"
+  }
+]
