@@ -1,0 +1,15 @@
+[
+    {
+        "description": "In a min heap with n nodes, where would you find the smallest element and what is its relationship with its children?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "At any leaf node, no relationship with children",
+            "At the root, and it's smaller than all its descendants",
+            "At the deepest level, smaller than its siblings",
+            "At the root, but only smaller than its direct children"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    }
+]

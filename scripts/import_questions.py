@@ -22,25 +22,46 @@ def get_latest_questions_file():
                 max_version = version
                 latest_file = file
     
+    if latest_file:
+        doc_ref = db.collection('imported_data').document(latest_file.name)
+        doc = doc_ref.get()
+        if doc.exists:
+            raise Exception(f"File {latest_file.name} was already imported. Please use a different version number.")
+    
     return latest_file
 
 def upload_questions():
-    latest_file = get_latest_questions_file()
-    
-    if not latest_file:
-        print("No questions file found")
-        return
+    try:
+        latest_file = get_latest_questions_file()
         
-    with open(latest_file, 'r') as f:
-        questions = json.load(f)
-    
-    for question in questions:
-        if 'id' in question:
-            db.collection('questions').document(question['id']).set(question)
-        else:
-            db.collection('questions').add(question)
-    
-    print(f"Uploaded questions from {latest_file}")
+        if not latest_file:
+            print("No questions file found")
+            return
+            
+        with open(latest_file, 'r') as f:
+            questions = json.load(f)
+        
+        uploaded_count = 0
+        for question in questions:
+            if 'id' in question:
+                db.collection('questions').document(question['id']).set(question)
+            else:
+                db.collection('questions').add(question)
+            uploaded_count += 1
+        
+        try:
+            db.collection('imported_data').document(latest_file.name).set({
+                'importedAt': firestore.SERVER_TIMESTAMP,
+                'filename': latest_file.name,
+                'questionsCount': uploaded_count
+            })
+            print(f"Successfully recorded import of {uploaded_count} questions from {latest_file}")
+        except Exception as e:
+            print(f"Warning: Questions were imported but failed to record import: {str(e)}")
+        
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return
 
 def main():
     print("\nUploading questions")
