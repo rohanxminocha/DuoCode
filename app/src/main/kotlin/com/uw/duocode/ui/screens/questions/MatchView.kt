@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -45,8 +45,12 @@ fun MatchView(
 ) {
     val questionText = matchViewModel.questionText
     val items = matchViewModel.items
+    val shuffledKeys = matchViewModel.shuffledKeys
+//    val shuffleValues = matchViewModel.shuffledValues
     val selectedItem = matchViewModel.selectedItem
-    val correctMatches = matchViewModel.correctMatches
+//    val correctMatches = matchViewModel.correctMatches
+    val correctKeys = matchViewModel.correctKeys
+    val correctValues = matchViewModel.correctValues
     val showErrorDialog = matchViewModel.showErrorDialog
     val allMatchesCorrect = matchViewModel.allMatchesCorrect
     val progress = matchViewModel.progress
@@ -135,12 +139,13 @@ fun MatchView(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(items) { item ->
-                    val isSelected = selectedItem == item
-                    val isMatched = correctMatches.contains(item)
+                itemsIndexed(items) { index, item ->
+                    val isKey = index % 2 == 0
+                    val isSelected = selectedItem?.index == item.index && selectedItem.isKey == isKey
+                    val isMatched = (correctKeys.contains(item.index) && isKey) || (correctValues.contains(item.index) && !isKey)
 
                     OutlinedCard(
-                        onClick = { matchViewModel.onItemClicked(item) },
+                        onClick = if (!isMatched) { { matchViewModel.onItemClicked(item, isKey) } } else { {} },
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
                             1.dp,
@@ -163,7 +168,7 @@ fun MatchView(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = item,
+                                text = item.item,
                                 fontSize = 16.sp,
                                 color = if (isMatched) Color.White else Color.Black
                             )
