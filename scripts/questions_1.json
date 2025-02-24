@@ -1,0 +1,252 @@
+[
+    {
+        "description": "Which of the following properties are true for a max heap?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "The root is always the largest element",
+            "Every parent node is smaller than its children",
+            "The tree must be perfectly balanced",
+            "The heap must be implemented using an array"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "For a binary heap with n nodes, what is the index of the last non-leaf node?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "n/2",
+            "n/2 - 1",
+            "n - 1",
+            "(n-2)/2"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "Match each heap concept with its correct description.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Max Heap": "Parent nodes are greater than children",
+            "Min Heap": "Parent nodes are less than children",
+            "Complete Binary Tree": "All levels filled except possibly last",
+            "Height": "Log(n) where n is number of nodes"
+        },
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "In a binary heap stored in an array, for a node at index i, what are the indices of its children?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "2i and 2i+1",
+            "2i+1 and 2i+2",
+            "i/2 and i/2+1",
+            "i*2 and i*2+2"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "Drag these statements to order them from most fundamental to most specific heap property.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Must be a complete binary tree",
+            "Each node has at most two children",
+            "Parent nodes follow heap property",
+            "Can be efficiently stored in an array"
+        ],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "Match the heap operations with their primary use cases.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Priority Queue": "Task scheduling",
+            "Min Heap": "Shortest path algorithms",
+            "Max Heap": "Heap sort implementation",
+            "Binary Heap": "Efficient priority management"
+        },
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "What is the maximum number of nodes in a binary heap of height h?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "2^h",
+            "2^(h+1) - 1",
+            "2^h - 1",
+            "2^(h-1)"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "Which properties must be maintained for a valid min heap?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Only the root must be the smallest element",
+            "Each node must be smaller than all its descendants",
+            "The tree must be balanced and sorted",
+            "Siblings must be in ascending order"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "Match each term with its corresponding heap property.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Root": "First element in array",
+            "Parent": "Floor((i-1)/2)",
+            "Left Child": "2i + 1",
+            "Right Child": "2i + 2"
+        },
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "What makes a binary heap different from a binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Heap must be complete, BST doesn't need to be",
+            "Heap compares parent-child, BST compares left-right",
+            "Both A and B are correct",
+            "Neither A nor B is correct"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "Oj1HrmRv6qyslpc8t52B"
+    },
+    {
+        "description": "What is the correct order of steps to heapify a node in a max heap?",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Compare parent with both children",
+            "Find the largest among parent and children",
+            "Swap parent with largest child if needed",
+            "Recursively heapify affected subtree"
+        ],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Which of these statements about heapify operation is correct?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Heapify always starts from the root node",
+            "Heapify operation takes O(n) time for a single node",
+            "Heapify maintains the complete binary tree property",
+            "Heapify must be performed on all nodes simultaneously"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Match each heapify operation with its time complexity.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Heapify single node": "O(log n)",
+            "Build heap": "O(n)",
+            "Insert element": "O(log n)",
+            "Extract max/min": "O(log n)"
+        },
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "When building a heap, why do we start heapifying from the last non-leaf node?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "It's more efficient than starting from the root",
+            "Leaf nodes are already valid heaps",
+            "It ensures the heap property is maintained",
+            "All of the above"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Order these steps to build a max heap from an array.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "HARD",
+        "options": [
+            "Find the last non-leaf node",
+            "Start heapifying from last non-leaf node",
+            "Move towards root, heapifying each node",
+            "Complete when root is heapified"
+        ],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Match each operation with its heapify direction.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Insert": "Bottom-up heapify",
+            "Extract": "Top-down heapify",
+            "Build Heap": "Bottom-up multiple",
+            "Delete": "Top-down recursive"
+        },
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "What is the time complexity of building a heap using the bottom-up approach?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "O(n log n)",
+            "O(n)",
+            "O(log n)",
+            "O(n^2)"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Order the steps for inserting a new element into a heap.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Add element at the end of the heap",
+            "Compare with parent node",
+            "Swap if heap property is violated",
+            "Repeat until heap property is restored"
+        ],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Which operations require heapify during heap maintenance?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Only insertion",
+            "Only deletion",
+            "Both insertion and deletion",
+            "Neither insertion nor deletion"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    },
+    {
+        "description": "Match each heapify scenario with its appropriate action.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "New element added": "Bubble up",
+            "Root extracted": "Sink down",
+            "Array to heap": "Bottom-up build",
+            "Internal deletion": "Both directions"
+        },
+        "subtopicId": "WPsWVNS2rVKG2zcfeH1D"
+    }
+]
