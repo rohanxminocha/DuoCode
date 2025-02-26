@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.uw.duocode.ui.screens.auth.AuthScreen
+import com.uw.duocode.ui.screens.auth.AuthView
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController
@@ -13,7 +13,7 @@ fun NavGraphBuilder.authNavGraph(
         startDestination = LoginAndSignup
     ){
         composable<LoginAndSignup>{
-            AuthScreen(navController = navController)
+            AuthView(navController = navController)
         }
     }
 }
