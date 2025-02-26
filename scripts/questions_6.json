@@ -1,0 +1,254 @@
+[
+    {
+        "description": "Which of the following best describes binary search in an array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A sequentially checking each element until the target is found",
+            "A divide and conquer approach that repeatedly splits a sorted array",
+            "A process that uses random sampling to find an element",
+            "A method that traverses the array in reverse order"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "What is the primary prerequisite for applying binary search on an array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "The array must contain unique elements",
+            "The array must be sorted in a defined order",
+            "The array must have an even number of elements",
+            "The array must be implemented using pointers"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Order the conceptual steps of performing binary search on a sorted array.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Determine the middle element of the current interval",
+            "Compare the target with the middle element",
+            "Discard the half in which the target cannot lie",
+            "Repeat the process on the remaining half until the target is found or the interval is empty"
+        ],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Match each step of binary search with its corresponding action.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Find Middle": "Calculate the midpoint of the current search interval",
+            "Comparison": "Determine if the target is less than, greater than, or equal to the middle element",
+            "Narrowing": "Eliminate the half that cannot contain the target",
+            "Termination": "Stop when the target is found or the interval is empty"
+        },
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "What is the average-case time complexity of binary search on an array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "O(n)",
+            "O(1)",
+            "O(log n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Which factor can cause binary search to fail in finding an element even when it is present?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "The array is unsorted",
+            "The target is at the first position",
+            "The array contains duplicate elements",
+            "The array has an even number of elements"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Arrange the process of narrowing down the search interval in binary search.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Identify the current interval's boundaries",
+            "Calculate the midpoint",
+            "Compare the target with the midpoint value",
+            "Select the half that may contain the target"
+        ],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Match each possible outcome of binary search with its explanation.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Target Found": "The element at the midpoint equals the target",
+            "Target Not Found": "The search interval becomes empty",
+            "Left Half Selection": "Target is less than the midpoint element",
+            "Right Half Selection": "Target is greater than the midpoint element"
+        },
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "What is the worst-case time complexity of binary search on a sorted array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(log n)",
+            "O(1)"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Which characteristic differentiates binary search from linear search?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Binary search does not require a sorted array",
+            "Binary search divides the search space in half at each step",
+            "Linear search always finds the target faster",
+            "Linear search uses a divide and conquer strategy"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "ANXFboJHfR4Mfc2lv42G"
+    },
+    {
+        "description": "Which problem is addressed by searching for a range in a sorted array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Locating a single occurrence of a target element",
+            "Determining if the array is unsorted",
+            "Finding the first and last positions of a target element",
+            "Sorting the array in ascending order"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "What is a common approach to find the starting index of a target value in a sorted array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Performing a standard binary search and then scanning backwards",
+            "Using linear search from the beginning",
+            "Using two binary searches: one for the left boundary and one for the right boundary",
+            "Sorting the array again before searching"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "Order the conceptual steps to identify the range of indices where a target value appears.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Perform binary search to find any occurrence of the target",
+            "Search leftwards to locate the first occurrence",
+            "Search rightwards to locate the last occurrence",
+            "Return the indices of the first and last occurrences as the range"
+        ],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "Match each operation in range searching with its objective.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Left Boundary Search": "Find the first index where the target appears",
+            "Right Boundary Search": "Find the last index where the target appears",
+            "Combined Range Search": "Identify the complete span of the target value",
+            "Validation": "Ensure the target exists in the array"
+        },
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "What is the time complexity for finding a range of target values using modified binary search?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "O(n)",
+            "O(n log n)",
+            "O(log n)",
+            "O(1)"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "In which scenario is range searching more appropriate than a standard binary search?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "When the target value appears only once",
+            "When the array is unsorted",
+            "When multiple consecutive occurrences of the target exist",
+            "When the array size is very small"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "Arrange the conceptual steps to determine the left and right boundaries of a target value's range.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Perform binary search to locate an occurrence of the target",
+            "Iteratively search towards the left until a different value is encountered",
+            "Iteratively search towards the right until a different value is encountered",
+            "Return the boundary indices as the search range"
+        ],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "Match each term related to range searching with its role.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "First Occurrence": "The leftmost index where the target appears",
+            "Last Occurrence": "The rightmost index where the target appears",
+            "Range": "The span between the first and last occurrences",
+            "Boundary Condition": "The condition checked when a different value is encountered"
+        },
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "What is a common challenge encountered during range searching in a sorted array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Ensuring the array remains unsorted",
+            "Efficiently handling arrays with many duplicate elements",
+            "Maintaining constant time access during the search",
+            "Finding a target when the array contains no duplicates"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    },
+    {
+        "description": "Which modification to the standard binary search algorithm is typically used for range searching?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Using recursion instead of iteration",
+            "Performing two binary searches to find the left and right boundaries",
+            "Applying linear search after an initial binary search",
+            "Sorting the array again before searching"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "GABlt2fzYt99zyB9WrDL"
+    }
+]
