@@ -1,0 +1,499 @@
+[
+    {
+        "description": "Which of the following best describes a static array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Resizable container",
+            "Linked structure",
+            "Collection of elements with fixed size allocated at initialization",
+            "Data structure that automatically grows"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Which limitation is inherent to static arrays?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Efficient random access",
+            "Easy memory allocation",
+            "Constant-time element access",
+            "Limited size which cannot be changed after allocation"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Order the steps to conceptually declare and initialize a static array.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Declare the array structure",
+            "Allocate fixed-size memory",
+            "Assign initial values to each element"
+        ],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Match the static array properties with their characteristics.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Fixed Size": "Size is determined during initialization",
+            "Contiguous Memory": "Elements stored in adjacent memory",
+            "Random Access": "Allows accessing any element in constant time"
+        },
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Which characteristic is not typical of static arrays?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Predictable memory layout",
+            "Fixed size",
+            "Constant time access",
+            "Automatic resizing"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "What advantage do static arrays offer in terms of performance?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "High memory overhead",
+            "Complex pointer arithmetic",
+            "Fast random access due to contiguous memory",
+            "Dynamic resizing"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Arrange the conceptual process of using a static array in order.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Define the size",
+            "Allocate the memory",
+            "Populate with data",
+            "Access elements"
+        ],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Match each term with its description in the context of static arrays.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Index": "Position identifier for elements",
+            "Boundary": "Limits of the array",
+            "Contiguous Block": "Memory section where elements reside"
+        },
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "What is the likely outcome when attempting to access an element outside a static array's bounds?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Automatic resizing",
+            "Memory reallocation",
+            "Undefined behavior or error",
+            "Graceful error message"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "In static arrays, memory allocation is performed:",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "On-demand as elements are added",
+            "Dynamically during runtime",
+            "Using linked nodes",
+            "Statically during initialization"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "3KFDkaMUldzOYB265HhU"
+    },
+    {
+        "description": "Which of the following best describes a dynamic array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "An array with a fixed size",
+            "A structure without indices",
+            "An array that automatically adjusts its size as needed",
+            "A static collection of elements"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "What key operation differentiates dynamic arrays from static arrays?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Contiguous memory storage",
+            "Constant-time access",
+            "Automatic resizing",
+            "Fixed size allocation"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Order the conceptual steps involved in expanding a dynamic array.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Check if capacity is reached",
+            "Allocate new, larger memory",
+            "Copy elements to the new storage",
+            "Update size and capacity"
+        ],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Match the dynamic array operations with their conceptual time complexities.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Access": "O(1)",
+            "Append": "Amortized O(1)",
+            "Insertion": "O(n)",
+            "Deletion": "O(n)"
+        },
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Which property is a common feature of dynamic arrays?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Immutable size",
+            "Lack of index access",
+            "Automatic memory management",
+            "Inflexible structure"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "What is typically the growth factor used when a dynamic array resizes?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "1.5",
+            "3",
+            "2",
+            "0.5"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Arrange the conceptual process of adding an element to a dynamic array.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Check current capacity",
+            "Resize if necessary",
+            "Insert the element",
+            "Increment the size"
+        ],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Match each dynamic array concept with its characteristic.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Capacity": "Total allocated space",
+            "Size": "Number of elements stored",
+            "Resize": "Operation to increase capacity"
+        },
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "What is the worst-case time complexity for appending an element to a dynamic array?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "O(log n)",
+            "O(n)",
+            "O(n^2)",
+            "O(1)"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "In a dynamic array, when capacity is reached, what typically occurs?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Elements are automatically sorted",
+            "Old elements are removed",
+            "The array is resized to accommodate more elements",
+            "The array remains unchanged"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "4ZYUDUddEfItaBKCFivf"
+    },
+    {
+        "description": "Which of the following best defines a stack?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "First-In-First-Out data structure",
+            "Hierarchical structure",
+            "Last-In-First-Out data structure",
+            "Collection supporting random access"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Which operation is not typically associated with a stack?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Pop",
+            "Enqueue",
+            "Push",
+            "Peek"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Order the conceptual steps for a push operation on a stack.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Check for capacity limits",
+            "Place the element on top",
+            "Update the stack pointer"
+        ],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Match the stack operations with their functions.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Push": "Add an element to the top",
+            "Pop": "Remove the top element",
+            "Peek": "Return the top element without removal",
+            "IsEmpty": "Check if the stack is empty"
+        },
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "What is a key advantage of using a stack?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "It allows direct access to all elements",
+            "It automatically sorts data",
+            "It supports random removal",
+            "It provides quick access to the most recently added element"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "What is the time complexity of a typical push operation on a stack?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "O(n)",
+            "O(1)",
+            "O(log n)",
+            "O(n^2)"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Arrange the conceptual steps for a pop operation on a stack.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Check if the stack is empty",
+            "Retrieve the top element",
+            "Update the stack pointer"
+        ],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Match each term with its concept in the context of stacks.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Top": "Most recent element",
+            "Bottom": "First element inserted",
+            "Overflow": "When the stack exceeds capacity",
+            "Underflow": "Attempting to remove from an empty stack"
+        },
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Which principle best describes a stack's order of operations?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Priority-based",
+            "First-In-First-Out (FIFO)",
+            "Random Access",
+            "Last-In-First-Out (LIFO)"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "What is a potential drawback of a stack with limited capacity?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Complex element retrieval",
+            "Excessive memory usage",
+            "Slow access to the top element",
+            "Stack overflow when too many elements are pushed"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2"
+    },
+    {
+        "description": "Which statement best describes the purpose of a hash function?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "To sort elements",
+            "To map keys to indices",
+            "To encrypt data",
+            "To compress data"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "What collision resolution technique uses linked lists to handle multiple items in the same slot?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Double hashing",
+            "Quadratic probing",
+            "Chaining",
+            "Linear probing"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Order the conceptual steps for inserting a key-value pair into a hash table using chaining.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Compute the hash value",
+            "Locate the corresponding bucket",
+            "Insert the key-value pair into the bucket"
+        ],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Match the hashing terms with their descriptions.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Hash Function": "Converts keys to indices",
+            "Collision": "When two keys map to the same index",
+            "Chaining": "Handling collisions with a linked list",
+            "Load Factor": "Ratio of stored elements to total slots"
+        },
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Which property is desirable in a hash function?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Predictable output",
+            "Generating identical outputs for different keys",
+            "Using simple arithmetic",
+            "Minimizing collisions"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "What is the average-case time complexity for searching in a well-implemented hash table?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "O(n)",
+            "O(log n)",
+            "O(1)",
+            "O(n^2)"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Arrange the conceptual process for handling a collision with linear probing.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Compute the hash value",
+            "Check the slot for availability",
+            "Move sequentially to the next slot until an empty one is found",
+            "Insert the element"
+        ],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Match each collision resolution strategy with its mechanism.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Chaining": "Uses lists for collisions",
+            "Linear Probing": "Sequentially checks subsequent slots",
+            "Quadratic Probing": "Uses quadratic intervals for next slot",
+            "Double Hashing": "Applies a secondary hash function"
+        },
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "In the context of hash tables, what is the load factor?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "The efficiency of the hash function",
+            "The maximum capacity of the table",
+            "The number of collisions occurred",
+            "The ratio of stored elements to total slots"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    },
+    {
+        "description": "Which collision resolution method is known to reduce clustering effects?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Chaining",
+            "Linear Probing",
+            "Open Addressing",
+            "Double Hashing"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "dCE0IT7YZ3RZMPLCfd8X"
+    }
+]
