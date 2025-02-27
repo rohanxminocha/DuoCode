@@ -1,0 +1,398 @@
+[
+  {
+    "description": "Which of the following is true about a queue?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "A queue is a Last-In-First-Out (LIFO) data structure",
+      "A queue is a First-In-First-Out (FIFO) data structure",
+      "A queue allows random access to elements",
+      "A queue can be accessed from both ends"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "What is the time complexity for enqueue and dequeue operations in a queue implemented using a linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Match each queue operation with its correct description.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Enqueue": "Add an element to the back of the queue",
+      "Dequeue": "Remove an element from the front of the queue",
+      "Peek": "View the front element without removing it",
+      "IsEmpty": "Check if the queue is empty"
+    },
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Drag these operations to their correct time complexities for a queue implemented using an array.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Enqueue: O(1)",
+      "Dequeue: O(n)",
+      "Peek: O(1)",
+      "Resize: O(n)"
+    ],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Which of the following is a characteristic of a circular queue?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "It allows elements to be added and removed in a circular fashion",
+      "It only allows enqueue operations from one end",
+      "It does not have a fixed size",
+      "It cannot be implemented using arrays"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Order the steps of enqueue operation in a linked list-based queue.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Create a new node with the element to be added",
+      "Set the rear pointer to the new node",
+      "Set the next pointer of the old rear to point to the new node",
+      "Update the rear pointer"
+    ],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Which type of queue is most suitable for handling tasks in a CPU scheduling algorithm?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Simple queue",
+      "Priority queue",
+      "Deque",
+      "Circular queue"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+  {
+    "description": "Match each queue implementation with its key feature.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Array-based Queue": "Fixed size, requires resizing for dynamic growth",
+      "Linked List-based Queue": "Dynamic size, no need for resizing",
+      "Circular Queue": "Prevents overflow by reusing unused space",
+      "Priority Queue": "Items have priority for processing"
+    },
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+
+  {
+    "description": "Which of the following operations is performed in O(1) time for a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Accessing the head element",
+      "Accessing the middle element",
+      "Inserting at the middle of the list",
+      "Removing from the middle of the list"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+
+  {
+    "description": "What happens when you try to dequeue from an empty queue?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "It throws an exception",
+      "It returns null",
+      "It crashes the program",
+      "It does nothing"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA"
+  },
+
+  {
+    "description": "Which of these statements is true for a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Each node has two pointers: one to the next node and one to the previous node",
+      "It allows traversal in both directions",
+      "It only allows traversal from head to tail",
+      "It can only store integer values"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "What is the time complexity of accessing an element in the middle of a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "Match the singly linked list operations with their time complexities.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Insertion at head": "O(1)",
+      "Insertion at tail": "O(n)",
+      "Deletion at head": "O(1)",
+      "Deletion at tail": "O(n)"
+    },
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "What is the key difference between a singly linked list and a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Singly linked list has two pointers per node, doubly linked list has one",
+      "Singly linked list only allows traversal in one direction, doubly linked list allows two",
+      "Singly linked list nodes store data, doubly linked list nodes don't",
+      "Singly linked list is slower in performance than doubly linked list"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "Order the steps to delete a node in a doubly linked list.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Change the previous pointer of the next node to the previous node",
+      "Change the next pointer of the previous node to the next node",
+      "If node is head, update head pointer",
+      "Free the node memory"
+    ],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "What is the main disadvantage of using a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "It requires more memory due to two pointers per node",
+      "It is slower than arrays for random access",
+      "It cannot be used in dynamic memory allocation",
+      "It requires more time to traverse in one direction"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+  {
+    "description": "In which scenario would a doubly linked list be preferred over a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "When the list needs to be accessed in reverse order frequently",
+      "When memory efficiency is the primary concern",
+      "When insertion and deletion operations are rare",
+      "When the data needs to be sorted"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+  {
+    "description": "Which of the following operations would be most efficient in a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Accessing an element by index",
+      "Adding an element at the end of the list",
+      "Accessing the middle element",
+      "Inserting an element at the beginning"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+  {
+    "description": "What happens when the head node is removed from a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "The next node becomes the head, and its previous pointer is set to null",
+      "The head pointer becomes null, leaving the list empty",
+      "The next node becomes the head, but its previous pointer remains unchanged",
+      "The previous node's pointer is adjusted to point to the next node"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+  {
+    "description": "How does a doubly linked list handle backtracking when traversing through elements?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "It maintains a pointer to the previous node, allowing traversal in both directions",
+      "It uses an additional stack to store previously visited nodes",
+      "It does not support backtracking and only allows forward traversal",
+      "It requires a separate array to store the reverse order of nodes"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+  },
+
+  {
+    "description": "Which operation is faster in a doubly linked list compared to a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Insertion at the tail",
+      "Insertion at the head",
+      "Traversal",
+      "Deletion at the head"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+
+  {
+    "description": "What is the time complexity of inserting a new node at the tail of a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+
+  {
+    "description": "Which of the following is a disadvantage of a doubly linked list over a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "It requires extra memory for the previous pointer",
+      "It is slower to traverse",
+      "It cannot perform deletion operations",
+      "It cannot be used for large data"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+
+  {
+    "description": "Match the following types of linked list with their description.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Singly Linked List": "Each node points to the next node",
+      "Doubly Linked List": "Each node points to both the next and previous nodes",
+      "Circular Linked List": "Last node points back to the first node",
+      "Doubly Circular Linked List": "Last node points to the first node and each node points to both next and previous"
+    },
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+
+  {
+    "description": "Which of the following statements is true about a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Each node has two pointers: one pointing to the next node and one to the previous node",
+      "It only allows traversal from head to tail",
+      "It does not support deletion at both ends",
+      "It is slower to traverse compared to a singly linked list"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+  {
+    "description": "What is the space complexity of a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+  {
+    "description": "Which operation has O(1) time complexity in a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Inserting a node at the tail",
+      "Inserting a node in the middle",
+      "Accessing the last node",
+      "Deleting a node at the tail"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+  {
+    "description": "What is the key advantage of using a doubly linked list over a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "It allows traversal in both directions",
+      "It has a smaller memory footprint",
+      "It does not require additional pointers for traversal",
+      "It is easier to implement"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+  {
+    "description": "What is the time complexity for deleting a node from the middle of a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  },
+  {
+    "description": "Which of the following is an advantage of using a doubly linked list over an array for storing elements?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Dynamic size with no need for resizing",
+      "Better cache locality",
+      "Fixed size and faster random access",
+      "Easier to implement with fewer pointers"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+  }
+]
