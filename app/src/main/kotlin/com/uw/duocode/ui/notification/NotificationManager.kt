@@ -5,9 +5,11 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 
 
 private const val CHANNEL_ID = "reminder_channel_id"
@@ -18,8 +20,7 @@ fun createNotificationChannel(context: Context, activity: Activity) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-        if (NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
