@@ -11,11 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.uw.duocode.ui.navigation.SetupNavGraph
 import com.uw.duocode.ui.theme.DuocodeTheme
-
+import com.uw.duocode.ui.notification.createNotificationChannel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel(applicationContext, this)
+
         enableEdgeToEdge()
 
         setContent {
