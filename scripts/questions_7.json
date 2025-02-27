@@ -139,7 +139,7 @@
       "It can only store integer values"
     ],
     "correctAnswer": [2],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -153,7 +153,7 @@
       "O(n^2)"
     ],
     "correctAnswer": [2],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -166,7 +166,7 @@
       "Deletion at head": "O(1)",
       "Deletion at tail": "O(n)"
     },
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -180,7 +180,7 @@
       "Singly linked list is slower in performance than doubly linked list"
     ],
     "correctAnswer": [1],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -193,7 +193,7 @@
       "If node is head, update head pointer",
       "Free the node memory"
     ],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -207,7 +207,7 @@
       "It requires more time to traverse in one direction"
     ],
     "correctAnswer": [0],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
   {
     "description": "In which scenario would a doubly linked list be preferred over a singly linked list?",
@@ -220,7 +220,7 @@
       "When the data needs to be sorted"
     ],
     "correctAnswer": [0],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
   {
     "description": "Which of the following operations would be most efficient in a doubly linked list?",
@@ -233,7 +233,7 @@
       "Inserting an element at the beginning"
     ],
     "correctAnswer": [1],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
   {
     "description": "What happens when the head node is removed from a doubly linked list?",
@@ -246,7 +246,7 @@
       "The previous node's pointer is adjusted to point to the next node"
     ],
     "correctAnswer": [0],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
   {
     "description": "How does a doubly linked list handle backtracking when traversing through elements?",
@@ -259,7 +259,7 @@
       "It requires a separate array to store the reverse order of nodes"
     ],
     "correctAnswer": [0],
-    "subtopicId": "hV468wa0mTFhW0bZIeUf"
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h"
   },
 
   {
@@ -273,7 +273,7 @@
       "Deletion at the head"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
 
   {
@@ -287,7 +287,7 @@
       "O(n^2)"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
 
   {
@@ -301,7 +301,7 @@
       "It cannot be used for large data"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
 
   {
@@ -314,7 +314,7 @@
       "Circular Linked List": "Last node points back to the first node",
       "Doubly Circular Linked List": "Last node points to the first node and each node points to both next and previous"
     },
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
 
   {
@@ -328,7 +328,7 @@
       "It is slower to traverse compared to a singly linked list"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
   {
     "description": "What is the space complexity of a doubly linked list?",
@@ -341,7 +341,7 @@
       "O(n^2)"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
   {
     "description": "Which operation has O(1) time complexity in a doubly linked list?",
@@ -354,7 +354,7 @@
       "Deleting a node at the tail"
     ],
     "correctAnswer": [3],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
   {
     "description": "What is the key advantage of using a doubly linked list over a singly linked list?",
@@ -367,7 +367,7 @@
       "It is easier to implement"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
   {
     "description": "What is the time complexity for deleting a node from the middle of a doubly linked list?",
@@ -380,7 +380,7 @@
       "O(n^2)"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   },
   {
     "description": "Which of the following is an advantage of using a doubly linked list over an array for storing elements?",
@@ -393,6 +393,6 @@
       "Easier to implement with fewer pointers"
     ],
     "correctAnswer": [0],
-    "subtopicId": "N4rbX6TcjYO8feT3eqwB"
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY"
   }
 ]
