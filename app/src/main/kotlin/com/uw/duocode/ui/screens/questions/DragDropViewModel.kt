@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class DragDropViewModel(val questionText: String,
+class DragDropViewModel(
+    val questionText: String,
     initialSteps: List<String>,
-    private val onQuestionCompleted: () -> Unit, val progress: Float) : ViewModel()
-     {
-
+    private val onQuestionCompleted: () -> Unit,
+    val progress: Float
+) : ViewModel() {
 
     var steps by mutableStateOf(
         initialSteps.shuffled()
@@ -25,8 +26,11 @@ class DragDropViewModel(val questionText: String,
         private set
 
     fun onSwapSteps(fromIndex: Int, toIndex: Int) {
-        steps = steps.toMutableList().apply {
-            add(toIndex, removeAt(fromIndex))
+        // Only allow swapping if the answer hasn't been checked.
+        if (!answerChecked) {
+            steps = steps.toMutableList().apply {
+                add(toIndex, removeAt(fromIndex))
+            }
         }
     }
 
@@ -38,9 +42,7 @@ class DragDropViewModel(val questionText: String,
     }
 
     fun continueToNext() {
-        steps = listOf(
-            
-        )
+        steps = listOf()
         answerChecked = false
         isAnswerCorrect = false
         onQuestionCompleted()
