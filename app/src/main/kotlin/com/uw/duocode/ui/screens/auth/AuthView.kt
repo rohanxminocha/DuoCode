@@ -15,10 +15,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,16 +22,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uw.duocode.ui.navigation.DASHBOARD
 
 @Composable
-fun AuthScreen(navController: NavHostController) {
-    var isLogin by remember { mutableStateOf(true) }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    val auth = FirebaseAuth.getInstance()
+fun AuthView(
+    navController: NavHostController,
+    viewModel: AuthViewModel = viewModel()
+) {
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -44,114 +39,83 @@ fun AuthScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            text = if (viewModel.isLogin) "Login" else "Sign Up",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (!viewModel.isLogin) {
+            OutlinedTextField(
+                value = viewModel.name,
+                onValueChange = { viewModel.name = it },
+                label = { Text("Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        OutlinedTextField(
+            value = viewModel.email,
+            onValueChange = { viewModel.email = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = viewModel.password,
+            onValueChange = { viewModel.password = it },
+            label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                viewModel.authenticate(
+                    onSuccess = { navController.navigate(DASHBOARD) },
+                    onMessage = { message ->
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF6A4CAF),
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = if (viewModel.isLogin) "Login" else "Sign Up")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextButton(
+            onClick = { viewModel.toggleAuthMode() }
+        ) {
             Text(
-                text = if (isLogin) "Login" else "Sign Up",
-                style = MaterialTheme.typography.headlineMedium
+                text = if (viewModel.isLogin)
+                    "Need an account? Sign Up"
+                else
+                    "Have an account? Login"
             )
+        }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            if (!isLogin) {
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text("Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            val context = LocalContext.current
-
-            fun onShowMessage(message: String) {
-                println(message)
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            }
-
-            Button(
-                onClick = {
-                    if (isLogin) {
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnSuccessListener {
-                                onShowMessage("Successfully logged in")
-                                navController.navigate(DASHBOARD)
-                            }
-                            .addOnFailureListener { e ->
-                                onShowMessage(e.localizedMessage ?: "Login failed")
-                            }
-                    } else {
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .addOnSuccessListener {
-                                val profileUpdates = com.google.firebase.auth.userProfileChangeRequest {
-                                    displayName = name
-                                }
-                                auth.currentUser?.updateProfile(profileUpdates)
-                                    ?.addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            onShowMessage("Successfully created account")
-                                        }
-                                    }
-                                navController.navigate(DASHBOARD)
-                            }
-                            .addOnFailureListener { e ->
-                                onShowMessage(e.localizedMessage ?: "Sign up failed")
-                            }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF6A4CAF),
-                    contentColor = Color.White
-                )
-            ) {
-                Text(if (isLogin) "Login" else "Sign Up")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
+        if (viewModel.isLogin) {
             TextButton(
-                onClick = { isLogin = !isLogin }
-            ) {
-                Text(if (isLogin) "Need an account? Sign Up" else "Have an account? Login")
-            }
-
-            if (isLogin) {
-                TextButton(
-                    onClick = {
-                        if (email.isNotBlank()) {
-                            auth.sendPasswordResetEmail(email)
-                                .addOnSuccessListener {
-                                    onShowMessage("Password reset email sent")
-                                }
-                                .addOnFailureListener { e ->
-                                    onShowMessage(e.localizedMessage ?: "Failed to send reset email")
-                                }
-                        } else {
-                            onShowMessage("Please enter your email first")
-                        }
+                onClick = {
+                    viewModel.sendResetPassword { message ->
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
-                ) {
-                    Text("Forgot Password?")
                 }
+            ) {
+                Text("Forgot Password?")
             }
+        }
     }
 }

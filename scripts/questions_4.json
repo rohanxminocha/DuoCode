@@ -1,0 +1,497 @@
+[
+    {
+        "description": "Which of the following best defines a binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A structure where each node can have any number of children",
+            "A hierarchical structure where each node has at most two children",
+            "A sequential collection of elements",
+            "A circular linked structure"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "What is the maximum number of children a node can have in a binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "One",
+            "Two",
+            "Three",
+            "Unlimited"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Order the conceptual steps for performing an inorder traversal on a binary tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Traverse the left subtree",
+            "Visit the current node",
+            "Traverse the right subtree"
+        ],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Match each binary tree traversal method with its description.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Preorder": "Visit root, then left subtree, then right subtree",
+            "Inorder": "Traverse left subtree, visit root, then right subtree",
+            "Postorder": "Traverse left subtree, then right subtree, and visit root"
+        },
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Which property is true for a full binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Every node has exactly one child",
+            "All leaves are at the same level",
+            "Every node has either zero or two children",
+            "It is always perfectly balanced"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "What distinguishes a balanced binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "It always has the maximum number of nodes",
+            "The heights of the two child subtrees of any node differ by at most one",
+            "It is completely filled on all levels",
+            "It uses a special ordering of elements"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Order the conceptual process of creating a new node in a binary tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Allocate memory for the node",
+            "Assign a value to the node",
+            "Set the left and right children as empty",
+            "Insert the node into the tree structure"
+        ],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Match the tree terminologies with their definitions.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Root": "The topmost node of the tree",
+            "Leaf": "A node with no children",
+            "Internal Node": "A node that has at least one child"
+        },
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Which characteristic does NOT belong to a binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Hierarchical organization",
+            "Each node has at most two children",
+            "Sequential memory allocation",
+            "Recursively defined structure"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "What is a common application of binary trees?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Storing elements in a sequential list",
+            "Representing hierarchical data such as organizational charts",
+            "Implementing last-in-first-out structures",
+            "Managing network routing tables"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "WLb6xyl82xGisd7msKYY"
+    },
+    {
+        "description": "Which of the following best defines a binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A tree where nodes are arranged randomly",
+            "A binary tree with sorted elements where left descendants are less and right descendants are greater than the node",
+            "A tree that supports duplicate values only",
+            "A binary tree that is always balanced"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "What is the key ordering property of a binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Each node is greater than both of its children",
+            "Elements are stored in level order",
+            "For any node, values in the left subtree are less and values in the right subtree are greater",
+            "The tree is always complete"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Order the conceptual steps to search for a value in a binary search tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Compare the target value with the current node",
+            "Decide to move to the left or right subtree based on comparison",
+            "Repeat the process in the selected subtree",
+            "Return the node if a match is found or conclude absence"
+        ],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Match each operation in a binary search tree with its purpose.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Search": "Locate a specific value",
+            "Insert": "Add a new value while maintaining order",
+            "Delete": "Remove a value and reorganize to maintain structure"
+        },
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Which factor distinguishes a balanced binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "It permits duplicate values",
+            "It ensures that the height of the tree is logarithmic in the number of nodes",
+            "It stores data in an unsorted manner",
+            "It uses an array-based structure"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "What is the typical behavior when inserting a duplicate value in a standard binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "The duplicate is always inserted to the right subtree",
+            "The duplicate is always inserted to the left subtree",
+            "Duplicates are ignored or handled by specific rules",
+            "The tree automatically balances itself"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Order the conceptual steps to insert a new value into a binary search tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Start at the root node",
+            "Compare the new value with the current node",
+            "Move left or right based on the comparison",
+            "Insert the value when an empty spot is found"
+        ],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Match the binary search tree components with their roles.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Root": "Starting point for all operations",
+            "Leaf": "Node with no children",
+            "Internal Node": "Node with one or more children"
+        },
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Which advantage does a binary search tree offer for data storage?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Provides random access in constant time",
+            "Maintains sorted order for efficient search operations",
+            "Requires less memory than unsorted structures",
+            "Eliminates the need for balancing"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "What is the average-case time complexity for searching in a balanced binary search tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "O(n)",
+            "O(1)",
+            "O(log n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "Mq9KI04lKaWEyB9OT6cP"
+    },
+    {
+        "description": "Which of the following best describes depth-first search (DFS) in trees?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A traversal that visits all nodes level by level",
+            "A traversal that explores as far along each branch before backtracking",
+            "A search that uses a queue to manage nodes",
+            "A process that guarantees the shortest path in weighted trees"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "What is a typical order of node visitation in a DFS traversal of a binary tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Left subtree, root, right subtree",
+            "Level by level from the root",
+            "Right subtree, root, left subtree",
+            "Random order based on node values"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Order the conceptual steps for performing a recursive depth-first search on a tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Visit the current node",
+            "Recursively explore the left subtree",
+            "Recursively explore the right subtree",
+            "Backtrack to previous node when necessary"
+        ],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Match each DFS traversal type with its typical order of visitation.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Preorder": "Visit root, then left, then right",
+            "Inorder": "Left, then root, then right",
+            "Postorder": "Left, then right, then root"
+        },
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Which characteristic distinguishes DFS from BFS in tree traversal?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "DFS uses a queue while BFS uses a stack",
+            "DFS explores as deep as possible before backtracking",
+            "DFS always visits nodes level by level",
+            "DFS guarantees the shortest path in unweighted trees"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "What is an advantage of using DFS for exploring tree structures?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "It uses less memory in wide trees",
+            "It always finds the shortest path",
+            "It can be implemented recursively with minimal auxiliary data structures",
+            "It processes nodes in level order"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Order the steps for implementing DFS on a tree using a stack (iterative approach).",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Push the root node onto the stack",
+            "Pop the top node and process it",
+            "Push its children onto the stack",
+            "Repeat until the stack is empty"
+        ],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Match each DFS traversal name with its visit sequence.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Preorder": "Root → Left → Right",
+            "Inorder": "Left → Root → Right",
+            "Postorder": "Left → Right → Root"
+        },
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Which scenario is best suited for applying depth-first search in a tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Finding the shortest path between nodes",
+            "Exploring all nodes when memory is limited",
+            "Level-by-level processing of nodes",
+            "Simultaneously visiting all nodes"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "What is a potential drawback of using DFS on very deep tree structures?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "It may consume excessive memory due to a wide queue",
+            "It can lead to stack overflow in recursive implementations",
+            "It always requires additional sorting of nodes",
+            "It cannot process nodes in any defined order"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "snaPr7iMCcZy1IpoewHM"
+    },
+    {
+        "description": "Which of the following best defines breadth-first search (BFS) in trees?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A traversal that visits nodes as far down as possible before backtracking",
+            "A traversal that visits all nodes level by level",
+            "A traversal that randomly selects nodes to visit",
+            "A recursive approach to tree traversal"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "What is the primary data structure used to implement BFS?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Stack",
+            "Queue",
+            "Heap",
+            "Linked list"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Order the conceptual steps for performing breadth-first search on a tree.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Enqueue the root node",
+            "Dequeue a node and process it",
+            "Enqueue all immediate children of the processed node",
+            "Repeat until the queue is empty"
+        ],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Match the BFS process steps with their descriptions.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Enqueue": "Add node to the back of the queue",
+            "Dequeue": "Remove node from the front of the queue",
+            "Level": "All nodes at the same depth"
+        },
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Which property distinguishes BFS from DFS in tree traversal?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "BFS uses recursion while DFS is iterative",
+            "BFS visits nodes level by level",
+            "BFS explores one branch completely before moving to another",
+            "BFS does not require any auxiliary data structure"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "What is a typical use-case for applying BFS in trees?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Finding a node with maximum depth",
+            "Exploring nodes in order of their levels to find the shortest path in unweighted structures",
+            "Performing recursive operations on tree nodes",
+            "Balancing a tree after insertions"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Order the steps of exploring a tree level by level using BFS.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Start with the root node",
+            "Process all nodes at the current level",
+            "Enqueue children of all nodes at the current level",
+            "Move to the next level and repeat"
+        ],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Match the following terms with their roles in breadth-first search.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Queue": "Manages the order of node processing",
+            "Level": "Group of nodes at the same depth",
+            "Node": "An individual element of the tree"
+        },
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "Which traversal method guarantees finding the shortest path in an unweighted tree?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Depth-first search",
+            "Breadth-first search",
+            "Preorder traversal",
+            "Postorder traversal"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    },
+    {
+        "description": "What is a common challenge when using BFS on very wide trees?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Excessive memory usage due to a large number of nodes in the queue",
+            "Stack overflow due to deep recursion",
+            "Difficulty in maintaining the correct order of nodes",
+            "Slow processing of each individual node"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "CQ8NqMZAKQCc9XrEo4qZ"
+    }
+]

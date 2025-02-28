@@ -1,6 +1,5 @@
 package com.uw.duocode.ui.screens.questions
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,25 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,20 +30,16 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.uw.duocode.R
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
-import com.uw.duocode.ui.components.ResultBanner
 import com.uw.duocode.ui.navigation.Home
-import sh.calvin.reorderable.ReorderableColumn
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultView(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: ResultViewModel = viewModel()
 ) {
-
     Scaffold(
         topBar = {
             SmallTopAppBar(
@@ -84,9 +73,7 @@ fun ResultView(
             ) {
                 CheckContinueButton(
                     text = "Continue",
-                    onClick = {
-                            navController.navigate(Home)
-                    },
+                    onClick = { navController.navigate(Home) },
                     enabled = true,
                     containerColor = Color(0xFF6A4CAF),
                     modifier = Modifier
@@ -100,28 +87,31 @@ fun ResultView(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(40.dp))
-
             Text(
-                text = "Congratulations \uD83C\uDF89 \n",
+                text = viewModel.title,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
             Text(
-                text = "You got all the questions correct!",
+                text = viewModel.message,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
-            Image(painter = painterResource(R.drawable.great),
-                "great",
-                alignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 50.dp),
+            Image(
+                painter = painterResource(viewModel.imageResId),
+                contentDescription = "Result Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 50.dp),
                 contentScale = ContentScale.FillWidth
-                )
+            )
         }
     }
 }

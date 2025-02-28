@@ -1,0 +1,250 @@
+[
+    {
+        "description": "Which of the following best defines a graph?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A collection of nodes connected by edges",
+            "A hierarchical structure with parent-child relationships",
+            "A linear sequence of elements",
+            "A set of unrelated data points"
+        ],
+        "correctAnswer": [0],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "What are the two primary components of a graph?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Nodes and queues",
+            "Nodes and edges",
+            "Edges and stacks",
+            "Vertices and arrays"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Order the conceptual steps to represent a graph in a conceptual model.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Define the set of nodes (vertices)",
+            "Determine the relationships (edges) between nodes",
+            "Decide if the graph is directed or undirected",
+            "Assign weights if applicable"
+        ],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Match each graph term with its correct definition.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Vertex": "An individual node in a graph",
+            "Edge": "A connection between two vertices",
+            "Path": "A sequence of edges connecting vertices"
+        },
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Which of the following is NOT a typical characteristic of graphs?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Nodes and edges",
+            "Cyclicity",
+            "Linear ordering",
+            "Connectivity"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "What distinguishes a directed graph from an undirected graph?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Directed graphs have weighted edges only",
+            "Directed graphs have edges with a specified direction",
+            "Undirected graphs have no nodes",
+            "Undirected graphs allow multiple edges between nodes"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Order the conceptual process for analyzing connections in a graph.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "HARD",
+        "options": [
+            "Identify all vertices",
+            "Examine each edge to determine connections",
+            "Determine connectivity or components",
+            "Analyze potential cycles or paths"
+        ],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Match each graph property with its description.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Weighted": "Edges have associated values",
+            "Directed": "Edges have a defined direction",
+            "Undirected": "Edges lack direction and are bidirectional"
+        },
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Which application commonly uses graphs for modeling?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Linear data processing",
+            "Network routing and social networks",
+            "Simple arithmetic operations",
+            "Sequential file storage"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Which property is essential for a graph to be considered connected?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "Every vertex has at least one edge",
+            "There exists a path between every pair of vertices",
+            "The graph is undirected",
+            "The graph is acyclic"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "qWYdCytlaOhoeCaGYX73"
+    },
+    {
+        "description": "Which of the following best defines an adjacency list representation of a graph?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "A 2D array representing connections between nodes",
+            "A collection where each node stores a list of its adjacent nodes",
+            "A matrix that stores all pairs of node connections",
+            "A sequential list of nodes without edge information"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "What is a key advantage of using an adjacency list over an adjacency matrix?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "It requires more memory",
+            "It allows faster access for dense graphs",
+            "It efficiently represents sparse graphs with fewer edges",
+            "It simplifies the representation of complete graphs"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Order the conceptual steps to construct an adjacency list for a graph.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "MEDIUM",
+        "options": [
+            "List all vertices",
+            "For each vertex, initialize an empty list",
+            "For each edge, add the destination vertex to the source vertex's list",
+            "Include the reverse edge for undirected graphs if needed"
+        ],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Match each term related to adjacency lists with its description.",
+        "questionType": "MATCHING",
+        "difficulty": "MEDIUM",
+        "matches": {
+            "Vertex": "A node in the graph",
+            "Neighbor": "An adjacent vertex connected by an edge",
+            "List": "A collection of adjacent vertices for a given node"
+        },
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Which scenario is best suited for using an adjacency list representation?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "Graphs with a very high density of edges",
+            "Graphs with very few vertices",
+            "Sparse graphs with relatively few edges compared to vertices",
+            "Graphs where edge lookup speed is not important"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "What information is typically stored in each entry of an adjacency list?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "EASY",
+        "options": [
+            "Only the vertex identifier",
+            "The vertex identifier and a pointer to the next adjacent vertex",
+            "The weight of the edge exclusively",
+            "The vertex identifier along with its adjacent vertices and optionally edge weights"
+        ],
+        "correctAnswer": [3],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Arrange the conceptual process for adding an edge in an adjacency list representation.",
+        "questionType": "DRAG_DROP",
+        "difficulty": "EASY",
+        "options": [
+            "Identify the source vertex",
+            "Locate its list of adjacent vertices",
+            "Append the destination vertex (and weight if applicable) to the list",
+            "Repeat for directed or undirected edge as required"
+        ],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Match the advantages of an adjacency list with the reasons they apply.",
+        "questionType": "MATCHING",
+        "difficulty": "HARD",
+        "matches": {
+            "Space Efficiency": "Uses memory proportional to the number of edges",
+            "Flexibility": "Easily accommodates dynamic graphs",
+            "Clarity": "Clearly represents sparse connectivity"
+        },
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "Which property does an adjacency list naturally exhibit when representing sparse graphs?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "MEDIUM",
+        "options": [
+            "High memory consumption",
+            "Inefficient edge lookup",
+            "Efficient use of space",
+            "Redundant edge information"
+        ],
+        "correctAnswer": [2],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    },
+    {
+        "description": "What is a potential disadvantage of using an adjacency list representation?",
+        "questionType": "MULTIPLE_CHOICE",
+        "difficulty": "HARD",
+        "options": [
+            "It provides constant-time edge lookups for dense graphs",
+            "It can require extra time to check if a specific edge exists",
+            "It uses more space than an adjacency matrix in all cases",
+            "It does not support weighted graphs"
+        ],
+        "correctAnswer": [1],
+        "subtopicId": "PCNnC1lDdtyQEzTQVglL"
+    }
+]

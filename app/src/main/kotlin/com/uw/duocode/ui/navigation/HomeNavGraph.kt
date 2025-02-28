@@ -8,7 +8,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
-import com.uw.duocode.ui.screens.questions.QuestionLoadingScreen
+import com.uw.duocode.ui.screens.questions.QuestionLoadingView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
 
 fun NavGraphBuilder.homeNavGraph(
@@ -53,7 +53,7 @@ fun NavGraphBuilder.homeNavGraph(
                 }
             )){ backStackEntry ->
             val subtopicId = backStackEntry.arguments?.getString("subtopicId") ?: ""
-            QuestionLoadingScreen(
+            QuestionLoadingView(
                 navController = navController,
                 subtopicId = subtopicId
             )
