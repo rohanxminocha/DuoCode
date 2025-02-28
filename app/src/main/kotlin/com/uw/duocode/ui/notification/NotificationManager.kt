@@ -20,14 +20,6 @@ fun createNotificationChannel(context: Context, activity: Activity) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                1
-            )
-        }
-
         val name = "Reminder Notifications"
         val descriptionText = "Set timely reminders for DuoCode"
         val importance = NotificationManager.IMPORTANCE_HIGH

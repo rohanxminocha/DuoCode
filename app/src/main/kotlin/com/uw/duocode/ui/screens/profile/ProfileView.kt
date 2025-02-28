@@ -1,9 +1,12 @@
 package com.uw.duocode.ui.screens.profile
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -20,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.uw.duocode.MainActivity
@@ -38,8 +43,16 @@ import java.util.Calendar
 
 @Composable
 fun ProfileView(navController: NavHostController) {
-    var notificationEnabled = remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    val sharedPreferences = context.getSharedPreferences("notification_settings", Context.MODE_PRIVATE)
+
+    val enabledNotifications = remember { mutableStateOf(
+        sharedPreferences.getBoolean("enabled_notifications", false)
+    ) }
+
+    val notificationEnabled = remember { mutableStateOf(enabledNotifications.value) }
+
 
     Column(
         modifier = Modifier
@@ -66,13 +79,33 @@ fun ProfileView(navController: NavHostController) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Enable Reminders?")
                 Spacer(modifier = Modifier.width(8.dp))
+                LaunchedEffect(enabledNotifications.value) {
+                    if (enabledNotifications.value) {
+                        scheduleDailyNotification(context)
+                    } else {
+                        cancelNotification(context)
+                    }
+                }
+
                 Switch(
                     checked = notificationEnabled.value,
                     onCheckedChange = { isChecked ->
                         notificationEnabled.value = isChecked
                         if (isChecked) {
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(
+                                    context as Activity,
+                                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                                    1
+                                )
+                            } else {
+                                enabledNotifications.value = true
+                                sharedPreferences.edit().putBoolean("enabled_notifications", true).apply()
+                            }
                             scheduleDailyNotification(context)
                         } else {
+                            enabledNotifications.value = false
+                            sharedPreferences.edit().putBoolean("enabled_notifications", false).apply()
                             cancelNotification(context)
                         }
                     },
@@ -108,8 +141,8 @@ fun ProfileView(navController: NavHostController) {
 
 private fun scheduleDailyNotification(context: Context) {
     val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 18)
-        set(Calendar.MINUTE, 0)
+        set(Calendar.HOUR_OF_DAY, 16)
+        set(Calendar.MINUTE, 37)
         set(Calendar.SECOND, 0)
     }
 
