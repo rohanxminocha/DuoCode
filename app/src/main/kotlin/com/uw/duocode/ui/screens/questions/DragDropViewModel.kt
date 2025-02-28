@@ -26,7 +26,6 @@ class DragDropViewModel(
         private set
 
     fun onSwapSteps(fromIndex: Int, toIndex: Int) {
-        // Only allow swapping if the answer hasn't been checked.
         if (!answerChecked) {
             steps = steps.toMutableList().apply {
                 add(toIndex, removeAt(fromIndex))
