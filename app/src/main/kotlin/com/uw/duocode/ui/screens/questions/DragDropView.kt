@@ -1,4 +1,4 @@
-package com.uw.duocode
+package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -37,9 +37,7 @@ import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.ResultBanner
-import com.uw.duocode.ui.screens.questions.DragDropViewModel
 import sh.calvin.reorderable.ReorderableColumn
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,8 +139,8 @@ fun DragDropView(
                 onMove = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 },
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) { index, step, _ ->
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) { _, step, _ ->
                 key(step) {
                     OutlinedCard(
                         shape = RoundedCornerShape(12.dp),
@@ -150,13 +148,17 @@ fun DragDropView(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(80.dp)
-                            .draggableHandle(
-                                onDragStarted = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                },
-                                onDragStopped = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                }
+                            .then(
+                                if (!answerChecked)
+                                    Modifier.draggableHandle(
+                                        onDragStarted = {
+                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        },
+                                        onDragStopped = {
+                                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                        }
+                                    )
+                                else Modifier
                             ),
                         colors = CardDefaults.outlinedCardColors(
                             containerColor = Color.White

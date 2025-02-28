@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.uw.duocode.DragDropView
 import com.uw.duocode.data.model.DragAndDropQuestion
 import com.uw.duocode.data.model.MatchQuestion
 import com.uw.duocode.data.model.MultipleChoiceQuestion
