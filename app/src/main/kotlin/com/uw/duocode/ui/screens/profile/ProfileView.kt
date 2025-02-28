@@ -141,8 +141,8 @@ fun ProfileView(navController: NavHostController) {
 
 private fun scheduleDailyNotification(context: Context) {
     val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 16)
-        set(Calendar.MINUTE, 37)
+        set(Calendar.HOUR_OF_DAY, 18)
+        set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)
     }
 
