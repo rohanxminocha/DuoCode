@@ -140,6 +140,7 @@ fun ProfileView(navController: NavHostController) {
 }
 
 private fun scheduleDailyNotification(context: Context) {
+    // Reminder for 6PM
     val calendar = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 18)
         set(Calendar.MINUTE, 0)
@@ -184,6 +185,14 @@ fun showTestNotification(context: Context) {
         .setChannelId("reminder_channel_id")
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
+
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            1
+        )
+    }
 
     NotificationManagerCompat.from(context).notify(1, notification.build())
 }
