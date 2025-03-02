@@ -1,11 +1,13 @@
 package com.uw.duocode.ui.screens.lessons
 
+import MarkdownText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,12 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import com.uw.duocode.ui.utils.getTopicIcon
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,49 +39,50 @@ fun LessonView(
         viewModel.loadLessonData(topicId)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        SmallTopAppBar(
-            title = {},
-            navigationIcon = {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back"
-                    )
+    Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 30.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                    }
                 }
-            }
-        )
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(rememberScrollState())
+        ) {
+            TopicHeader(
+                icon = getTopicIcon(viewModel.iconKey),
+                topicName = viewModel.topicName
+            )
 
-        when {
-            viewModel.isLoading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            viewModel.error != null -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = viewModel.error ?: "Unknown error occurred",
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-            }
-
-            else -> {
-                TopicHeader(icon = Icons.Default.Code, topicName = viewModel.topicName)
-
+            if (viewModel.imageUrl.isNotEmpty()) {
+                AsyncImage(
+                    model = viewModel.imageUrl,
+                    contentDescription = "Lesson Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
+            } else {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,40 +91,41 @@ fun LessonView(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Code,
+                        imageVector = getTopicIcon(viewModel.iconKey),
                         contentDescription = null,
                         modifier = Modifier.size(64.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+            }
 
-                Text(
-                    text = viewModel.description,
-                    style = TextStyle(fontSize = 16.sp),
-                    modifier = Modifier.padding(16.dp)
-                )
+            MarkdownText(
+                markdown = viewModel.description,
+                modifier = Modifier.padding(16.dp)
+            )
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 16.dp),
-                    contentAlignment = Alignment.CenterEnd
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 16.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Button(
+                    onClick = {
+                        navController.navigate("questions/$subtopicId")
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF7F5CE5),
+                        contentColor = Color.White
+                    )
                 ) {
-                    Button(
-                        onClick = {
-                            navController.navigate("questions/${subtopicId}")
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7F5CE5),
-                            contentColor = Color.White
-                        )
-                    ) {
-                        Text("Begin Quest!")
-                    }
+                    Text("Begin Quest!")
                 }
             }
+
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
