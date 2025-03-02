@@ -18,13 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.DynamicFeed
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Nature
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Sort
-import androidx.compose.material.icons.filled.ViewList
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -45,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uw.duocode.ui.utils.getTopicIcon
 
 
 @Composable
@@ -81,9 +75,11 @@ fun QuestMapView(
             isLoading -> {
                 Text("Loading...")
             }
+
             error != null -> {
                 Text("Error: $error")
             }
+
             else -> {
                 val sortedTopics = topics.sortedBy { it.order }
 
@@ -222,18 +218,5 @@ fun IconContainer(icon: ImageVector) {
             contentDescription = null,
             tint = Color(0xFF7F5CE5)
         )
-    }
-}
-
-fun getTopicIcon(iconKey: String): ImageVector {
-    return when (iconKey.lowercase()) {
-        "viewlist" -> Icons.Filled.ViewList
-        "link" -> Icons.Filled.Link
-        "search" -> Icons.Filled.Search
-        "nature" -> Icons.Filled.Nature
-        "sort" -> Icons.Filled.Sort
-        "share" -> Icons.Filled.Share
-        "dynamicfeed" -> Icons.Filled.DynamicFeed
-        else -> throw IllegalArgumentException("No icon mapping found for key: $iconKey")
     }
 }
