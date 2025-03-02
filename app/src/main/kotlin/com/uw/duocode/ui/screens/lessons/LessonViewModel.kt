@@ -9,11 +9,18 @@ import com.google.firebase.firestore.toObject
 import com.uw.duocode.data.model.LessonInfo
 import com.uw.duocode.data.model.TopicInfo
 
+
 class LessonViewModel : ViewModel() {
     var description by mutableStateOf("Loading...")
         private set
 
     var topicName by mutableStateOf("Loading...")
+        private set
+
+    var iconKey by mutableStateOf("default")
+        private set
+
+    var imageUrl by mutableStateOf("") // New property for lesson image URL
         private set
 
     var isLoading by mutableStateOf(true)
@@ -40,6 +47,7 @@ class LessonViewModel : ViewModel() {
                     }
                     val lesson = lessonDoc.documents[0].toObject<LessonInfo>()
                     description = lesson?.description ?: "No description available"
+                    imageUrl = lesson?.imageUrl ?: ""
 
                     db.collection("topics")
                         .document(topicId)
@@ -47,6 +55,7 @@ class LessonViewModel : ViewModel() {
                         .addOnSuccessListener { topicDoc ->
                             val topic = topicDoc.toObject<TopicInfo>()
                             topicName = topic?.name ?: "Topic Name"
+                            iconKey = topic?.iconKey ?: "default"
                             isLoading = false
                         }
                         .addOnFailureListener { e ->
