@@ -75,7 +75,6 @@ fun ResultView(
                     text = "Continue",
                     onClick = { navController.navigate(Home) },
                     enabled = true,
-                    containerColor = Color(0xFF6A4CAF),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)

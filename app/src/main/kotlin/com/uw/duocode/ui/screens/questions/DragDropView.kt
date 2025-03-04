@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
@@ -94,7 +95,6 @@ fun DragDropView(
                         }
                     },
                     enabled = true,
-                    containerColor = Color(0xFF6A4CAF),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)
@@ -144,7 +144,7 @@ fun DragDropView(
                 key(step) {
                     OutlinedCard(
                         shape = RoundedCornerShape(12.dp),
-                        border = BorderStroke(2.dp, Color.LightGray),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(80.dp)
@@ -159,10 +159,7 @@ fun DragDropView(
                                         }
                                     )
                                 else Modifier
-                            ),
-                        colors = CardDefaults.outlinedCardColors(
-                            containerColor = Color.White
-                        )
+                            )
                     ) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -170,8 +167,7 @@ fun DragDropView(
                         ) {
                             Text(
                                 text = step,
-                                fontSize = 18.sp,
-                                color = Color.Black
+                                fontSize = 18.sp
                             )
                         }
                     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,8 +22,8 @@ fun ResultBanner(
     modifier: Modifier = Modifier,
     message: String? = null
 ) {
-    val backgroundColor = if (isCorrect) Color(0xFF4CAF50) else Color(0xFFCCC2DC)
-    val textColor = if (isCorrect) Color.White else Color.Black
+    val backgroundColor = if (isCorrect) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondaryContainer
+    val textColor = if (isCorrect) MaterialTheme.colorScheme.onTertiary else MaterialTheme.colorScheme.onSecondaryContainer
 
     Box(
         modifier = modifier

@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
@@ -92,7 +93,7 @@ fun MultipleChoiceView(
                         }
                     },
                     enabled = if (!answerChecked) selectedOption != null else true,
-                    containerColor = Color(0xFF6A4CAF),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)
@@ -133,13 +134,13 @@ fun MultipleChoiceView(
                 itemsIndexed(options) { index, option ->
                     val isSelected = selectedOption == option
                     val borderColor = if (!answerChecked) {
-                        if (isSelected) Color(0xFF6A4CAF) else Color.Gray
+                        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                     } else {
                         val isCorrect = viewModel.correctAnswer.find { a -> a == index } != null
                         when {
-                            isCorrect -> Color(0xFF4CAF50)
-                            isSelected && !isCorrect -> Color(0xFFD32F2F)
-                            else -> Color.Gray
+                            isCorrect -> MaterialTheme.colorScheme.tertiary
+                            isSelected && !isCorrect -> MaterialTheme.colorScheme.error
+                            else -> MaterialTheme.colorScheme.outline
                         }
                     }
 
@@ -149,7 +150,7 @@ fun MultipleChoiceView(
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(1.dp, borderColor),
                         colors = CardDefaults.outlinedCardColors(
-                            containerColor = if (isSelected) Color(0xFFEDE7F6) else Color.White
+                            containerColor = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -164,8 +165,7 @@ fun MultipleChoiceView(
                         ) {
                             Text(
                                 text = option,
-                                fontSize = 16.sp,
-                                color = Color.Black
+                                fontSize = 16.sp
                             )
                         }
                     }

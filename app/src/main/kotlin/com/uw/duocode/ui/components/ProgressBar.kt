@@ -7,14 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
-    progressColor: Color = Color(0xFF6A4CAF),
-    trackColor: Color = Color(0xFFE7E0F1)
+    progressColor: Color = MaterialTheme.colorScheme.primary,
+    trackColor: Color = MaterialTheme.colorScheme.surfaceVariant
 ) {
     LinearProgressIndicator(
         progress = progress,
