@@ -145,6 +145,20 @@ fun MatchView(
                     val isSelected = selectedItem?.index == item.index && selectedItem.isKey == isKey
                     val isMatched = (correctKeys.contains(item.index) && isKey) || (correctValues.contains(item.index) && !isKey)
 
+                    val containerColor = when {
+                        isMatched -> {
+                            val pairList = matchViewModel.correctPairs.entries.toList()
+                            val pairIndex = pairList.indexOfFirst { (k, v) ->
+                                k == item.item || v == item.item
+                            }
+                            val alpha = if (pairIndex >= 0) 1f - 0.25f * pairIndex else 1f
+                            MaterialTheme.colorScheme.primary.copy(alpha = alpha)
+                        }
+
+                        isSelected -> MaterialTheme.colorScheme.secondaryContainer
+                        else -> MaterialTheme.colorScheme.surface
+                    }
+
                     OutlinedCard(
                         onClick = if (!isMatched) { { matchViewModel.onItemClicked(item, isKey) } } else { {} },
                         shape = RoundedCornerShape(12.dp),
@@ -153,11 +167,7 @@ fun MatchView(
                             if (isMatched) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                         ),
                         colors = androidx.compose.material3.CardDefaults.outlinedCardColors(
-                            containerColor = when {
-                                isMatched -> MaterialTheme.colorScheme.primary
-                                isSelected -> MaterialTheme.colorScheme.secondaryContainer
-                                else -> MaterialTheme.colorScheme.surface
-                            }
+                            containerColor = containerColor
                         ),
                         modifier = Modifier.fillMaxWidth()
                     ) {
