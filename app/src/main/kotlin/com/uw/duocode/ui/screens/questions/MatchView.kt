@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
@@ -90,7 +91,7 @@ fun MatchView(
                     text = "Continue",
                     onClick = { matchViewModel.continueToNext() },
                     enabled = allMatchesCorrect,
-                    containerColor = Color(0xFF6A4CAF),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)
@@ -149,13 +150,13 @@ fun MatchView(
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
                             1.dp,
-                            if (isMatched) Color(0xFF6A4CAF) else Color.Gray
+                            if (isMatched) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                         ),
                         colors = androidx.compose.material3.CardDefaults.outlinedCardColors(
                             containerColor = when {
-                                isMatched -> Color(0xFF6A4CAF)
-                                isSelected -> Color(0xFFEDE7F6)
-                                else -> Color.White
+                                isMatched -> MaterialTheme.colorScheme.primary
+                                isSelected -> MaterialTheme.colorScheme.secondaryContainer
+                                else -> MaterialTheme.colorScheme.surface
                             }
                         ),
                         modifier = Modifier.fillMaxWidth()
@@ -170,7 +171,7 @@ fun MatchView(
                             Text(
                                 text = item.item,
                                 fontSize = 16.sp,
-                                color = if (isMatched) Color.White else Color.Black
+                                color = if (isMatched) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }

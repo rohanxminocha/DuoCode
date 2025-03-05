@@ -128,10 +128,10 @@ fun TopicCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF1EAFE)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, Color.Gray),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
@@ -156,8 +156,8 @@ fun TopicCard(
             Button(
                 onClick = onButtonClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7F5CE5),
-                    contentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
                 )
             ) {
                 Text(text = buttonText)
@@ -194,8 +194,8 @@ fun LessonItem(
             Button(
                 onClick = onButtonClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7F5CE5),
-                    contentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
                 )
             ) {
                 Text(text = buttonText)
@@ -210,13 +210,13 @@ fun IconContainer(icon: ImageVector) {
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .background(Color(0xFFD7C3F2)),
+            .background(MaterialTheme.colorScheme.secondaryContainer),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = Color(0xFF7F5CE5)
+            tint = MaterialTheme.colorScheme.secondary
         )
     }
 }

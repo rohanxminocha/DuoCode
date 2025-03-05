@@ -117,8 +117,8 @@ fun LessonView(
                         navController.navigate("questions/$subtopicId")
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF7F5CE5),
-                        contentColor = Color.White
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary
                     )
                 ) {
                     Text("Begin Quest!")
@@ -141,13 +141,13 @@ fun TopicHeader(icon: ImageVector, topicName: String) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFD7C3F2)),
+                .background(MaterialTheme.colorScheme.secondaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = Color(0xFF7F5CE5)
+                tint = MaterialTheme.colorScheme.secondary
             )
         }
         Spacer(modifier = Modifier.width(12.dp))
