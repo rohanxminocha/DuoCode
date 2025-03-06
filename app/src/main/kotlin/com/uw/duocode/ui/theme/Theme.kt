@@ -18,10 +18,11 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color.Black,
     surfaceVariant = Color(0xFFE7E0F1),
     onSurfaceVariant = Color.Black,
-    secondaryContainer = Color(0xFFCCC2DC),
+    secondaryContainer = Color(0xFF9982C5),
     onSecondaryContainer = Color.Black,
     outline = Color.LightGray,
-    error = Color(0xFFD32F2F)
+    error = Color(0xFFD32F2F),
+    primaryContainer = Color(0x336A4CAF)
 )
 
 @Composable

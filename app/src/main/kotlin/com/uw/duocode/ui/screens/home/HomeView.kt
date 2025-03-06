@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.uw.duocode.ui.screens.challenges.ChallengesView
 import com.uw.duocode.ui.screens.profile.AchievementsView
 import com.uw.duocode.ui.screens.profile.ProfileView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
@@ -42,7 +43,7 @@ fun HomeView(
         ) {
             when (viewModel.selectedTab) {
                 0 -> QuestMapView(navController)
-                1 -> AchievementsView()
+                1 -> ChallengesView()
                 2 -> ProfileView(navController)
             }
         }

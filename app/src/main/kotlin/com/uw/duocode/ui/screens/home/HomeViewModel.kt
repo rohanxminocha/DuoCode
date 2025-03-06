@@ -13,7 +13,7 @@ class HomeViewModel : ViewModel() {
     var selectedTab by mutableStateOf(0)
         private set
 
-    val tabs = listOf("Quest Map", "Achievements", "Profile")
+    val tabs = listOf("Quest Map", "Challenges", "Profile")
     val icons = listOf(
         Icons.Default.LocationOn,
         Icons.Default.Star,
