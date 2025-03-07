@@ -17,3 +17,4 @@ A Duolingo-style learning app for Data Structures and Algorithms
 
 ## Releases 
 - 0.1.0: https://git.uwaterloo.ca/rminocha/duocode/-/releases/0.1.0
+- 0.2.0: https://git.uwaterloo.ca/rminocha/duocode/-/releases/0.2.0
