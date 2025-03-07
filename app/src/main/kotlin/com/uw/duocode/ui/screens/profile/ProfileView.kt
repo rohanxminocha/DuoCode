@@ -25,15 +25,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -73,7 +80,8 @@ import java.util.Calendar
 @Composable
 fun ProfileView(
     navController: NavHostController,
-    viewModel: ProfileViewModel = viewModel()
+    profileViewModel: ProfileViewModel = viewModel(),
+    friendViewModel: FriendViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("notification_settings", Context.MODE_PRIVATE)
@@ -82,8 +90,11 @@ fun ProfileView(
     ) }
     val notificationEnabled = remember { mutableStateOf(enabledNotifications.value) }
     
+    var showFriendsView by remember { mutableStateOf(false) }
+    
     LaunchedEffect(key1 = Unit) {
-        viewModel.loadUserData()
+        profileViewModel.loadUserData()
+        friendViewModel.loadPendingRequests()
     }
     
     var showProfilePictureOptions by remember { mutableStateOf(false) }
@@ -94,11 +105,11 @@ fun ProfileView(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            viewModel.updateProfilePicture(
+            profileViewModel.updateProfilePicture(
                 context = context,
                 imageUri = it,
                 onSuccess = {
-                    viewModel.loadUserData()
+                    profileViewModel.loadUserData()
                 }
             )
         }
@@ -127,13 +138,13 @@ fun ProfileView(
         )
     }
     
-    if (viewModel.errorMessage != null) {
+    if (profileViewModel.errorMessage != null) {
         AlertDialog(
-            onDismissRequest = { viewModel.clearError() },
+            onDismissRequest = { profileViewModel.clearError() },
             title = { Text("Error") },
-            text = { Text(viewModel.errorMessage ?: "") },
+            text = { Text(profileViewModel.errorMessage ?: "") },
             confirmButton = {
-                TextButton(onClick = { viewModel.clearError() }) {
+                TextButton(onClick = { profileViewModel.clearError() }) {
                     Text("OK")
                 }
             }
@@ -193,10 +204,10 @@ fun ProfileView(
                 
                 Button(
                     onClick = {
-                        viewModel.generateNewProfilePicture(
+                        profileViewModel.generateNewProfilePicture(
                             context = context,
                             onSuccess = {
-                                viewModel.loadUserData()
+                                profileViewModel.loadUserData()
                             }
                         )
                         showProfilePictureOptions = false
@@ -222,11 +233,27 @@ fun ProfileView(
             }
         }
     }
+    
+    if (showFriendsView) {
+        Dialog(
+            onDismissRequest = { showFriendsView = false }
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(500.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                FriendsView(friendViewModel)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -244,7 +271,7 @@ fun ProfileView(
                 .clickable { showProfilePictureOptions = true },
             contentAlignment = Alignment.Center
         ) {
-            if (viewModel.isLoading || viewModel.isUpdatingProfilePicture) {
+            if (profileViewModel.isLoading || profileViewModel.isUpdatingProfilePicture) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -259,7 +286,7 @@ fun ProfileView(
             } else {
                 SubcomposeAsyncImage(
                     model = ImageRequest.Builder(context)
-                        .data(viewModel.user?.profilePictureUrl)
+                        .data(profileViewModel.user?.profilePictureUrl)
                         .crossfade(true)
                         .diskCachePolicy(coil.request.CachePolicy.DISABLED)
                         .memoryCachePolicy(coil.request.CachePolicy.DISABLED)
@@ -336,6 +363,92 @@ fun ProfileView(
         
         Spacer(modifier = Modifier.height(24.dp))
         
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BadgedBox(
+                        badge = {
+                            if (friendViewModel.pendingRequests.isNotEmpty()) {
+                                Badge {
+                                    Text(text = friendViewModel.pendingRequests.size.toString())
+                                }
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = "Friends",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    
+                    Button(
+                        onClick = { showFriendsView = true }
+                    ) {
+                        Text("Manage Friends")
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                if (friendViewModel.isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else if (friendViewModel.friends.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "You don't have any friends yet",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                } else {
+                    // Show up to 3 friends
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        friendViewModel.friends.take(3).forEach { friend ->
+                            FriendItem(friend)
+                        }
+                        
+                        if (friendViewModel.friends.size > 3) {
+                            TextButton(
+                                onClick = { showFriendsView = true },
+                                modifier = Modifier.align(Alignment.End)
+                            ) {
+                                Text("View all ${friendViewModel.friends.size} friends")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -391,7 +504,7 @@ fun ProfileView(
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {

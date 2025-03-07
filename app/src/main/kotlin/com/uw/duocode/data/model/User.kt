@@ -13,5 +13,8 @@ data class User(
     val notificationEnabled: Boolean = true,
     val totalQuestionsAttempted: Int = 0,
     val totalCorrectAnswers: Int = 0,
-    val totalTimeSpentInMinutes: Long = 0L
+    val totalTimeSpentInMinutes: Long = 0L,
+    val friendIds: List<String> = emptyList(),
+    val questionsCompletedToday: Int = 0,
+    val lastQuestCompletedDate: Long = 0L
 )
