@@ -1,0 +1,260 @@
+[
+  {
+    "description": "Which statement best defines 1-dimensional dynamic programming?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "It involves storing subproblem results in a single array or list",
+      "It uses a two-dimensional matrix to optimize solutions",
+      "It requires recursion without memoization",
+      "It never makes use of overlapping subproblems"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "What is a common example problem that can be solved using 1-dimensional DP?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Longest Common Subsequence",
+      "Matrix Chain Multiplication",
+      "Fibonacci sequence computation",
+      "Knapsack problem with multiple items and capacities"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Which of the following is true about the overlapping subproblems property in 1D DP?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Each subproblem is distinct and never reoccurs",
+      "All solutions can be derived without smaller subproblems",
+      "Some subproblems are solved multiple times when using naive recursion",
+      "Overlapping subproblems do not apply to iterative solutions"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Order the general steps to formulate a bottom-up 1D DP solution for a problem like computing the nth Fibonacci number.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Identify the base cases",
+      "Define the recurrence relation",
+      "Initialize the DP array with base values",
+      "Iterate to fill the DP array using the recurrence",
+      "Return the value at the nth position"
+    ],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Match each key term in 1D DP with its definition.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Base Case": "Initial condition(s) that anchor the recursive or iterative solution",
+      "Recurrence Relation": "Formula that relates the solution of a subproblem to smaller subproblems",
+      "Memoization": "Storing intermediate results to avoid repeated computation",
+      "Tabulation": "Bottom-up approach typically using an array to fill solutions incrementally"
+    },
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Which time complexity typically describes a 1D DP solution that solves n subproblems with O(1) work for each?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "O(log n)",
+      "O(1)",
+      "O(n log n)",
+      "O(n)"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Arrange the steps to find the minimum cost of climbing stairs with a cost array using 1D DP.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Identify the cost to stand on each stair (base condition)",
+      "Create a DP array where dp[i] represents the minimum cost to reach stair i",
+      "Use the recurrence dp[i] = cost[i] + min(dp[i-1], dp[i-2])",
+      "Compute dp values from the start to the top of the stairs",
+      "The answer is the minimum cost between dp[n-1] and dp[n-2]"
+    ],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Match each component of the 1D DP approach to its role in solving the Coin Change problem (minimum coins).",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "dp array": "Stores the fewest number of coins needed to make a certain amount",
+      "Initialization": "dp[0] = 0 and others set to a large value initially",
+      "Iteration": "For each coin, update the dp array for all amounts that can be formed",
+      "Result": "dp[amount] provides the final minimum coins required"
+    },
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "What is a common challenge when designing a 1D DP solution for problems like the Unbounded Knapsack?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Avoiding repeated states for large items with fractional usage",
+      "Ensuring each item can only be used once",
+      "Handling multiple dimensions for multiple constraints",
+      "Dealing with infinite usage of items leading to potential infinite loops"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Which boundary condition is crucial for a bottom-up 1D DP approach when the array indexing starts from 0?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Ensuring dp[1] is initialized to zero",
+      "Initializing the dp array with large values except the starting state",
+      "Skipping dp[0] entirely",
+      "Always using 1-based indexing for the solution"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "1dL9iqYFfmv0KjubQN1k"
+  },
+  {
+    "description": "Which of the following problems is a classic example of using 2D dynamic programming?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Fibonacci sequence",
+      "Longest Common Subsequence (LCS)",
+      "Unbounded Knapsack problem",
+      "Minimum cost path in a 1D array"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "In a 2D DP table for computing the Longest Common Subsequence, what do the rows and columns typically represent?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Rows represent one string, and columns represent the other string",
+      "Rows represent function calls, columns represent recursion depth",
+      "Rows represent subproblem states, columns represent the final answer only",
+      "Each row and column represent an unrelated subproblem domain"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Which statement best describes 2-dimensional dynamic programming?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "An approach that only handles single-dimensional arrays",
+      "A technique that uses a 2D table to store solutions of subproblems defined by two variables",
+      "A greedy method focusing on two choices at each step",
+      "A method that must always use nested recursion"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Order the steps to fill the DP table for the Longest Common Subsequence (LCS) problem.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Initialize the first row and first column to zero",
+      "Compare characters of both strings",
+      "If they match, dp[i][j] = dp[i-1][j-1] + 1",
+      "If they don't match, dp[i][j] = max(dp[i-1][j], dp[i][j-1])",
+      "Continue filling dp until i and j cover both strings",
+      "The final LCS length is dp[m][n]"
+    ],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Match each component of the 2D DP table in the Matrix Chain Multiplication problem with its meaning.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "dp[i][j]": "The minimum cost (in multiplications) to multiply matrices from i to j",
+      "Split Position": "The index k where the product is split (i..k, k+1..j)",
+      "Base Case": "When i == j, cost is zero because a single matrix needs no multiplication",
+      "Dimension Lookup": "Using matrix dimensions to compute the multiplication cost"
+    },
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "In a 2D DP approach for the Knapsack problem, what do the rows and columns typically represent?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Rows represent items, columns represent weights",
+      "Rows represent weights, columns represent items",
+      "Rows represent the solution, columns represent partial results",
+      "Rows and columns both represent the same dimension"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Arrange the steps to compute the edit distance between two strings using a 2D DP table.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Initialize dp[0][j] and dp[i][0] for all valid i, j",
+      "Compare characters str1[i-1] and str2[j-1]",
+      "If they match, dp[i][j] = dp[i-1][j-1]",
+      "If they don't match, consider insert, remove, or replace to find the minimum cost",
+      "Populate dp[i][j] for all i, j from 1 to the lengths of the strings",
+      "dp[len(str1)][len(str2)] is the final edit distance"
+    ],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Match each concept in 2D DP to its typical problem scenario.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Grid-based Pathfinding": "Finding a min/max path sum in a 2D grid",
+      "Sequence Alignment": "Comparing two strings or sequences character by character",
+      "2D Knapsack": "Extending the knapsack logic when there's an extra constraint dimension",
+      "Memoized DFS": "Using a 2D cache to remember results of a two-parameter DFS"
+    },
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "What is the typical space complexity of a 2D DP solution for a problem involving two strings of length m and n respectively?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "O(m + n)",
+      "O(m * n)",
+      "O(m * log n)",
+      "O(log m * log n)"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  },
+  {
+    "description": "Which challenge commonly arises in 2D DP when the subproblems overlap in both dimensions significantly?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Ensuring there is no memory usage at all",
+      "Handling multiple base cases with potential indexing errors",
+      "Preventing recursion from handling two variables",
+      "Eliminating the overhead of repeated dimension definitions"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "wvAjMA3fQrK9ReRQDnPq"
+  }
+]
