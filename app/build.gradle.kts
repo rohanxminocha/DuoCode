@@ -68,7 +68,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-
+    
     androidTestImplementation("androidx.compose.ui:ui-test:1.6.3")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test:runner:1.5.2")
@@ -86,4 +86,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("io.noties.markwon:core:4.6.2")
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
 }
