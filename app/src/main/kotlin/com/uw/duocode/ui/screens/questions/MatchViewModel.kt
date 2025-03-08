@@ -45,7 +45,7 @@ class MatchViewModel(
     var isAnswerCorrect by mutableStateOf(false)
         private set
 
-    private val allMatchesCorrect: Boolean
+    val allMatchesCorrect: Boolean
         get() = correctKeys.size == shuffledKeys.size && correctValues.size == shuffledValues.size
 
     fun onItemClicked(namedItem: NamedPair, currentIsKey: Boolean) {
