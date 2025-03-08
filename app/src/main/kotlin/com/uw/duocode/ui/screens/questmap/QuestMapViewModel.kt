@@ -1,19 +1,23 @@
 package com.uw.duocode.ui.screens.questmap
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
-import com.uw.duocode.data.model.TopicInfo
 import com.uw.duocode.data.model.SubtopicInfo
+import com.uw.duocode.data.model.TopicInfo
 import kotlinx.coroutines.launch
+
 
 class QuestMapViewModel : ViewModel() {
 
     var topics by mutableStateOf<List<TopicInfo>>(emptyList())
+        private set
+
+    var subtopics by mutableStateOf<List<SubtopicInfo>>(emptyList())
         private set
 
     var isLoading by mutableStateOf(true)
@@ -26,31 +30,30 @@ class QuestMapViewModel : ViewModel() {
         fetchData()
     }
 
-    private fun fetchData() {
+    fun fetchData() {
+        isLoading = true
+        error = null
+
         viewModelScope.launch {
             val db = FirebaseFirestore.getInstance()
-
             try {
                 db.collection("topics")
                     .get()
-                    .addOnSuccessListener { topicsRes ->
-                        topics = topicsRes.map { it.toObject<TopicInfo>() }
+                    .addOnSuccessListener { topicsResult ->
+                        val fetchedTopics = topicsResult.map { it.toObject<TopicInfo>() }
 
                         db.collection("subtopics")
-                            .whereIn("topicId", topics.map { it.id })
                             .get()
-                            .addOnSuccessListener { result ->
-                                val subtopics = result.map { it.toObject<SubtopicInfo>() }
-                                subtopics.forEach { subTopic ->
-                                    val topicIdx = topics.indexOfFirst { it.id == subTopic.topicId }
-                                    if (topicIdx >= 0) {
-                                        topics[topicIdx].subtopics.add(subTopic)
-                                    }
-                                }
+                            .addOnSuccessListener { subtopicsResult ->
+                                val fetchedSubtopics =
+                                    subtopicsResult.map { it.toObject<SubtopicInfo>() }
+
+                                topics = fetchedTopics
+                                subtopics = fetchedSubtopics
                                 isLoading = false
                             }
                             .addOnFailureListener { e ->
-                                error = "Error loading lessons: ${e.message}"
+                                error = "Error loading subtopics: ${e.message}"
                                 isLoading = false
                             }
                     }

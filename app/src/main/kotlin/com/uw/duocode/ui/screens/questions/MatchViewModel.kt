@@ -8,14 +8,16 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 data class NamedPair(val index: Int, val item: String)
 data class PairSelectedItem(val index: Int, val item: String, val isKey: Boolean)
 
 class MatchViewModel(
     val questionText: String,
     val correctPairs: Map<String, String>,
-    private val onQuestionCompleted: () -> Unit, val progress: Float) : ViewModel()
-{
+    private val onQuestionCompleted: (Boolean) -> Unit,
+    val progress: Float
+) : ViewModel() {
 
     // shuffle match options
     val shuffledKeys = correctPairs.keys.mapIndexed{ index, item -> NamedPair(index, item) }.shuffled()
@@ -27,55 +29,53 @@ class MatchViewModel(
     // state variables:
     var selectedItem by mutableStateOf<PairSelectedItem?>(null)
         private set
+
     var correctKeys by mutableStateOf(setOf<Int>())
         private set
+
     var correctValues by mutableStateOf(setOf<Int>())
         private set
+
     var showErrorDialog by mutableStateOf(false)
         private set
 
-    // continue button gets enabled when all items have been matched
-    val allMatchesCorrect: Boolean get() = correctKeys.size == shuffledKeys.size && correctValues.size == shuffledValues.size
+    // states to match the check/continue flow
+    var answerChecked by mutableStateOf(false)
+        private set
+    var isAnswerCorrect by mutableStateOf(false)
+        private set
 
-    // called when an item is clicked
+    private val allMatchesCorrect: Boolean
+        get() = correctKeys.size == shuffledKeys.size && correctValues.size == shuffledValues.size
+
     fun onItemClicked(namedItem: NamedPair, currentIsKey: Boolean) {
-        val index = namedItem.index
-        val currentItem = namedItem.item
+        if (answerChecked) return
 
-        if ((correctKeys.contains(index) && currentIsKey) || (correctValues.contains(index) && !currentIsKey) ) return
-        when {
-            // no item selected yet
-            selectedItem == null -> {
-                selectedItem = PairSelectedItem(index, currentItem,  currentIsKey)
+        val index = namedItem.index
+
+        if ((correctKeys.contains(index) && currentIsKey) ||
+            (correctValues.contains(index) && !currentIsKey)
+        ) return
+
+        when (selectedItem) {
+            null -> {
+                selectedItem = PairSelectedItem(index, namedItem.item, currentIsKey)
             }
-            // double-clicking item unselects it
-            selectedItem == PairSelectedItem(index, currentItem, currentIsKey) -> {
+            PairSelectedItem(index, namedItem.item, currentIsKey) -> {
                 selectedItem = null
             }
             // check for existing selection
             else -> {
-                val selected = selectedItem!!
-                val selectedIndex = selected.index
-                val currentIndex = index
+                val previous = selectedItem!!
+                val previousIndex = previous.index
 
-                // if both items belong to same column, switch selection
-                if (selected.isKey == currentIsKey) {
-                    selectedItem = PairSelectedItem(currentIndex, currentItem, currentIsKey)
+                if (previous.isKey == currentIsKey) {
+                    selectedItem = PairSelectedItem(index, namedItem.item, currentIsKey)
                 } else {
-                    // if items from different columns, check match
-                    var matches: Boolean
-                    // match again all possible options including duplicates
-                    if (currentIsKey) {
-                        val possibleMatchingValues = correctPairs.toList().withIndex().filter { kv -> kv.value.second == selected.item }
-                        matches = possibleMatchingValues.map { kv -> kv.index }.contains(currentIndex)
-                    } else {
-                        val possibleMatchingKeys = correctPairs.toList().withIndex().filter { kv -> kv.value.second == correctPairs[selected.item] }
-                        matches = possibleMatchingKeys.map { kv -> kv.index }.contains(currentIndex)
-                    }
-                    if (selectedIndex == currentIndex || matches) {
-                        // valid match
-                        correctKeys += if (selected.isKey) selected.index else index
-                        correctValues += if (selected.isKey) index else selected.index
+                    val matched = checkIsMatch(previous, namedItem, currentIsKey)
+                    if (matched) {
+                        correctKeys += if (previous.isKey) previousIndex else index
+                        correctValues += if (previous.isKey) index else previousIndex
                         selectedItem = null
                     } else {
                         // invalid match: show error dialog
@@ -91,7 +91,25 @@ class MatchViewModel(
         }
     }
 
+    private fun checkIsMatch(previous: PairSelectedItem, current: NamedPair, currentIsKey: Boolean): Boolean {
+        return if (currentIsKey) {
+            val possibleMatches = correctPairs.entries.filter { it.value == previous.item }
+            possibleMatches.any { it.key == current.item }
+        } else {
+            val correctValue = correctPairs[previous.item]
+            correctValue == current.item
+        }
+    }
+
+    fun checkAnswer() {
+        answerChecked = true
+        isAnswerCorrect = allMatchesCorrect
+    }
+
     fun continueToNext() {
-        onQuestionCompleted()
+        onQuestionCompleted(isAnswerCorrect)
+        selectedItem = null
+        answerChecked = false
+        isAnswerCorrect = false
     }
 }
