@@ -8,5 +8,6 @@ data class SubtopicInfo (
     var name: String = "",
     var order: Int = 0,
     var topicId: String = "",
-    var isCompleted: Boolean = false
+    var correctAnswers: Int = 0,
+    var completed: Boolean = false
 )
