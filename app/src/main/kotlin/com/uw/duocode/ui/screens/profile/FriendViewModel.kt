@@ -104,6 +104,14 @@ class FriendViewModel : ViewModel() {
         isSearching = true
         errorMessage = null
         
+        val currentUser = auth.currentUser ?: return
+        
+        if (searchEmail.equals(currentUser.email, ignoreCase = true)) {
+            errorMessage = "You cannot search for yourself"
+            isSearching = false
+            return
+        }
+        
         viewModelScope.launch {
             try {
                 val usersCollection = db.collection("users")
@@ -111,9 +119,12 @@ class FriendViewModel : ViewModel() {
                     .get()
                     .await()
                 
-                searchResults = usersCollection.documents.mapNotNull { doc ->
+                val users = usersCollection.documents.mapNotNull { doc ->
                     doc.toObject(User::class.java)
                 }
+                
+                val filteredUsers = users.filter { it.uid != currentUser.uid }
+                searchResults = filteredUsers
             } catch (e: Exception) {
                 errorMessage = "Failed to search user: ${e.localizedMessage}"
             } finally {
@@ -124,6 +135,11 @@ class FriendViewModel : ViewModel() {
     
     fun sendFriendRequest(receiverUser: User, onSuccess: () -> Unit) {
         val currentUser = auth.currentUser ?: return
+        
+        if (receiverUser.uid == currentUser.uid) {
+            errorMessage = "You cannot send a friend request to yourself"
+            return
+        }
         
         isLoading = true
         errorMessage = null
@@ -144,7 +160,7 @@ class FriendViewModel : ViewModel() {
                 
                 val existingFriends = db.collection("friends")
                     .whereEqualTo("userId", currentUser.uid)
-                    .whereEqualTo("friendId", receiverUser.userUUID)
+                    .whereEqualTo("friendEmail", receiverUser.email)
                     .get()
                     .await()
                 
@@ -167,7 +183,7 @@ class FriendViewModel : ViewModel() {
                     senderName = currentUserObj.userId,
                     senderEmail = currentUser.email ?: "",
                     senderProfilePictureUrl = currentUserObj.profilePictureUrl,
-                    receiverId = receiverUser.userUUID,
+//                    receiverId = receiverUser.userUUID,
                     receiverName = receiverUser.userId,
                     receiverEmail = receiverUser.email
                 )

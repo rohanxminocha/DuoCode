@@ -399,16 +399,21 @@ fun FriendRequestItem(
 
 @Composable
 fun AddFriendSection(viewModel: FriendViewModel) {
+    val searchEmail = viewModel.searchEmail
+    val searchResults = viewModel.searchResults
+    val isSearching = viewModel.isSearching
+    val errorMessage = viewModel.errorMessage
+    
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         OutlinedTextField(
-            value = viewModel.searchEmail,
+            value = searchEmail,
             onValueChange = { viewModel.searchEmail = it },
-            label = { Text("Friend's Email") },
-            placeholder = { Text("Enter email address") },
+            label = { Text("Search by email") },
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Search
@@ -418,24 +423,37 @@ fun AddFriendSection(viewModel: FriendViewModel) {
             ),
             trailingIcon = {
                 IconButton(onClick = { viewModel.searchUserByEmail() }) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search"
-                    )
+                    Icon(Icons.Default.Search, contentDescription = "Search")
                 }
             }
         )
         
+        Text(
+            text = "Press Enter or click the search icon to start searching",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+        )
+        
         Spacer(modifier = Modifier.height(16.dp))
         
-        if (viewModel.isSearching) {
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+        
+        if (isSearching) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
             }
-        } else if (viewModel.searchEmail.isNotBlank() && viewModel.searchResults.isEmpty()) {
+        } else if (searchEmail.isNotBlank() && searchResults.isEmpty() && errorMessage == null) {
             Text(
                 text = "No user found with this email",
                 style = MaterialTheme.typography.bodyLarge,
@@ -446,7 +464,7 @@ fun AddFriendSection(viewModel: FriendViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(viewModel.searchResults) { user ->
+                items(searchResults) { user ->
                     UserSearchResultItem(
                         user = user,
                         onSendRequest = {
