@@ -1,34 +1,18 @@
 package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -38,6 +22,7 @@ import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.ResultBanner
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MatchView(
@@ -46,14 +31,12 @@ fun MatchView(
 ) {
     val questionText = matchViewModel.questionText
     val items = matchViewModel.items
-    val shuffledKeys = matchViewModel.shuffledKeys
-//    val shuffleValues = matchViewModel.shuffledValues
     val selectedItem = matchViewModel.selectedItem
-//    val correctMatches = matchViewModel.correctMatches
     val correctKeys = matchViewModel.correctKeys
     val correctValues = matchViewModel.correctValues
     val showErrorDialog = matchViewModel.showErrorDialog
-    val allMatchesCorrect = matchViewModel.allMatchesCorrect
+    val answerChecked = matchViewModel.answerChecked
+    val isAnswerCorrect = matchViewModel.isAnswerCorrect
     val progress = matchViewModel.progress
 
     Scaffold(
@@ -88,26 +71,33 @@ fun MatchView(
                     .height(110.dp)
             ) {
                 CheckContinueButton(
-                    text = "Continue",
-                    onClick = { matchViewModel.continueToNext() },
-                    enabled = allMatchesCorrect,
+                    text = if (!answerChecked) "CHECK" else "CONTINUE",
+                    onClick = {
+                        if (!answerChecked) {
+                            matchViewModel.checkAnswer()
+                        } else {
+                            matchViewModel.continueToNext()
+                        }
+                    },
+                    enabled = true,
                     containerColor = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)
                 )
-                if (showErrorDialog) {
+
+                if (answerChecked) {
                     ResultBanner(
-                        isCorrect = false,
-                        message = "Incorrect! Try Again",
+                        isCorrect = isAnswerCorrect,
+                        message = if (isAnswerCorrect) "Correct!" else "Incorrect! Try Again",
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .zIndex(0f)
                     )
-                } else if (allMatchesCorrect) {
+                } else if (showErrorDialog) {
                     ResultBanner(
-                        isCorrect = true,
-                        message = "Correct!",
+                        isCorrect = false,
+                        message = "Incorrect! Try Again",
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .zIndex(0f)
@@ -127,7 +117,7 @@ fun MatchView(
             Text(
                 text = questionText,
                 fontSize = 25.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
 
@@ -163,10 +153,10 @@ fun MatchView(
                         onClick = if (!isMatched) { { matchViewModel.onItemClicked(item, isKey) } } else { {} },
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
-                            1.dp,
+                            2.dp,
                             if (isMatched) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                         ),
-                        colors = androidx.compose.material3.CardDefaults.outlinedCardColors(
+                        colors = CardDefaults.outlinedCardColors(
                             containerColor = containerColor
                         ),
                         modifier = Modifier.fillMaxWidth()
@@ -181,7 +171,7 @@ fun MatchView(
                             Text(
                                 text = item.item,
                                 fontSize = 16.sp,
-                                color = if (isMatched) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                                fontWeight = FontWeight.Medium
                             )
                         }
                     }
