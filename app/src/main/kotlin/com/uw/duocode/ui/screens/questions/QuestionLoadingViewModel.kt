@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.uw.duocode.data.model.DragAndDropQuestion
 import com.uw.duocode.data.model.MatchQuestion
 import com.uw.duocode.data.model.MultipleChoiceQuestion
@@ -60,7 +62,7 @@ class QuestionLoadingViewModel : ViewModel() {
         moveToNextQuestion()
 
         if (currentQuestionIndex >= questions.size) {
-            updateSubtopicProgress()
+            updateUserSubtopicProgress()
         }
     }
 
@@ -70,33 +72,36 @@ class QuestionLoadingViewModel : ViewModel() {
         }
     }
 
-    private fun updateSubtopicProgress() {
+    private fun updateUserSubtopicProgress() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            println("No user logged in, cannot update user subtopic progress.")
+            return
+        }
+
         val firstQuestion = questions.firstOrNull() ?: return
         val subtopicId = firstQuestion.subtopicId ?: return
         val threshold = 8
         val completed = (correctAnswerCount >= threshold)
+        println("updateUserSubtopicProgress() -> user=${user.uid}, subtopicId=$subtopicId, completed=$completed")
 
-        println("updateSubtopicProgress() called with subtopicId=$subtopicId, isCompleted=$completed")
+        val docRef = FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(user.uid)
+            .collection("subtopics")
+            .document(subtopicId)
 
-        val db = FirebaseFirestore.getInstance()
-        val subtopicRef = db.collection("subtopics").document(subtopicId)
-
-        subtopicRef.update(
-            mapOf(
-                "correctAnswers" to correctAnswerCount,
-                "completed" to completed
-            )
+        val data = mapOf(
+            "completed" to completed,
+            "correctAnswers" to correctAnswerCount
         )
+
+        docRef.set(data, SetOptions.merge())
             .addOnSuccessListener {
-                println("Subtopic progress updated: correctAnswers=$correctAnswerCount, isCompleted=$completed")
-                subtopicRef.get().addOnSuccessListener { doc ->
-                    val updatedCorrect = doc.getLong("correctAnswers") ?: 0
-                    val updatedIsCompleted = doc.getBoolean("isCompleted") ?: false
-                    println("Confirmed Firestore update: correctAnswers=$updatedCorrect, isCompleted=$updatedIsCompleted")
-                }
+                println("User subtopic progress updated: correctAnswers=$correctAnswerCount, completed=$completed")
             }
             .addOnFailureListener { e ->
-                println("Failed to update subtopic progress: ${e.message}")
+                println("Failed to update user subtopic progress: ${e.message}")
             }
     }
 }

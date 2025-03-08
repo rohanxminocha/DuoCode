@@ -3,9 +3,9 @@ package com.uw.duocode.ui.screens.questmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.*
@@ -37,12 +37,11 @@ fun QuestMapView(
 
     val topics = viewModel.topics
     val allSubtopics = viewModel.subtopics
+    val userProgress = viewModel.userSubtopicsProgress // per-user progress
     val isLoading = viewModel.isLoading
     val error = viewModel.error
-
     val scrollState = rememberScrollState()
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
+    val currentUser = FirebaseAuth.getInstance().currentUser
 
     Column(
         modifier = Modifier
@@ -70,8 +69,10 @@ fun QuestMapView(
             }
 
             else -> {
+                val userProgressMap = userProgress.associateBy { it.id }
+
                 val sortedTopics = topics.sortedBy { it.order }
-                sortedTopics.forEachIndexed { index, topic ->
+                sortedTopics.forEachIndexed { topicIndex, topic ->
                     val subtopicInfos: List<SubtopicInfo> = allSubtopics
                         .filter { it.topicId == topic.id }
                         .sortedBy { it.order }
@@ -86,12 +87,15 @@ fun QuestMapView(
                         }
                     )
 
-                    val isTopicUnlocked = if (index == 0) {
+                    val isTopicUnlocked = if (topicIndex == 0) {
                         true
                     } else {
-                        val prevTopic = sortedTopics[index - 1]
+                        val prevTopic = sortedTopics[topicIndex - 1]
                         val prevSubs = allSubtopics.filter { it.topicId == prevTopic.id }
-                        prevSubs.isNotEmpty() && prevSubs.all { it.completed }
+
+                        prevSubs.isNotEmpty() && prevSubs.all { s ->
+                            userProgressMap[s.id]?.completed == true
+                        }
                     }
 
                     subtopicInfos.forEachIndexed { subIndex, subtopic ->
@@ -99,15 +103,17 @@ fun QuestMapView(
                         val showActionButton = if (isFirstSubtopic) {
                             isTopicUnlocked
                         } else {
-                            subtopicInfos[subIndex - 1].completed
+                            val prevSub = subtopicInfos[subIndex - 1]
+                            userProgressMap[prevSub.id]?.completed == true
                         }
 
-                        val subtopicButtonText = if (subtopic.completed) "Review" else "Start"
+                        val isSubtopicCompleted = (userProgressMap[subtopic.id]?.completed == true)
+                        val buttonText = if (isSubtopicCompleted) "Review" else "Start"
 
                         LessonItem(
                             title = subtopic.name,
                             icon = Icons.Default.Code,
-                            buttonText = subtopicButtonText,
+                            buttonText = buttonText,
                             showActionButton = showActionButton,
                             onButtonClick = {
                                 if (showActionButton) {
@@ -144,6 +150,7 @@ fun TopicCard(
             if (icon != null) {
                 IconContainer(icon = icon)
             }
+
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(modifier = Modifier.weight(1f)) {
@@ -183,6 +190,7 @@ fun LessonItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconContainer(icon = icon)
+
         Spacer(modifier = Modifier.width(12.dp))
 
         Text(
