@@ -101,12 +101,12 @@ class LeaderboardViewModel : ViewModel() {
                 doc.toObject(Friend::class.java)
             }
             
-            val currentUserDoc = db.collection("users")
-                .document(currentUserId)
+            val querySnapshot = db.collection("users")
+                .whereEqualTo("uid", currentUserId)
                 .get()
                 .await()
             
-            val currentUser = currentUserDoc.toObject(User::class.java)
+            val currentUser = querySnapshot.documents.first().toObject(User::class.java)
             
             val allEntries = mutableListOf<LeaderboardEntry>()
             
@@ -124,12 +124,12 @@ class LeaderboardViewModel : ViewModel() {
             }
             
             for (friend in friends) {
-                val friendDoc = db.collection("users")
-                    .document(friend.friendId)
+                val querySnapshot = db.collection("users")
+                    .whereEqualTo("uid", friend.friendId)
                     .get()
                     .await()
-                
-                val friendUser = friendDoc.toObject(User::class.java)
+
+                val friendUser = querySnapshot.documents.first().toObject(User::class.java)
                 
                 if (friendUser != null) {
                     allEntries.add(

@@ -144,7 +144,7 @@ class FriendViewModel : ViewModel() {
                 
                 val existingFriends = db.collection("friends")
                     .whereEqualTo("userId", currentUser.uid)
-                    .whereEqualTo("friendId", receiverUser.userUUID)
+                    .whereEqualTo("friendEmail", receiverUser.email)
                     .get()
                     .await()
                 
@@ -167,7 +167,7 @@ class FriendViewModel : ViewModel() {
                     senderName = currentUserObj.userId,
                     senderEmail = currentUser.email ?: "",
                     senderProfilePictureUrl = currentUserObj.profilePictureUrl,
-                    receiverId = receiverUser.userUUID,
+//                    receiverId = receiverUser.userUUID,
                     receiverName = receiverUser.userId,
                     receiverEmail = receiverUser.email
                 )
