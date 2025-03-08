@@ -2,7 +2,7 @@ package com.uw.duocode.data.model
 
 data class User(
     val userId: String = "",
-    val userUUID: String = "",
+    val uid: String = "",
     val email: String = "",
     val profilePictureUrl: String? = null,
     val level: String = "Apprentice Coder", // Apprentice Coder → Data Dabbler → Algorithm Ace → Complexity Conqueror → DSA Dragonlord

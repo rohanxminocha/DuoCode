@@ -119,7 +119,7 @@ class AuthViewModel : ViewModel() {
         
         val newUser = User(
             userId = name,
-            userUUID = userId,
+            uid = userId,
             email = email,
             profilePictureUrl = profilePictureUrl
         )
