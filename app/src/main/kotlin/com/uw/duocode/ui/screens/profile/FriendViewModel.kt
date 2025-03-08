@@ -78,7 +78,7 @@ class FriendViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val requestsCollection = db.collection("friendRequests")
-                    .whereEqualTo("receiverId", currentUser.uid)
+                    .whereEqualTo("receiverEmail", currentUser.email)
                     .whereEqualTo("status", FriendRequestStatus.PENDING.name)
                     .orderBy("createdAt", Query.Direction.DESCENDING)
                     .get()
@@ -94,7 +94,7 @@ class FriendViewModel : ViewModel() {
             }
         }
     }
-    
+
     fun searchUserByEmail() {
         if (searchEmail.isBlank()) {
             searchResults = emptyList()
@@ -131,8 +131,8 @@ class FriendViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val existingRequests = db.collection("friendRequests")
-                    .whereEqualTo("senderId", currentUser.uid)
-                    .whereEqualTo("receiverId", receiverUser.userUUID)
+                    .whereEqualTo("senderEmail", currentUser.email)
+                    .whereEqualTo("receiverEmail", receiverUser.email)
                     .get()
                     .await()
                 
@@ -194,8 +194,8 @@ class FriendViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val requestQuery = db.collection("friendRequests")
-                    .whereEqualTo("senderId", request.senderId)
-                    .whereEqualTo("receiverId", currentUser.uid)
+                    .whereEqualTo("senderEmail", request.senderEmail)
+                    .whereEqualTo("receiverEmail", currentUser.email)
                     .whereEqualTo("status", FriendRequestStatus.PENDING.name)
                     .get()
                     .await()
@@ -250,8 +250,8 @@ class FriendViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val requestQuery = db.collection("friendRequests")
-                    .whereEqualTo("senderId", request.senderId)
-                    .whereEqualTo("receiverId", currentUser.uid)
+                    .whereEqualTo("senderEmail", request.senderEmail)
+                    .whereEqualTo("receiverEmail", currentUser.email)
                     .whereEqualTo("status", FriendRequestStatus.PENDING.name)
                     .get()
                     .await()

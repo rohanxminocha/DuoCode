@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uw.duocode.data.model.User
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
@@ -35,6 +36,18 @@ class ProfileViewModel : ViewModel() {
         loadUserData()
     }
     
+    /**
+     * Gets the user document reference by querying for the document where uid equals the current user's UID
+     */
+    private suspend fun getUserDocRef(uid: String): DocumentReference? {
+        val querySnapshot = db.collection("users").whereEqualTo("uid", uid).get().await()
+        return if (!querySnapshot.isEmpty) {
+            querySnapshot.documents.first().reference
+        } else {
+            null
+        }
+    }
+    
     fun loadUserData() {
         val currentUser = auth.currentUser ?: return
         
@@ -43,15 +56,12 @@ class ProfileViewModel : ViewModel() {
         
         viewModelScope.launch {
             try {
-                val userDoc = db.collection("users").document(currentUser.uid).get().await()
-                if (userDoc.exists()) {
-                    user = userDoc.toObject(User::class.java)
+                // Query for the user document where uid equals the current user's UID
+                val querySnapshot = db.collection("users").whereEqualTo("uid", currentUser.uid).get().await()
+                if (!querySnapshot.isEmpty) {
+                    user = querySnapshot.documents.first().toObject(User::class.java)
                 } else {
-                    // If user document doesn't exist, try querying by userUUID field
-                    val querySnapshot = db.collection("users").whereEqualTo("uid", currentUser.uid).get().await()
-                    if (!querySnapshot.isEmpty) {
-                        user = querySnapshot.documents.first().toObject(User::class.java)
-                    }
+                    errorMessage = "User document not found"
                 }
             } catch (e: Exception) {
                 errorMessage = "Failed to load user data: ${e.localizedMessage}"
@@ -68,44 +78,26 @@ class ProfileViewModel : ViewModel() {
         errorMessage = null
         
         viewModelScope.launch {
-
             var profilePictureUrl = ""
             
             try {
-
                 profilePictureUrl = ProfilePictureGenerator.uploadProfilePictureFromUri(
                     context = context,
                     userId = currentUser.uid,
                     imageUri = imageUri
                 )
                 
-
-                val userRef = db.collection("users").document(currentUser.uid)
-                userRef.update("profilePictureUrl", profilePictureUrl).await()
-                
-                user = user?.copy(profilePictureUrl = profilePictureUrl)
-                
-                onSuccess()
-            } catch (e: Exception) {
-                try {
-                    if (profilePictureUrl.isNotEmpty()) {
-                        val querySnapshot = db.collection("users").whereEqualTo("uid", currentUser.uid).get().await()
-                        if (!querySnapshot.isEmpty) {
-                            val docRef = querySnapshot.documents.first().reference
-                            docRef.update("profilePictureUrl", profilePictureUrl).await()
-                            
-                            user = user?.copy(profilePictureUrl = profilePictureUrl)
-                            
-                            onSuccess()
-                        } else {
-                            throw Exception("User document not found")
-                        }
-                    } else {
-                        throw Exception("Failed to upload profile picture")
-                    }
-                } catch (e2: Exception) {
-                    errorMessage = "Failed to update profile picture: ${e2.localizedMessage}"
+                // Get the user document reference
+                val userDocRef = getUserDocRef(currentUser.uid)
+                if (userDocRef != null) {
+                    userDocRef.update("profilePictureUrl", profilePictureUrl).await()
+                    user = user?.copy(profilePictureUrl = profilePictureUrl)
+                    onSuccess()
+                } else {
+                    throw Exception("User document not found")
                 }
+            } catch (e: Exception) {
+                errorMessage = "Failed to update profile picture: ${e.localizedMessage}"
             } finally {
                 isUpdatingProfilePicture = false
             }
@@ -129,32 +121,17 @@ class ProfileViewModel : ViewModel() {
                     name = displayName
                 )
                 
-                val userRef = db.collection("users").document(currentUser.uid)
-                userRef.update("profilePictureUrl", profilePictureUrl).await()
-                
-                user = user?.copy(profilePictureUrl = profilePictureUrl)
-                
-                onSuccess()
-            } catch (e: Exception) {
-                try {
-                    if (profilePictureUrl.isNotEmpty()) {
-                        val querySnapshot = db.collection("users").whereEqualTo("uid", currentUser.uid).get().await()
-                        if (!querySnapshot.isEmpty) {
-                            val docRef = querySnapshot.documents.first().reference
-                            docRef.update("profilePictureUrl", profilePictureUrl).await()
-                            
-                            user = user?.copy(profilePictureUrl = profilePictureUrl)
-                            
-                            onSuccess()
-                        } else {
-                            throw Exception("User document not found")
-                        }
-                    } else {
-                        throw Exception("Failed to generate profile picture")
-                    }
-                } catch (e2: Exception) {
-                    errorMessage = "Failed to generate new profile picture: ${e2.localizedMessage}"
+                // Get the user document reference
+                val userDocRef = getUserDocRef(currentUser.uid)
+                if (userDocRef != null) {
+                    userDocRef.update("profilePictureUrl", profilePictureUrl).await()
+                    user = user?.copy(profilePictureUrl = profilePictureUrl)
+                    onSuccess()
+                } else {
+                    throw Exception("User document not found")
                 }
+            } catch (e: Exception) {
+                errorMessage = "Failed to generate new profile picture: ${e.localizedMessage}"
             } finally {
                 isUpdatingProfilePicture = false
             }
