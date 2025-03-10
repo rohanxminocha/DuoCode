@@ -124,7 +124,13 @@ class AuthViewModel : ViewModel() {
             profilePictureUrl = profilePictureUrl
         )
         
-        userCollection.document(userId).set(newUser)
+        userCollection.add(newUser)
+            .addOnSuccessListener { documentReference ->
+                println("User document created with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                println("Error creating user document: ${e.message}")
+            }
     }
 
     fun sendResetPassword(onMessage: (String) -> Unit) {
