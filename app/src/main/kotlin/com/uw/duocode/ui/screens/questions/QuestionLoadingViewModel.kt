@@ -83,7 +83,6 @@ class QuestionLoadingViewModel : ViewModel() {
         val subtopicId = firstQuestion.subtopicId ?: return
         val threshold = 8
         val completed = (correctAnswerCount >= threshold)
-        println("updateUserSubtopicProgress() -> user=${user.uid}, subtopicId=$subtopicId, completed=$completed")
 
         val docRef = FirebaseFirestore.getInstance()
             .collection("users")
