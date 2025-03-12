@@ -7,7 +7,5 @@ data class TopicInfo(
     var id: String = "",
     var name: String = "",
     var order: Int = 0,
-    var iconKey: String = "code",
-    // val description: String,
-    var subtopics: MutableList<SubtopicInfo> = mutableListOf()
+    var iconKey: String = "code"
 )

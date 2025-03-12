@@ -28,7 +28,7 @@ fun ResultBanner(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(110.dp)
+            .height(150.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(0.dp)),
         contentAlignment = Alignment.TopStart
     ) {

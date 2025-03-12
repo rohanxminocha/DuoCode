@@ -2,33 +2,16 @@ package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.ResultBanner
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +68,7 @@ fun MultipleChoiceView(
                     .height(110.dp)
             ) {
                 CheckContinueButton(
-                    text = if (!answerChecked) "Check" else "Continue",
+                    text = if (!answerChecked) "CHECK" else "CONTINUE",
                     onClick = {
                         if (!answerChecked) {
                             viewModel.checkAnswer()
@@ -98,6 +82,7 @@ fun MultipleChoiceView(
                         .align(Alignment.BottomCenter)
                         .zIndex(1f)
                 )
+
                 if (answerChecked) {
                     ResultBanner(
                         isCorrect = isAnswerCorrect,
@@ -120,7 +105,7 @@ fun MultipleChoiceView(
             Text(
                 text = questionText,
                 fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
 
@@ -130,13 +115,14 @@ fun MultipleChoiceView(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item(options) { }
                 itemsIndexed(options) { index, option ->
-                    val isSelected = selectedOption == option
+                    val isSelected = (option == selectedOption)
+
                     val borderColor = if (!answerChecked) {
-                        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                        if (isSelected) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.outline
                     } else {
-                        val isCorrect = viewModel.correctAnswer.find { a -> a == index } != null
+                        val isCorrect = viewModel.correctAnswer.contains(index)
                         when {
                             isCorrect -> MaterialTheme.colorScheme.tertiary
                             isSelected && !isCorrect -> MaterialTheme.colorScheme.error
@@ -144,17 +130,20 @@ fun MultipleChoiceView(
                         }
                     }
 
-
                     OutlinedCard(
                         onClick = { viewModel.onOptionSelected(option) },
                         shape = RoundedCornerShape(12.dp),
-                        border = BorderStroke(1.dp, borderColor),
+                        border = BorderStroke(2.dp, borderColor),
                         colors = CardDefaults.outlinedCardColors(
-                            containerColor = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface
+                            containerColor =
+                            if (isSelected && !answerChecked) MaterialTheme.colorScheme.secondaryContainer
+                            else MaterialTheme.colorScheme.surface
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable(enabled = !answerChecked) { viewModel.onOptionSelected(option) }
+                            .clickable(enabled = !answerChecked) {
+                                viewModel.onOptionSelected(option)
+                            }
                     ) {
                         Box(
                             modifier = Modifier
@@ -165,7 +154,8 @@ fun MultipleChoiceView(
                         ) {
                             Text(
                                 text = option,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium
                             )
                         }
                     }

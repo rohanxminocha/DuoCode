@@ -8,13 +8,11 @@ import androidx.lifecycle.ViewModel
 class DragDropViewModel(
     val questionText: String,
     initialSteps: List<String>,
-    private val onQuestionCompleted: () -> Unit,
+    private val onQuestionCompleted: (Boolean) -> Unit,
     val progress: Float
 ) : ViewModel() {
 
-    var steps by mutableStateOf(
-        initialSteps.shuffled()
-    )
+    var steps by mutableStateOf(initialSteps.shuffled())
         private set
 
     private val correctOrder = initialSteps
@@ -41,9 +39,9 @@ class DragDropViewModel(
     }
 
     fun continueToNext() {
-        steps = listOf()
+        onQuestionCompleted(isAnswerCorrect)
+        steps = emptyList()
         answerChecked = false
         isAnswerCorrect = false
-        onQuestionCompleted()
     }
 }

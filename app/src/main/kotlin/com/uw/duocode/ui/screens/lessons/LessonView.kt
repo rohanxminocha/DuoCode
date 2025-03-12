@@ -14,7 +14,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -105,27 +104,6 @@ fun LessonView(
             )
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 16.dp),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate("questions/$subtopicId")
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                ) {
-                    Text("Begin Quest!")
-                }
-            }
-
-            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }

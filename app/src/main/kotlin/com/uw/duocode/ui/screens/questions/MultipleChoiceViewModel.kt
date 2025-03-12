@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
+
 class MultipleChoiceViewModel(
     val questionText: String,
     val options: List<String>,
     val correctAnswer: List<Int>,
-    private val onQuestionCompleted: () -> Unit,
+    private val onQuestionCompleted: (Boolean) -> Unit,
     val progress: Float
 ) : ViewModel() {
 
@@ -29,16 +30,16 @@ class MultipleChoiceViewModel(
     }
 
     fun checkAnswer() {
-        if (selectedOption != null && !answerChecked) {
+        if (!answerChecked && selectedOption != null) {
             answerChecked = true
-            isAnswerCorrect = correctAnswer.find { a -> a == options.indexOf(selectedOption) } != null
+            isAnswerCorrect = correctAnswer.contains(options.indexOf(selectedOption))
         }
     }
 
     fun continueToNext() {
+        onQuestionCompleted(isAnswerCorrect)
         selectedOption = null
         answerChecked = false
         isAnswerCorrect = false
-        onQuestionCompleted()
     }
 }

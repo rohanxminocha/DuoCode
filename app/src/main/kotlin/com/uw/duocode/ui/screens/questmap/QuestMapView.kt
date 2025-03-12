@@ -1,45 +1,28 @@
 package com.uw.duocode.ui.screens.questmap
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uw.duocode.data.model.SubtopicInfo
 import com.uw.duocode.ui.utils.getTopicIcon
 
 
@@ -48,14 +31,17 @@ fun QuestMapView(
     navController: NavHostController,
     viewModel: QuestMapViewModel = viewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.fetchData()
+    }
+
     val topics = viewModel.topics
+    val allSubtopics = viewModel.subtopics
+    val userProgress = viewModel.userSubtopicsProgress // per-user progress
     val isLoading = viewModel.isLoading
     val error = viewModel.error
-
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-
     val scrollState = rememberScrollState()
+    val currentUser = FirebaseAuth.getInstance().currentUser
 
     Column(
         modifier = Modifier
@@ -83,32 +69,56 @@ fun QuestMapView(
             }
 
             else -> {
-                val sortedTopics = topics.sortedBy { it.order }
+                val userProgressMap = userProgress.associateBy { it.id }
 
-                sortedTopics.forEach { topic ->
-                    val sortedSubtopics = topic.subtopics.sortedBy { it.order }
+                val sortedTopics = topics.sortedBy { it.order }
+                sortedTopics.forEachIndexed { topicIndex, topic ->
+                    val subtopicInfos: List<SubtopicInfo> = allSubtopics
+                        .filter { it.topicId == topic.id }
+                        .sortedBy { it.order }
 
                     TopicCard(
                         title = topic.name,
                         icon = getTopicIcon(topic.iconKey),
                         onButtonClick = {
-                            navController.navigate("lessons/${topic.id}/${sortedSubtopics.firstOrNull()?.id}")
+                            subtopicInfos.firstOrNull()?.let { firstSubtopic ->
+                                navController.navigate("lessons/${topic.id}/${firstSubtopic.id}")
+                            }
                         }
                     )
 
-                    sortedSubtopics.forEachIndexed { index, subtopic ->
-                        val showActionButton = if (index == 0) {
-                            true
-                        } else {
-                            sortedSubtopics[index - 1].isCompleted
+                    val isTopicUnlocked = if (topicIndex == 0) {
+                        true
+                    } else {
+                        val prevTopic = sortedTopics[topicIndex - 1]
+                        val prevSubs = allSubtopics.filter { it.topicId == prevTopic.id }
+
+                        prevSubs.isNotEmpty() && prevSubs.all { s ->
+                            userProgressMap[s.id]?.completed == true
                         }
+                    }
+
+                    subtopicInfos.forEachIndexed { subIndex, subtopic ->
+                        val isFirstSubtopic = (subIndex == 0)
+                        val showActionButton = if (isFirstSubtopic) {
+                            isTopicUnlocked
+                        } else {
+                            val prevSub = subtopicInfos[subIndex - 1]
+                            userProgressMap[prevSub.id]?.completed == true
+                        }
+
+                        val isSubtopicCompleted = (userProgressMap[subtopic.id]?.completed == true)
+                        val buttonText = if (isSubtopicCompleted) "Review" else "Start"
 
                         LessonItem(
                             title = subtopic.name,
                             icon = Icons.Default.Code,
+                            buttonText = buttonText,
                             showActionButton = showActionButton,
                             onButtonClick = {
-                                navController.navigate("questions/${subtopic.id}")
+                                if (showActionButton) {
+                                    navController.navigate("questions/${subtopic.id}")
+                                }
                             }
                         )
                     }
@@ -150,7 +160,6 @@ fun TopicCard(
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
-
             Spacer(modifier = Modifier.width(8.dp))
 
             Button(
@@ -194,10 +203,15 @@ fun LessonItem(
             Button(
                 onClick = onButtonClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor =
+                    if (buttonText == "Review") MaterialTheme.colorScheme.secondaryContainer
+                    else MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
+                if (buttonText == "Start") {
+                    Spacer(modifier = Modifier.width(4.dp))
+                }
                 Text(text = buttonText)
             }
         }

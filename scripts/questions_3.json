@@ -41,9 +41,9 @@
         "questionType": "MATCHING",
         "difficulty": "MEDIUM",
         "matches": {
-            "Fixed Size": "Size is determined during initialization",
-            "Contiguous Memory": "Elements stored in adjacent memory",
-            "Random Access": "Allows accessing any element in constant time"
+            "Fixed Size": "Size is determined at initialization",
+            "Contiguous Memory": "Elements stored adjacently",
+            "Random Access": "Allows accessing any element in O(1)"
         },
         "subtopicId": "3KFDkaMUldzOYB265HhU"
     },
@@ -92,7 +92,7 @@
         "matches": {
             "Index": "Position identifier for elements",
             "Boundary": "Limits of the array",
-            "Contiguous Block": "Memory section where elements reside"
+            "Contiguous Block": "Memory section for elements"
         },
         "subtopicId": "3KFDkaMUldzOYB265HhU"
     },
