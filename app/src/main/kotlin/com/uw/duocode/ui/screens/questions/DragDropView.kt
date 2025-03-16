@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
+import com.uw.duocode.ui.components.QuestionTopBar
 import com.uw.duocode.ui.components.ResultBanner
 import sh.calvin.reorderable.ReorderableColumn
 
@@ -39,27 +40,9 @@ fun DragDropView(
 
     Scaffold(
         topBar = {
-            SmallTopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 30.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                        ProgressBar(
-                            progress = progress,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
+            QuestionTopBar(
+                navController = navController,
+                progress = progress
             )
         },
         bottomBar = {
@@ -130,7 +113,6 @@ fun DragDropView(
                         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(80.dp)
                             .then(
                                 if (!answerChecked)
                                     Modifier.draggableHandle(
@@ -145,12 +127,15 @@ fun DragDropView(
                             )
                     ) {
                         Box(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(18.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = step,
                                 fontSize = 18.sp,
+                                modifier = Modifier.padding(vertical = 8.dp),
                                 fontWeight = FontWeight.Medium
                             )
                         }
