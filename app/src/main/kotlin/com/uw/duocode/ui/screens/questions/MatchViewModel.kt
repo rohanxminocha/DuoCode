@@ -3,6 +3,7 @@ package com.uw.duocode.ui.screens.questions
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -18,6 +19,22 @@ class MatchViewModel(
     private val onQuestionCompleted: (Boolean) -> Unit,
     val progress: Float
 ) : ViewModel() {
+    private val matchColors = listOf(
+        Color(0xFFFF9800), // Orange
+        Color(0xFF4CAF50), // Green
+        Color(0xFFFFEB3B), // Yellow
+        Color(0xFF03A9F4), // Light Blue
+        Color(0xFFE91E63), // Pink
+        Color(0xFF00BCD4), // Cyan
+        Color(0xFFFF5722), // Deep Orange
+        Color(0xFF8BC34A)  // Light Green
+    )
+    
+    private val pairColorMap = mutableMapOf<Pair<Int, Int>, Color>()
+    
+    private var currentColorIndex = 0
+    
+    private val tempSelectionColorMap = mutableMapOf<Int, Color>()
 
     // shuffle match options
     val shuffledKeys = correctPairs.keys.mapIndexed{ index, item -> NamedPair(index, item) }.shuffled()
@@ -38,6 +55,17 @@ class MatchViewModel(
 
     var showErrorDialog by mutableStateOf(false)
         private set
+        
+    fun getItemColor(index: Int, isKey: Boolean): Color? {
+        if (selectedItem?.index == index && selectedItem?.isKey == isKey) {
+            return tempSelectionColorMap[index]
+        }
+        val matchedPair = pairColorMap.keys.find { pair ->
+            (pair.first == index && isKey) || (pair.second == index && !isKey)
+        }
+        
+        return matchedPair?.let { pairColorMap[it] }
+    }
 
     // states to match the check/continue flow
     var answerChecked by mutableStateOf(false)
@@ -52,34 +80,58 @@ class MatchViewModel(
         if (answerChecked) return
 
         val index = namedItem.index
+        val currentItem = namedItem.item
 
-        if ((correctKeys.contains(index) && currentIsKey) ||
-            (correctValues.contains(index) && !currentIsKey)
-        ) return
-
-        when (selectedItem) {
-            null -> {
-                selectedItem = PairSelectedItem(index, namedItem.item, currentIsKey)
+        if ((correctKeys.contains(index) && currentIsKey) || (correctValues.contains(index) && !currentIsKey)) return
+        when {
+            // no item selected yet
+            selectedItem == null -> {
+                val nextColor = matchColors[currentColorIndex % matchColors.size]
+                tempSelectionColorMap[index] = nextColor
+                
+                selectedItem = PairSelectedItem(index, currentItem, currentIsKey)
             }
-            PairSelectedItem(index, namedItem.item, currentIsKey) -> {
+
+            selectedItem == PairSelectedItem(index, currentItem, currentIsKey) -> {
+                tempSelectionColorMap.remove(index)
+                
                 selectedItem = null
             }
-            // check for existing selection
+
             else -> {
                 val previous = selectedItem!!
                 val previousIndex = previous.index
 
                 if (previous.isKey == currentIsKey) {
-                    selectedItem = PairSelectedItem(index, namedItem.item, currentIsKey)
+                    tempSelectionColorMap.remove(previousIndex)
+                    
+                    val nextColor = matchColors[currentColorIndex % matchColors.size]
+                    tempSelectionColorMap[index] = nextColor
+                    
+                    selectedItem = PairSelectedItem(index, currentItem, currentIsKey)
                 } else {
-                    val matched = checkIsMatch(previous, namedItem, currentIsKey)
-                    if (matched) {
-                        correctKeys += if (previous.isKey) previousIndex else index
-                        correctValues += if (previous.isKey) index else previousIndex
+                    val matches = checkIsMatch(previous, namedItem, currentIsKey)
+                    
+                    if (matches) {
+                        correctKeys += if (previous.isKey) previous.index else index
+                        correctValues += if (previous.isKey) index else previous.index
+                        
+                        val keyIndex = if (previous.isKey) previous.index else index
+                        val valueIndex = if (previous.isKey) index else previous.index
+                        val matchColor = tempSelectionColorMap[previous.index] ?: matchColors[currentColorIndex % matchColors.size]
+                        
+                        pairColorMap[Pair(keyIndex, valueIndex)] = matchColor
+                        
+                        tempSelectionColorMap.remove(previous.index)
+                        
+                        currentColorIndex++
+                        
                         selectedItem = null
                     } else {
-                        // invalid match: show error dialog
                         showErrorDialog = true
+                        
+                        tempSelectionColorMap.remove(previous.index)
+                        
                         viewModelScope.launch {
                             selectedItem = null
                             delay(2000) // dismiss after 2s
@@ -92,12 +144,19 @@ class MatchViewModel(
     }
 
     private fun checkIsMatch(previous: PairSelectedItem, current: NamedPair, currentIsKey: Boolean): Boolean {
-        return if (currentIsKey) {
-            val possibleMatches = correctPairs.entries.filter { it.value == previous.item }
-            possibleMatches.any { it.key == current.item }
-        } else {
-            val correctValue = correctPairs[previous.item]
-            correctValue == current.item
+        // If previous is a key and current is a value
+        return if (previous.isKey && !currentIsKey) {
+            // Check if the current value matches the value for the previous key
+            correctPairs[previous.item] == current.item
+        } 
+        // If previous is a value and current is a key
+        else if (!previous.isKey && currentIsKey) {
+            // Check if the current key's value matches the previous value
+            correctPairs[current.item] == previous.item
+        } 
+        else {
+            // Both are keys or both are values - no match
+            false
         }
     }
 

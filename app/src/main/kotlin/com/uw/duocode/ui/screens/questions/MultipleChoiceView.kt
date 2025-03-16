@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
+import com.uw.duocode.ui.components.QuestionTopBar
 import com.uw.duocode.ui.components.ResultBanner
 
 
@@ -38,27 +39,9 @@ fun MultipleChoiceView(
 
     Scaffold(
         topBar = {
-            SmallTopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 30.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                        ProgressBar(
-                            progress = progress,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
+            QuestionTopBar(
+                navController = navController,
+                progress = progress
             )
         },
         bottomBar = {
@@ -148,13 +131,13 @@ fun MultipleChoiceView(
                         Box(
                             modifier = Modifier
                                 .padding(18.dp)
-                                .height(50.dp)
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             Text(
                                 text = option,
                                 fontSize = 16.sp,
+                                modifier = Modifier.padding(vertical = 8.dp),
                                 fontWeight = FontWeight.Medium
                             )
                         }

@@ -12,6 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,8 +22,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
+import com.uw.duocode.ui.components.QuestionTopBar
 import com.uw.duocode.ui.components.ResultBanner
 
+// function to determine if a color is dark (for text contrast)
+private fun isColorDark(color: Color): Boolean {
+    // luminance - a value of 0.5 or higher is considered light
+    return color.luminance() < 0.5
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,27 +49,9 @@ fun MatchView(
 
     Scaffold(
         topBar = {
-            SmallTopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 30.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                        ProgressBar(
-                            progress = progress,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
+            QuestionTopBar(
+                navController = navController,
+                progress = progress
             )
         },
         bottomBar = {
@@ -127,51 +117,58 @@ fun MatchView(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 itemsIndexed(items) { index, item ->
                     val isKey = index % 2 == 0
                     val isSelected = selectedItem?.index == item.index && selectedItem.isKey == isKey
                     val isMatched = (correctKeys.contains(item.index) && isKey) || (correctValues.contains(item.index) && !isKey)
 
+                    val itemColor = matchViewModel.getItemColor(item.index, isKey)
+                    
                     val containerColor = when {
-                        isMatched -> {
-                            val pairList = matchViewModel.correctPairs.entries.toList()
-                            val pairIndex = pairList.indexOfFirst { (k, v) ->
-                                k == item.item || v == item.item
-                            }
-                            val alpha = if (pairIndex >= 0) 1f - 0.25f * pairIndex else 1f
-                            MaterialTheme.colorScheme.primary.copy(alpha = alpha)
-                        }
-
+                        itemColor != null -> itemColor
                         isSelected -> MaterialTheme.colorScheme.secondaryContainer
                         else -> MaterialTheme.colorScheme.surface
+                    }
+                    
+                    val textColor = if (itemColor != null) {
+                        if (isColorDark(itemColor)) Color.White else Color.Black
+                    } else if (isSelected) {
+                        MaterialTheme.colorScheme.onSecondaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     }
 
                     OutlinedCard(
                         onClick = if (!isMatched) { { matchViewModel.onItemClicked(item, isKey) } } else { {} },
                         shape = RoundedCornerShape(12.dp),
                         border = BorderStroke(
-                            2.dp,
-                            if (isMatched) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                            1.dp,
+                            if (isMatched) itemColor ?: MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                         ),
                         colors = CardDefaults.outlinedCardColors(
                             containerColor = containerColor
                         ),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
                     ) {
                         Box(
                             modifier = Modifier
-                                .padding(18.dp)
-                                .height(50.dp)
-                                .fillMaxWidth(),
+                                .fillMaxSize()
+                                .padding(18.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = item.item,
                                 fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium
+                                color = textColor,
+                                fontWeight = FontWeight.Medium,
+                                maxLines = 3,
+                                lineHeight = 20.sp,
+                                modifier = Modifier.padding(horizontal = 4.dp)
                             )
                         }
                     }
