@@ -69,7 +69,7 @@ fun MatchView(
                             matchViewModel.continueToNext()
                         }
                     },
-                    enabled = true,
+                    enabled = if (!answerChecked) matchViewModel.allMatchesMade else true,
                     containerColor = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -79,7 +79,7 @@ fun MatchView(
                 if (answerChecked) {
                     ResultBanner(
                         isCorrect = isAnswerCorrect,
-                        message = if (isAnswerCorrect) "Correct!" else "Incorrect! Try Again",
+                        message = if (isAnswerCorrect) "Correct!" else "Incorrect!",
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .zIndex(0f)
@@ -87,7 +87,7 @@ fun MatchView(
                 } else if (showErrorDialog) {
                     ResultBanner(
                         isCorrect = false,
-                        message = "Incorrect! Try Again",
+                        message = "Incorrect!",
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .zIndex(0f)
