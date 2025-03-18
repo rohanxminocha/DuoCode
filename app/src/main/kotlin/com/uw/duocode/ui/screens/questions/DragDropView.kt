@@ -3,8 +3,6 @@ package com.uw.duocode.ui.screens.questions
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
@@ -19,10 +17,10 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
-import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.components.QuestionTopBar
 import com.uw.duocode.ui.components.ResultBanner
 import sh.calvin.reorderable.ReorderableColumn
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,7 +132,7 @@ fun DragDropView(
                         ) {
                             Text(
                                 text = step,
-                                fontSize = 18.sp,
+                                fontSize = 16.sp,
                                 modifier = Modifier.padding(vertical = 8.dp),
                                 fontWeight = FontWeight.Medium
                             )
