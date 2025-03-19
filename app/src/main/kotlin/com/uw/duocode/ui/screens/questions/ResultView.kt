@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +26,6 @@ import androidx.navigation.NavHostController
 import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.navigation.Home
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,26 +84,50 @@ fun ResultView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(40.dp))
+            
+            Box(
+                modifier = Modifier.size(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    progress = 1f,
+                    modifier = Modifier.size(200.dp),
+                    strokeWidth = 12.dp,
+                    color = MaterialTheme.colorScheme.surfaceVariant
+                )
+
+                CircularProgressIndicator(
+                    progress = viewModel.percentage,
+                    modifier = Modifier.size(200.dp),
+                    strokeWidth = 12.dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "${(viewModel.percentage * 100).toInt()}%",
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+            
             Text(
                 text = viewModel.title,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
+            
             Text(
                 text = viewModel.message,
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
-            Image(
-                painter = painterResource(viewModel.imageResId),
-                contentDescription = "Result Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 50.dp),
-                contentScale = ContentScale.FillWidth
-            )
+            
+            Spacer(modifier = Modifier.height(32.dp))
+
         }
     }
 }

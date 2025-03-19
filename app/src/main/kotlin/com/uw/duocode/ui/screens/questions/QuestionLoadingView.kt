@@ -46,7 +46,15 @@ fun QuestionLoadingView(
 
         viewModel.currentQuestionIndex >= viewModel.questions.size -> {
             // Navigate to the results screen when done
-            ResultView(navController = navController)
+            ResultView(
+                navController = navController,
+                viewModel = remember {
+                    ResultViewModel(
+                        correctAnswerCount = viewModel.correctAnswerCount,
+                        totalQuestions = viewModel.questions.size
+                    )
+                }
+            )
         }
 
         else -> {

@@ -30,7 +30,7 @@ class QuestionLoadingViewModel : ViewModel() {
     var currentQuestionIndex by mutableIntStateOf(0)
         private set
 
-    private var correctAnswerCount by mutableIntStateOf(0)
+    var correctAnswerCount by mutableIntStateOf(0)
 
     fun loadQuestions(subtopicId: String) {
         isLoading = true
