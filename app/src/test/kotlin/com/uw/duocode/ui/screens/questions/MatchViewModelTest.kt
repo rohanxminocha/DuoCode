@@ -40,7 +40,7 @@ class MatchViewModelTest {
         assertEquals(0, viewModel.correctKeys.size)
         assertEquals(0, viewModel.correctValues.size)
         assertFalse(viewModel.showErrorDialog)
-        assertFalse(viewModel.allMatchesCorrect)
+        assertFalse(viewModel.allMatchesMade)
         
         assertEquals(4, viewModel.shuffledKeys.size)
         assertEquals(4, viewModel.shuffledValues.size)
@@ -100,7 +100,7 @@ class MatchViewModelTest {
     
     @Test
     fun testAllMatchesCorrect() {
-        assertFalse(viewModel.allMatchesCorrect)
+        assertFalse(viewModel.allMatchesMade)
         
         for (keyItem in viewModel.shuffledKeys) {
             val keyValue = keyItem.item
@@ -112,7 +112,7 @@ class MatchViewModelTest {
             viewModel.onItemClicked(valueItem, false)
         }
         
-        assertTrue(viewModel.allMatchesCorrect)
+        assertTrue(viewModel.allMatchesMade)
         assertEquals(viewModel.shuffledKeys.size, viewModel.correctKeys.size)
         assertEquals(viewModel.shuffledValues.size, viewModel.correctValues.size)
     }
