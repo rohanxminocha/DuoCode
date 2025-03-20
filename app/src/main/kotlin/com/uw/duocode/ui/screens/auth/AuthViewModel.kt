@@ -9,8 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uw.duocode.data.model.User
+import com.uw.duocode.data.model.UserSubtopicProgress
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
 import kotlinx.coroutines.launch
+
 
 class AuthViewModel : ViewModel() {
 
@@ -50,29 +52,28 @@ class AuthViewModel : ViewModel() {
                 .addOnSuccessListener { authResult ->
                     val user = authResult.user
                     if (user != null) {
-                        // Update display name after successful sign-up
-                        val profileUpdates = com.google.firebase.auth.userProfileChangeRequest {
-                            displayName = name
-                        }
-                        
+                        val profileUpdates =
+                            com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .build()
+
                         user.updateProfile(profileUpdates)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     viewModelScope.launch {
                                         try {
-                                            val profilePictureUrl = ProfilePictureGenerator.generateAndUploadProfilePicture(
-                                                context = context,
-                                                userId = user.uid,
-                                                name = name.ifEmpty { email }
-                                            )
-                                            
+                                            val profilePictureUrl =
+                                                ProfilePictureGenerator.generateAndUploadProfilePicture(
+                                                    context = context,
+                                                    userId = user.uid,
+                                                    name = name.ifEmpty { email }
+                                                )
                                             createUserInFirestore(
                                                 userId = user.uid,
                                                 email = email,
                                                 name = name,
                                                 profilePictureUrl = profilePictureUrl
                                             )
-                                            
                                             isLoading = false
                                             onMessage("Successfully created account")
                                             onSuccess()
@@ -83,7 +84,6 @@ class AuthViewModel : ViewModel() {
                                                 name = name,
                                                 profilePictureUrl = null
                                             )
-                                            
                                             isLoading = false
                                             onMessage("Account created but couldn't generate profile picture")
                                             onSuccess()
@@ -116,20 +116,44 @@ class AuthViewModel : ViewModel() {
     ) {
         val db = FirebaseFirestore.getInstance()
         val userCollection = db.collection("users")
-        
         val newUser = User(
             userId = name,
             uid = userId,
             email = email,
             profilePictureUrl = profilePictureUrl
         )
-        
-        userCollection.add(newUser)
-            .addOnSuccessListener { documentReference ->
-                println("User document created with ID: ${documentReference.id}")
+        userCollection.document(userId).set(newUser)
+            .addOnSuccessListener {
+                prepopulateUserSubtopicProgress(userId) // prepopulate progress records for all subtopics
             }
             .addOnFailureListener { e ->
-                println("Error creating user document: ${e.message}")
+                println("Error creating user document for UID: $userId, error: ${e.message}")
+            }
+    }
+
+    private fun prepopulateUserSubtopicProgress(userId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("subtopics")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                querySnapshot.documents.forEach { doc ->
+                    val subtopicId = doc.id
+                    val progress = UserSubtopicProgress(
+                        id = subtopicId,
+                        completed = false,
+                        correctAnswers = 0
+                    )
+                    db.collection("users").document(userId)
+                        .collection("subtopics")
+                        .document(subtopicId)
+                        .set(progress)
+                        .addOnFailureListener { e ->
+                            println("Failed to prepopulate progress for subtopic: $subtopicId, error: ${e.message}")
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                println("Error fetching subtopics for prepopulation: ${e.message}")
             }
     }
 
@@ -138,9 +162,9 @@ class AuthViewModel : ViewModel() {
         if (email.isNotBlank()) {
             isLoading = true
             auth.sendPasswordResetEmail(email)
-                .addOnSuccessListener { 
+                .addOnSuccessListener {
                     isLoading = false
-                    onMessage("Password reset email sent") 
+                    onMessage("Password reset email sent")
                 }
                 .addOnFailureListener { e ->
                     isLoading = false

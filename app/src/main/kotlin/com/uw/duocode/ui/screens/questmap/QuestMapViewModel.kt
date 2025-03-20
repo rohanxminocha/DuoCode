@@ -38,25 +38,17 @@ class QuestMapViewModel : ViewModel() {
     fun fetchData() {
         isLoading = true
         error = null
-
         viewModelScope.launch {
             val db = FirebaseFirestore.getInstance()
             try {
                 val topicsRef = db.collection("topics")
                 val subtopicsRef = db.collection("subtopics")
-
                 topicsRef.get()
                     .addOnSuccessListener { topicsResult ->
-                        val fetchedTopics = topicsResult.map { it.toObject<TopicInfo>() }
-
+                        topics = topicsResult.map { it.toObject<TopicInfo>() }
                         subtopicsRef.get()
                             .addOnSuccessListener { subtopicsResult ->
-                                val fetchedSubtopics =
-                                    subtopicsResult.map { it.toObject<SubtopicInfo>() }
-
-                                topics = fetchedTopics
-                                subtopics = fetchedSubtopics
-
+                                subtopics = subtopicsResult.map { it.toObject<SubtopicInfo>() }
                                 fetchUserSubtopicProgress()
                             }
                             .addOnFailureListener { e ->
@@ -81,7 +73,6 @@ class QuestMapViewModel : ViewModel() {
             isLoading = false
             return
         }
-
         val db = FirebaseFirestore.getInstance()
         val userSubtopicsRef = db.collection("users")
             .document(user.uid)
