@@ -138,7 +138,8 @@ fun SettingsView(
                             FirebaseAuth.getInstance().signOut()
                             navController.navigate(AUTH)
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Text("Sign Out")
                     }
