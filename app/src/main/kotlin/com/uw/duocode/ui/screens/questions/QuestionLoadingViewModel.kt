@@ -33,7 +33,7 @@ class QuestionLoadingViewModel : ViewModel() {
 
     var correctAnswerCount by mutableIntStateOf(0)
 
-    private var totalQuizTimeSeconds by mutableLongStateOf(0L)
+    var totalQuizTimeSeconds by mutableLongStateOf(0L)
 
     private var questionStartTime: Long = System.currentTimeMillis()
 
@@ -243,6 +243,41 @@ class QuestionLoadingViewModel : ViewModel() {
                                 }
                         }
                 }
+        }
+    }
+
+    private fun updateDailyStreak() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("users").document(currentUser.uid)
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val todayMidnight = calendar.timeInMillis
+        val yesterdayMidnight = todayMidnight - 24 * 60 * 60 * 1000L
+
+        userRef.get().addOnSuccessListener { userDoc ->
+            val lastStreakDate = userDoc.getLong("lastStreakDate") ?: 0L
+            val currentStreak = (userDoc.getLong("currentStreak") ?: 0L).toInt()
+            val longestStreak = (userDoc.getLong("longestStreak") ?: 0L).toInt()
+
+            if (lastStreakDate >= todayMidnight) {
+                return@addOnSuccessListener
+            }
+
+            val newCurrentStreak = if (lastStreakDate >= yesterdayMidnight) currentStreak + 1 else 1
+            val newLongestStreak =
+                if (newCurrentStreak > longestStreak) newCurrentStreak else longestStreak
+
+            userRef.update(
+                "currentStreak", newCurrentStreak,
+                "longestStreak", newLongestStreak,
+                "lastStreakDate", todayMidnight
+            )
         }
     }
 }

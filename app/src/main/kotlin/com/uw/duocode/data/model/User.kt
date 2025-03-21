@@ -5,10 +5,10 @@ data class User(
     val uid: String = "",
     val email: String = "",
     val profilePictureUrl: String? = null,
-    val level: String = "Apprentice Coder", // Apprentice Coder → Data Dabbler → Algorithm Ace → Complexity Conqueror → DSA Dragonlord
+    val level: String = "Apprentice Coder",
     val currentStreak: Int = 0,
     val longestStreak: Int = 0,
-    val completedQuests: List<String> = emptyList(),
+    val lastStreakDate: Long = 0L,
     val lastLogin: Long = System.currentTimeMillis(),
     val notificationEnabled: Boolean = true,
     val totalQuestionsAttempted: Int = 0,
