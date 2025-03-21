@@ -33,7 +33,7 @@ class QuestionLoadingViewModel : ViewModel() {
 
     var correctAnswerCount by mutableIntStateOf(0)
 
-    private var totalQuizTimeSeconds by mutableLongStateOf(0L)
+    var totalQuizTimeSeconds by mutableLongStateOf(0L)
 
     private var questionStartTime: Long = System.currentTimeMillis()
 
