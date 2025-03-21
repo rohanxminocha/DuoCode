@@ -2,6 +2,7 @@ package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -32,11 +33,19 @@ class QuestionLoadingViewModel : ViewModel() {
 
     var correctAnswerCount by mutableIntStateOf(0)
 
+    private var totalQuizTimeSeconds by mutableLongStateOf(0L)
+
+    private var questionStartTime: Long = System.currentTimeMillis()
+
+    private var lastQuestionCorrect by mutableStateOf(false)
+
     fun loadQuestions(subtopicId: String) {
         isLoading = true
         error = null
         currentQuestionIndex = 0
         correctAnswerCount = 0
+        totalQuizTimeSeconds = 0L
+        questionStartTime = System.currentTimeMillis()
 
         FirebaseFirestore.getInstance()
             .collection("questions")
@@ -60,6 +69,7 @@ class QuestionLoadingViewModel : ViewModel() {
     }
 
     fun onQuestionCompleted(isCorrect: Boolean) {
+        lastQuestionCorrect = isCorrect
         if (isCorrect) correctAnswerCount++
         moveToNextQuestion()
 
@@ -86,24 +96,38 @@ class QuestionLoadingViewModel : ViewModel() {
             set(Calendar.MILLISECOND, 0)
         }
         val todayMidnight = calendar.timeInMillis
+
+        val timeSpentMillis = System.currentTimeMillis() - questionStartTime
+        val timeSpentForQuestionMinutes = timeSpentMillis.toDouble() / (1000 * 60)
+        totalQuizTimeSeconds += timeSpentMillis / 1000
+
         userQuery.get().addOnSuccessListener { querySnapshot ->
             if (!querySnapshot.isEmpty) {
                 val userDoc = querySnapshot.documents.first()
                 val userDocRef = userDoc.reference
                 val lastQuestCompletedDate = userDoc.getLong("lastQuestCompletedDate") ?: 0L
+
+                val correctIncrement = if (lastQuestionCorrect) 1 else 0
+
                 if (lastQuestCompletedDate < todayMidnight) {
                     userDocRef.update(
                         "questionsCompletedToday", 1,
                         "lastQuestCompletedDate", System.currentTimeMillis(),
-                        "totalQuestionsAttempted", FieldValue.increment(1)
+                        "totalQuestionsAttempted", FieldValue.increment(1),
+                        "totalCorrectAnswers", correctIncrement,
+                        "totalTimeSpentInMinutes", FieldValue.increment(timeSpentForQuestionMinutes)
                     )
                 } else {
                     userDocRef.update(
                         "questionsCompletedToday", FieldValue.increment(1),
                         "lastQuestCompletedDate", System.currentTimeMillis(),
-                        "totalQuestionsAttempted", FieldValue.increment(1)
+                        "totalQuestionsAttempted", FieldValue.increment(1),
+                        "totalCorrectAnswers", FieldValue.increment(correctIncrement.toLong()),
+                        "totalTimeSpentInMinutes", FieldValue.increment(timeSpentForQuestionMinutes)
                     )
                 }
+
+                questionStartTime = System.currentTimeMillis()  // reset timer for next question
             }
         }
     }
