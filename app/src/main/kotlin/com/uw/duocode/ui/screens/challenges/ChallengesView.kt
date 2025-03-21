@@ -60,54 +60,23 @@ import com.uw.duocode.ui.components.ProgressBar
 
 @Composable
 fun ChallengesView(
-    leaderboardViewModel: LeaderboardViewModel = viewModel()
+    leaderboardViewModel: LeaderboardViewModel = viewModel(),
+    challengesViewModel: ChallengesViewModel = viewModel()
 ) {
     var showLeaderboardDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         leaderboardViewModel.loadLeaderboards()
+        challengesViewModel.loadChallenges()
     }
 
-    //hard coded data, will be made mutable state / handled by viewModel in next sprint
+    //hard coded data for month + progress
     val currentMonth = "March"
-    val progress = 6f/31f
-    val dummyChallenges = listOf(
-        ChallengeData(
-            title = "Arrays & Hashing Beginner",
-            subTitle = "Complete the Arrays and Hashing lesson",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Arrays & Hashing Expert",
-            subTitle = "Finish 10 Arrays and Hashing questions",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Linked Lists Beginner",
-            subTitle = "Complete the Linked Lists lesson",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Linked Lists Intermediate",
-            subTitle = "Finish 5 Linked Lists questions",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Linked Lists Expert",
-            subTitle = "Finish 10 Linked Lists questions",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Binary Search Intermediate",
-            subTitle = "Finish 5 Binary Search questions",
-            buttonText = "Start"
-        ),
-        ChallengeData(
-            title = "Binary Search Expert",
-            subTitle = "Finish 10 Binary Search questions",
-            buttonText = "Start"
-        )
-    )
+    val progress = 21f/31f
+    val challenges = challengesViewModel.challenges
+
+    val completedChallenges = challenges.filter { it.isCompleted }
+    val availableChallenges = challenges.filter { !it.isCompleted }
 
     if (showLeaderboardDialog) {
         Dialog(
@@ -448,7 +417,7 @@ fun ChallengesView(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "6/31 days",
+                    text = "21/31 days",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -462,16 +431,39 @@ fun ChallengesView(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(600.dp) // Fixed height for the LazyColumn
+                .height(600.dp)
         ) {
-            items(dummyChallenges){ challenge ->
-                ChallengeItem(
-                    title = challenge.title,
-                    subTitle = challenge.subTitle,
-                    buttonText = challenge.buttonText,
-                    onButtonClick = {},
-                    icon = Icons.Default.Quiz
-                )
+            if (completedChallenges.isNotEmpty()) {
+                item {
+                    Text(
+                        text = "Completed Challenges",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                items(completedChallenges) { challenge ->
+                    ChallengeItem(
+                        title = challenge.title,
+                        subTitle = challenge.subTitle,
+                        icon = Icons.Default.Quiz
+                    )
+                }
+            }
+            if (availableChallenges.isNotEmpty()) {
+                item {
+                    Text(
+                        text = "Available Challenges",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                items(availableChallenges) { challenge ->
+                    ChallengeItem(
+                        title = challenge.title,
+                        subTitle = challenge.subTitle,
+                        icon = Icons.Default.Quiz
+                    )
+                }
             }
         }
     }
@@ -481,8 +473,6 @@ fun ChallengesView(
 fun ChallengeItem(
     title: String,
     subTitle: String,
-    buttonText: String,
-    onButtonClick: () -> Unit,
     icon: ImageVector
 ) {
     Surface(
@@ -526,22 +516,9 @@ fun ChallengeItem(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Button(
-                onClick = onButtonClick,
-                shape = RoundedCornerShape(50)
-            ) {
-                Text(buttonText)
-            }
         }
     }
 }
-
-//Move to viewModel when implemented
-data class ChallengeData(
-    val title: String,
-    val subTitle: String,
-    val buttonText: String
-)
 
 private fun getInitials(name: String): String {
     return if (name.contains("@")) {
