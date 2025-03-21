@@ -2,6 +2,7 @@ package com.uw.duocode.ui.screens.questions
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -32,11 +33,19 @@ class QuestionLoadingViewModel : ViewModel() {
 
     var correctAnswerCount by mutableIntStateOf(0)
 
+    private var totalQuizTimeSeconds by mutableLongStateOf(0L)
+
+    private var questionStartTime: Long = System.currentTimeMillis()
+
+    private var lastQuestionCorrect by mutableStateOf(false)
+
     fun loadQuestions(subtopicId: String) {
         isLoading = true
         error = null
         currentQuestionIndex = 0
         correctAnswerCount = 0
+        totalQuizTimeSeconds = 0L
+        questionStartTime = System.currentTimeMillis()
 
         FirebaseFirestore.getInstance()
             .collection("questions")
@@ -60,6 +69,7 @@ class QuestionLoadingViewModel : ViewModel() {
     }
 
     fun onQuestionCompleted(isCorrect: Boolean) {
+        lastQuestionCorrect = isCorrect
         if (isCorrect) correctAnswerCount++
         moveToNextQuestion()
 
@@ -86,24 +96,38 @@ class QuestionLoadingViewModel : ViewModel() {
             set(Calendar.MILLISECOND, 0)
         }
         val todayMidnight = calendar.timeInMillis
+
+        val timeSpentMillis = System.currentTimeMillis() - questionStartTime
+        val timeSpentForQuestionMinutes = timeSpentMillis.toDouble() / (1000 * 60)
+        totalQuizTimeSeconds += timeSpentMillis / 1000
+
         userQuery.get().addOnSuccessListener { querySnapshot ->
             if (!querySnapshot.isEmpty) {
                 val userDoc = querySnapshot.documents.first()
                 val userDocRef = userDoc.reference
                 val lastQuestCompletedDate = userDoc.getLong("lastQuestCompletedDate") ?: 0L
+
+                val correctIncrement = if (lastQuestionCorrect) 1 else 0
+
                 if (lastQuestCompletedDate < todayMidnight) {
                     userDocRef.update(
                         "questionsCompletedToday", 1,
                         "lastQuestCompletedDate", System.currentTimeMillis(),
-                        "totalQuestionsAttempted", FieldValue.increment(1)
+                        "totalQuestionsAttempted", FieldValue.increment(1),
+                        "totalCorrectAnswers", correctIncrement,
+                        "totalTimeSpentInMinutes", FieldValue.increment(timeSpentForQuestionMinutes)
                     )
                 } else {
                     userDocRef.update(
                         "questionsCompletedToday", FieldValue.increment(1),
                         "lastQuestCompletedDate", System.currentTimeMillis(),
-                        "totalQuestionsAttempted", FieldValue.increment(1)
+                        "totalQuestionsAttempted", FieldValue.increment(1),
+                        "totalCorrectAnswers", FieldValue.increment(correctIncrement.toLong()),
+                        "totalTimeSpentInMinutes", FieldValue.increment(timeSpentForQuestionMinutes)
                     )
                 }
+
+                questionStartTime = System.currentTimeMillis()  // reset timer for next question
             }
         }
     }
@@ -128,13 +152,97 @@ class QuestionLoadingViewModel : ViewModel() {
                         "correctAnswers" to correctAnswerCount
                     )
                     subtopicDoc.reference.set(data, SetOptions.merge())
+                        .addOnSuccessListener {
+                            updateDailyStreak()
+                        }
                         .addOnFailureListener { e ->
                             println("Failed to update subtopic progress for $subtopicId: ${e.message}")
                         }
+                } else {
+                    updateDailyStreak()
                 }
             }
             .addOnFailureListener { e ->
                 println("Failed to get subtopic progress for $subtopicId: ${e.message}")
             }
+
+        checkLevelUp()
+    }
+
+    private fun updateDailyStreak() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("users").document(currentUser.uid)
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val todayMidnight = calendar.timeInMillis
+        val yesterdayMidnight = todayMidnight - 24 * 60 * 60 * 1000L
+
+        userRef.get().addOnSuccessListener { userDoc ->
+            val lastStreakDate = userDoc.getLong("lastStreakDate") ?: 0L
+            val currentStreak = (userDoc.getLong("currentStreak") ?: 0L).toInt()
+            val longestStreak = (userDoc.getLong("longestStreak") ?: 0L).toInt()
+
+            if (lastStreakDate >= todayMidnight) {
+                return@addOnSuccessListener
+            }
+
+            val newCurrentStreak = if (lastStreakDate >= yesterdayMidnight) currentStreak + 1 else 1
+            val newLongestStreak =
+                if (newCurrentStreak > longestStreak) newCurrentStreak else longestStreak
+
+            userRef.update(
+                "currentStreak", newCurrentStreak,
+                "longestStreak", newLongestStreak,
+                "lastStreakDate", todayMidnight
+            )
+        }
+    }
+
+    private fun checkLevelUp() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("users").document(currentUser.uid)
+
+        userRef.get().addOnSuccessListener { userDoc ->
+            val currentLevel = userDoc.getString("level") ?: "Apprentice Coder"
+
+            db.collection("levels")
+                .orderBy("order")
+                .get()
+                .addOnSuccessListener { levelsSnapshot ->
+                    val levels = levelsSnapshot.documents.mapNotNull { it.getString("name") }
+                    val levelOrderMap = levels.withIndex().associate { it.value to it.index }
+
+                    val currentLevelIndex = levelOrderMap[currentLevel] ?: 0
+                    if (currentLevelIndex >= levels.size - 1) return@addOnSuccessListener
+
+                    userRef.collection("subtopics").get()
+                        .addOnSuccessListener { subtopicsSnapshot ->
+                            val completedCount = subtopicsSnapshot.documents.count {
+                                it.getBoolean("completed") == true
+                            }
+
+                            db.collection("subtopics").get()
+                                .addOnSuccessListener { allSubtopicsSnapshot ->
+                                    val totalQuests = allSubtopicsSnapshot.size()
+                                    val totalLevels = levels.size
+                                    val questsPerLevel = totalQuests / totalLevels
+                                    val nextLevelIndex = currentLevelIndex + 1
+                                    val nextLevelThreshold = questsPerLevel * nextLevelIndex
+
+                                    if (completedCount >= nextLevelThreshold) {
+                                        val newLevel = levels[nextLevelIndex]
+                                        userRef.update("level", newLevel)
+                                    }
+                                }
+                        }
+                }
+        }
     }
 }
