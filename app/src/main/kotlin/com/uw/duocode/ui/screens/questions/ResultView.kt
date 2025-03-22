@@ -1,6 +1,5 @@
 package com.uw.duocode.ui.screens.questions
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import com.uw.duocode.ui.components.CheckContinueButton
 import com.uw.duocode.ui.components.ProgressBar
 import com.uw.duocode.ui.navigation.Home
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultView(
@@ -50,6 +50,7 @@ fun ResultView(
                                 contentDescription = "Back"
                             )
                         }
+
                         ProgressBar(
                             progress = 1f,
                             modifier = Modifier.weight(1f)
@@ -84,7 +85,7 @@ fun ResultView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(40.dp))
-            
+
             Box(
                 modifier = Modifier.size(200.dp),
                 contentAlignment = Alignment.Center
@@ -102,6 +103,7 @@ fun ResultView(
                     strokeWidth = 12.dp,
                     color = MaterialTheme.colorScheme.primary
                 )
+
                 Text(
                     text = "${(viewModel.percentage * 100).toInt()}%",
                     fontSize = 36.sp,
@@ -111,23 +113,29 @@ fun ResultView(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
-            
+
             Text(
                 text = viewModel.title,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
-            
+
             Text(
                 text = viewModel.message,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = 25.dp)
             )
-            
-            Spacer(modifier = Modifier.height(32.dp))
 
+            Text(
+                text = viewModel.timeMessage,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(horizontal = 25.dp)
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
