@@ -24,6 +24,9 @@ class AuthViewModel : ViewModel() {
     var name by mutableStateOf("")
     var isLoading by mutableStateOf(false)
         private set
+    
+    var shouldShowTutorial by mutableStateOf(false)
+        private set
 
     fun toggleAuthMode() {
         isLogin = !isLogin
@@ -75,6 +78,7 @@ class AuthViewModel : ViewModel() {
                                                 profilePictureUrl = profilePictureUrl
                                             )
                                             isLoading = false
+                                            shouldShowTutorial = true
                                             onMessage("Successfully created account")
                                             onSuccess()
                                         } catch (e: Exception) {
@@ -85,12 +89,15 @@ class AuthViewModel : ViewModel() {
                                                 profilePictureUrl = null
                                             )
                                             isLoading = false
+                                            shouldShowTutorial = true
                                             onMessage("Account created but couldn't generate profile picture")
+                                            // Navigate to dashboard
                                             onSuccess()
                                         }
                                     }
                                 } else {
                                     isLoading = false
+                                    shouldShowTutorial = true
                                     onMessage("Account created but couldn't set display name")
                                     onSuccess()
                                 }
@@ -106,6 +113,10 @@ class AuthViewModel : ViewModel() {
                     onMessage(e.localizedMessage ?: "Sign up failed")
                 }
         }
+    }
+
+    fun tutorialShown() {
+        shouldShowTutorial = false
     }
 
     private fun createUserInFirestore(

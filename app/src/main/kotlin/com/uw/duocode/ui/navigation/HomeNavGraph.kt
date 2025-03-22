@@ -6,6 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.uw.duocode.ui.components.TutorialViewModel
+import com.uw.duocode.ui.screens.challenges.ChallengesView
 import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
 import com.uw.duocode.ui.screens.profile.SettingsView
@@ -13,7 +15,8 @@ import com.uw.duocode.ui.screens.questions.QuestionLoadingView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
 
 fun NavGraphBuilder.homeNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    tutorialViewModel: TutorialViewModel
 ) {
     navigation<DASHBOARD>(
         startDestination = Home
@@ -23,7 +26,7 @@ fun NavGraphBuilder.homeNavGraph(
         }
 
         composable<QuestMap> {
-            QuestMapView(navController = navController)
+            QuestMapView(navController = navController, tutorialViewModel = tutorialViewModel)
         }
 
         composable(route = "lessons/{topicId}/{subtopicId}",

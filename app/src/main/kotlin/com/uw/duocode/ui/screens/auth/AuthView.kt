@@ -18,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,14 +26,32 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uw.duocode.ui.components.TutorialCarousel
+import com.uw.duocode.ui.components.TutorialViewModel
 import com.uw.duocode.ui.navigation.DASHBOARD
 
 @Composable
 fun AuthView(
     navController: NavHostController,
-    viewModel: AuthViewModel = viewModel()
+    viewModel: AuthViewModel = viewModel(),
+    tutorialViewModel: TutorialViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    LaunchedEffect(viewModel.shouldShowTutorial) {
+        if (viewModel.shouldShowTutorial) {
+            tutorialViewModel.showTutorial(afterSignup = true)
+            viewModel.tutorialShown()
+        }
+    }
+    if (tutorialViewModel.showTutorial) {
+        TutorialCarousel(
+            slides = tutorialViewModel.tutorialSlides,
+            onDismiss = {
+                tutorialViewModel.dismissTutorial()
+            }
+        )
+        return
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
