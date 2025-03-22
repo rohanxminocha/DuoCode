@@ -165,6 +165,85 @@ class QuestionLoadingViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 println("Failed to get subtopic progress for $subtopicId: ${e.message}")
             }
+
+        checkLevelUp()
+    }
+
+    private fun updateDailyStreak() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("users").document(currentUser.uid)
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val todayMidnight = calendar.timeInMillis
+        val yesterdayMidnight = todayMidnight - 24 * 60 * 60 * 1000L
+
+        userRef.get().addOnSuccessListener { userDoc ->
+            val lastStreakDate = userDoc.getLong("lastStreakDate") ?: 0L
+            val currentStreak = (userDoc.getLong("currentStreak") ?: 0L).toInt()
+            val longestStreak = (userDoc.getLong("longestStreak") ?: 0L).toInt()
+
+            if (lastStreakDate >= todayMidnight) {
+                return@addOnSuccessListener
+            }
+
+            val newCurrentStreak = if (lastStreakDate >= yesterdayMidnight) currentStreak + 1 else 1
+            val newLongestStreak =
+                if (newCurrentStreak > longestStreak) newCurrentStreak else longestStreak
+
+            userRef.update(
+                "currentStreak", newCurrentStreak,
+                "longestStreak", newLongestStreak,
+                "lastStreakDate", todayMidnight
+            )
+        }
+    }
+
+    private fun checkLevelUp() {
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("users").document(currentUser.uid)
+
+        userRef.get().addOnSuccessListener { userDoc ->
+            val currentLevel = userDoc.getString("level") ?: "Apprentice Coder"
+
+            db.collection("levels")
+                .orderBy("order")
+                .get()
+                .addOnSuccessListener { levelsSnapshot ->
+                    val levels = levelsSnapshot.documents.mapNotNull { it.getString("name") }
+                    val levelOrderMap = levels.withIndex().associate { it.value to it.index }
+
+                    val currentLevelIndex = levelOrderMap[currentLevel] ?: 0
+                    if (currentLevelIndex >= levels.size - 1) return@addOnSuccessListener
+
+                    userRef.collection("subtopics").get()
+                        .addOnSuccessListener { subtopicsSnapshot ->
+                            val completedCount = subtopicsSnapshot.documents.count {
+                                it.getBoolean("completed") == true
+                            }
+
+                            db.collection("subtopics").get()
+                                .addOnSuccessListener { allSubtopicsSnapshot ->
+                                    val totalQuests = allSubtopicsSnapshot.size()
+                                    val totalLevels = levels.size
+                                    val questsPerLevel = totalQuests / totalLevels
+                                    val nextLevelIndex = currentLevelIndex + 1
+                                    val nextLevelThreshold = questsPerLevel * nextLevelIndex
+
+                                    if (completedCount >= nextLevelThreshold) {
+                                        val newLevel = levels[nextLevelIndex]
+                                        userRef.update("level", newLevel)
+                                    }
+                                }
+                        }
+                }
+        }
     }
 
     private fun updateDailyStreak() {
