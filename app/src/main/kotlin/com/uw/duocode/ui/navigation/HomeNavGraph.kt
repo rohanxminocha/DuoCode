@@ -8,34 +8,35 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.uw.duocode.ui.screens.home.HomeView
 import com.uw.duocode.ui.screens.lessons.LessonView
+import com.uw.duocode.ui.screens.profile.SettingsView
 import com.uw.duocode.ui.screens.questions.QuestionLoadingView
 import com.uw.duocode.ui.screens.questmap.QuestMapView
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController
-){
+) {
     navigation<DASHBOARD>(
         startDestination = Home
-    ){
-        composable<Home>{
+    ) {
+        composable<Home> {
             HomeView(navController = navController)
         }
 
-        composable<QuestMap>{
+        composable<QuestMap> {
             QuestMapView(navController = navController)
         }
 
         composable(route = "lessons/{topicId}/{subtopicId}",
-        arguments = listOf(
-            navArgument("topicId") {
-                type = NavType.StringType
-                nullable = false
-            },
-            navArgument("subtopicId") {
-                type = NavType.StringType
-                nullable = false
-            }
-        )){ backStackEntry ->
+            arguments = listOf(
+                navArgument("topicId") {
+                    type = NavType.StringType
+                    nullable = false
+                },
+                navArgument("subtopicId") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )) { backStackEntry ->
             val topicId = backStackEntry.arguments?.getString("topicId") ?: ""
             val subtopicId = backStackEntry.arguments?.getString("subtopicId") ?: ""
             LessonView(
@@ -51,12 +52,16 @@ fun NavGraphBuilder.homeNavGraph(
                     type = NavType.StringType
                     nullable = false
                 }
-            )){ backStackEntry ->
+            )) { backStackEntry ->
             val subtopicId = backStackEntry.arguments?.getString("subtopicId") ?: ""
             QuestionLoadingView(
                 navController = navController,
                 subtopicId = subtopicId
             )
+        }
+
+        composable(route = "settings") {
+            SettingsView(navController = navController)
         }
     }
 }
