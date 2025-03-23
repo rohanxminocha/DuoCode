@@ -10,7 +10,9 @@ import com.uw.duocode.data.model.LessonInfo
 import com.uw.duocode.data.model.TopicInfo
 
 
-class LessonViewModel : ViewModel() {
+class LessonViewModel(
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
     var description by mutableStateOf("Loading...")
         private set
 
@@ -33,7 +35,6 @@ class LessonViewModel : ViewModel() {
         isLoading = true
         error = null
 
-        val db = FirebaseFirestore.getInstance()
         try {
             db.collection("lessons")
                 .whereEqualTo("topicId", topicId)

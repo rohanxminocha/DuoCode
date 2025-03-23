@@ -29,8 +29,8 @@ class ProfileViewModel : ViewModel() {
     var errorMessage by mutableStateOf<String?>(null)
         private set
     
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+    private var auth = FirebaseAuth.getInstance()
+    private var db = FirebaseFirestore.getInstance()
     
     init {
         loadUserData()
@@ -140,5 +140,13 @@ class ProfileViewModel : ViewModel() {
     
     fun clearError() {
         errorMessage = null
+    }
+    internal fun injectDependencies(auth: FirebaseAuth, db: FirebaseFirestore) {
+        this.auth = auth
+        this.db = db
+    }
+    
+    internal fun setErrorForTesting(error: String) {
+        errorMessage = error
     }
 } 

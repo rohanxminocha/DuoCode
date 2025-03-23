@@ -14,14 +14,17 @@ data class ChallengeData(
     val isCompleted: Boolean
 )
 
-class ChallengesViewModel : ViewModel() {
+class ChallengesViewModel(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
     var challenges by mutableStateOf<List<ChallengeData>>(emptyList())
         private set
     var isLoading by mutableStateOf(false)
         private set
     var error by mutableStateOf<String?>(null)
         private set
-    private val userId: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+    private val userId: String get() = auth.currentUser?.uid.toString()
 
     private val subtopicsMapping = mapOf(
         "1dL9iqYFfmv0KjubQN1k" to "1-Dimensional DP",
@@ -49,7 +52,6 @@ class ChallengesViewModel : ViewModel() {
         isLoading = true
         error = null
 
-        val db = FirebaseFirestore.getInstance()
         db.collection("users")
             .document(userId)
             .collection("subtopics")
@@ -61,26 +63,35 @@ class ChallengesViewModel : ViewModel() {
                     }
                 }
 
-                val challengeList = mutableListOf<ChallengeData>()
-                progressList.forEach { progress ->
-                    val subtopicName = subtopicsMapping[progress.id] ?: progress.id
-                    listOf(
-                        5 to "Beginner",
-                        10 to "Intermediate",
-                        15 to "Expert"
-                    ).forEach { (threshold, levelName) ->
-                        val isCompleted = progress.correctAnswers >= threshold
-                        challengeList.add(
-                            ChallengeData(
-                                title = "$subtopicName $levelName",
-                                subTitle = "Finish $threshold questions in $subtopicName",
-                                isCompleted = isCompleted
-                            )
-                        )
-                    }
-                }
-                challenges = challengeList
+                challenges = createChallengesFromProgress(progressList)
                 isLoading = false
             }
+            .addOnFailureListener { e ->
+                error = "Error loading challenges: ${e.message}"
+                isLoading = false
+            }
+    }
+    
+    // This method is extracted for easier testing
+    internal fun createChallengesFromProgress(progressList: List<UserSubtopicProgress>): List<ChallengeData> {
+        val challengeList = mutableListOf<ChallengeData>()
+        progressList.forEach { progress ->
+            val subtopicName = subtopicsMapping[progress.id] ?: progress.id
+            listOf(
+                5 to "Beginner",
+                10 to "Intermediate",
+                15 to "Expert"
+            ).forEach { (threshold, levelName) ->
+                val isCompleted = progress.correctAnswers >= threshold
+                challengeList.add(
+                    ChallengeData(
+                        title = "$subtopicName $levelName",
+                        subTitle = "Finish $threshold questions in $subtopicName",
+                        isCompleted = isCompleted
+                    )
+                )
+            }
+        }
+        return challengeList
     }
 }
