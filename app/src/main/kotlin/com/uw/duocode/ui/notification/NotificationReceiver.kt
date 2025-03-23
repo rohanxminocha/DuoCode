@@ -7,7 +7,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.uw.duocode.MainActivity
-
+import com.uw.duocode.R
 
 private const val CHANNEL_ID = "reminder_channel_id"
 
@@ -23,7 +23,7 @@ class NotificationReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_popup_reminder)
+            .setSmallIcon(R.drawable.duonotif)
             .setContentTitle("DuoCode CheckIn")
             .setContentText("Did you complete today's quest?")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
