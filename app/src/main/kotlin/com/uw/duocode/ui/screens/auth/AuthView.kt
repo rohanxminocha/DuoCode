@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uw.duocode.ui.navigation.DASHBOARD
 
+
 @Composable
 fun AuthView(
     navController: NavHostController,
@@ -95,7 +96,10 @@ fun AuthView(
                 enabled = !viewModel.isLoading,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(text = if (viewModel.isLogin) "Login" else "Sign Up")
+                Text(
+                    text = if (viewModel.isLogin) "Login" else "Sign Up",
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -125,7 +129,7 @@ fun AuthView(
                 }
             }
         }
-        
+
         if (viewModel.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(50.dp),

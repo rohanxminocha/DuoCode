@@ -95,19 +95,13 @@ fun MultipleChoiceView(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(options) { index, option ->
+                itemsIndexed(options) { _, option ->
                     val isSelected = (option == selectedOption)
-
-                    val borderColor = if (!answerChecked) {
-                        if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.outline
-                    } else {
-                        val isCorrect = viewModel.correctAnswer.contains(index)
-                        when {
-                            isCorrect -> MaterialTheme.colorScheme.tertiary
-                            isSelected && !isCorrect -> MaterialTheme.colorScheme.error
-                            else -> MaterialTheme.colorScheme.outline
-                        }
+                    val borderColor = when {
+                        !answerChecked && isSelected -> MaterialTheme.colorScheme.primary
+                        answerChecked && isSelected && viewModel.isAnswerCorrect -> MaterialTheme.colorScheme.tertiary
+                        answerChecked && isSelected && !viewModel.isAnswerCorrect -> MaterialTheme.colorScheme.error
+                        else -> MaterialTheme.colorScheme.outline
                     }
 
                     OutlinedCard(
