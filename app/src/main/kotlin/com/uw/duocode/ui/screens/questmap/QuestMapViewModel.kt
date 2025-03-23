@@ -14,7 +14,10 @@ import com.uw.duocode.data.model.UserSubtopicProgress
 import kotlinx.coroutines.launch
 
 
-class QuestMapViewModel : ViewModel() {
+class QuestMapViewModel(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
 
     var topics by mutableStateOf<List<TopicInfo>>(emptyList())
         private set
@@ -39,7 +42,6 @@ class QuestMapViewModel : ViewModel() {
         isLoading = true
         error = null
         viewModelScope.launch {
-            val db = FirebaseFirestore.getInstance()
             try {
                 val topicsRef = db.collection("topics")
                 val subtopicsRef = db.collection("subtopics")
@@ -68,12 +70,11 @@ class QuestMapViewModel : ViewModel() {
     }
 
     private fun fetchUserSubtopicProgress() {
-        val user = FirebaseAuth.getInstance().currentUser
+        val user = auth.currentUser
         if (user == null) {
             isLoading = false
             return
         }
-        val db = FirebaseFirestore.getInstance()
         val userSubtopicsRef = db.collection("users")
             .document(user.uid)
             .collection("subtopics")

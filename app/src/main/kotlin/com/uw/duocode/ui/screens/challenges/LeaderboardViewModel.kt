@@ -22,7 +22,10 @@ data class LeaderboardEntry(
     val isCurrentUser: Boolean = false
 )
 
-class LeaderboardViewModel : ViewModel() {
+class LeaderboardViewModel(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
     
     var globalLeaderboard by mutableStateOf<List<LeaderboardEntry>>(emptyList())
         private set
@@ -41,9 +44,6 @@ class LeaderboardViewModel : ViewModel() {
     
     var currentUserFriendsRank by mutableStateOf<Int?>(null)
         private set
-    
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
     
     fun loadLeaderboards() {
         isLoading = true
@@ -160,5 +160,15 @@ class LeaderboardViewModel : ViewModel() {
     
     fun clearError() {
         errorMessage = null
+    }
+    
+    // For testing purposes
+    internal fun updateLeaderboardForTesting(global: List<LeaderboardEntry>, friends: List<LeaderboardEntry>) {
+        globalLeaderboard = global
+        friendsLeaderboard = friends
+    }
+    
+    internal fun setErrorForTesting(error: String?) {
+        errorMessage = error
     }
 } 
