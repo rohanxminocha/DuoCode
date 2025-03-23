@@ -29,6 +29,6 @@ fun CheckContinueButton(
             .padding(16.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Text(text = text, fontSize = 16.sp)
+        Text(text = text, fontSize = MaterialTheme.typography.bodyLarge.fontSize)
     }
 }
