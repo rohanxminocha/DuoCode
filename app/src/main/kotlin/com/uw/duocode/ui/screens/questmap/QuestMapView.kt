@@ -1,14 +1,31 @@
 package com.uw.duocode.ui.screens.questmap
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -19,17 +36,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.uw.duocode.data.model.SubtopicInfo
+import com.uw.duocode.ui.components.TutorialCarousel
+import com.uw.duocode.ui.components.TutorialViewModel
 import com.uw.duocode.ui.utils.getTopicIcon
 
 
 @Composable
 fun QuestMapView(
     navController: NavHostController,
-    viewModel: QuestMapViewModel = viewModel()
+    viewModel: QuestMapViewModel = viewModel(),
+    tutorialViewModel: TutorialViewModel = viewModel()
 ) {
     LaunchedEffect(Unit) {
         viewModel.fetchData()
@@ -42,88 +63,120 @@ fun QuestMapView(
     val error = viewModel.error
     val scrollState = rememberScrollState()
     val currentUser = FirebaseAuth.getInstance().currentUser
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .verticalScroll(scrollState)
-            .padding(16.dp)
-    ) {
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Text(
-            text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+    
+    if (tutorialViewModel.showTutorial) {
+        TutorialCarousel(
+            slides = tutorialViewModel.tutorialSlides,
+            onDismiss = {
+                tutorialViewModel.dismissTutorial()
+            }
         )
+    }
 
-        Spacer(modifier = Modifier.height(20.dp))
+    Box(modifier = Modifier.fillMaxSize()) {
+        FloatingActionButton(
+            onClick = { tutorialViewModel.showTutorial() },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 16.dp, end = 16.dp)
+                .size(56.dp)
+                .zIndex(10f),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.primary,
+            elevation = FloatingActionButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp
+            )
+        ) {
+            Icon(
+                imageVector = Icons.Default.Help,
+                contentDescription = "Tutorial",
+                modifier = Modifier.size(28.dp)
+            )
+        }
+        
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(scrollState)
+                .padding(16.dp)
+        ) {
+            Spacer(modifier = Modifier.height(56.dp))
 
-        when {
-            isLoading -> {
-                Text("Loading...")
-            }
+            Text(
+                text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
+                style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            )
 
-            error != null -> {
-                Text("Error: $error")
-            }
+            Spacer(modifier = Modifier.height(20.dp))
 
-            else -> {
-                val userProgressMap = userProgress.associateBy { it.id }
+            when {
+                isLoading -> {
+                    Text("Loading...")
+                }
 
-                val sortedTopics = topics.sortedBy { it.order }
-                sortedTopics.forEachIndexed { topicIndex, topic ->
-                    val subtopicInfos: List<SubtopicInfo> = allSubtopics
-                        .filter { it.topicId == topic.id }
-                        .sortedBy { it.order }
+                error != null -> {
+                    Text("Error: $error")
+                }
 
-                    TopicCard(
-                        title = topic.name,
-                        icon = getTopicIcon(topic.iconKey),
-                        onButtonClick = {
-                            subtopicInfos.firstOrNull()?.let { firstSubtopic ->
-                                navController.navigate("lessons/${topic.id}/${firstSubtopic.id}")
-                            }
-                        }
-                    )
+                else -> {
+                    val userProgressMap = userProgress.associateBy { it.id }
 
-                    val isTopicUnlocked = if (topicIndex == 0) {
-                        true
-                    } else {
-                        val prevTopic = sortedTopics[topicIndex - 1]
-                        val prevSubs = allSubtopics.filter { it.topicId == prevTopic.id }
+                    val sortedTopics = topics.sortedBy { it.order }
+                    sortedTopics.forEachIndexed { topicIndex, topic ->
+                        val subtopicInfos: List<SubtopicInfo> = allSubtopics
+                            .filter { it.topicId == topic.id }
+                            .sortedBy { it.order }
 
-                        prevSubs.isNotEmpty() && prevSubs.all { s ->
-                            userProgressMap[s.id]?.completed == true
-                        }
-                    }
-
-                    subtopicInfos.forEachIndexed { subIndex, subtopic ->
-                        val isFirstSubtopic = (subIndex == 0)
-                        val showActionButton = if (isFirstSubtopic) {
-                            isTopicUnlocked
-                        } else {
-                            val prevSub = subtopicInfos[subIndex - 1]
-                            userProgressMap[prevSub.id]?.completed == true
-                        }
-
-                        val isSubtopicCompleted = (userProgressMap[subtopic.id]?.completed == true)
-                        val buttonText = if (isSubtopicCompleted) "Review" else "Start"
-
-                        LessonItem(
-                            title = subtopic.name,
-                            icon = Icons.Default.Code,
-                            buttonText = buttonText,
-                            showActionButton = showActionButton,
+                        TopicCard(
+                            title = topic.name,
+                            icon = getTopicIcon(topic.iconKey),
                             onButtonClick = {
-                                if (showActionButton) {
-                                    navController.navigate("questions/${subtopic.id}")
+                                subtopicInfos.firstOrNull()?.let { firstSubtopic ->
+                                    navController.navigate("lessons/${topic.id}/${firstSubtopic.id}")
                                 }
                             }
                         )
-                    }
 
-                    Spacer(modifier = Modifier.height(15.dp))
+                        val isTopicUnlocked = if (topicIndex == 0) {
+                            true
+                        } else {
+                            val prevTopic = sortedTopics[topicIndex - 1]
+                            val prevSubs = allSubtopics.filter { it.topicId == prevTopic.id }
+
+                            prevSubs.isNotEmpty() && prevSubs.all { s ->
+                                userProgressMap[s.id]?.completed == true
+                            }
+                        }
+
+                        subtopicInfos.forEachIndexed { subIndex, subtopic ->
+                            val isFirstSubtopic = (subIndex == 0)
+                            val showActionButton = if (isFirstSubtopic) {
+                                isTopicUnlocked
+                            } else {
+                                val prevSub = subtopicInfos[subIndex - 1]
+                                userProgressMap[prevSub.id]?.completed == true
+                            }
+
+                            val isSubtopicCompleted = (userProgressMap[subtopic.id]?.completed == true)
+                            val buttonText = if (isSubtopicCompleted) "Review" else "Start"
+
+                            LessonItem(
+                                title = subtopic.name,
+                                icon = Icons.Default.Code,
+                                buttonText = buttonText,
+                                showActionButton = showActionButton,
+                                onButtonClick = {
+                                    if (showActionButton) {
+                                        navController.navigate("questions/${subtopic.id}")
+                                    }
+                                }
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(15.dp))
+                    }
                 }
             }
         }
