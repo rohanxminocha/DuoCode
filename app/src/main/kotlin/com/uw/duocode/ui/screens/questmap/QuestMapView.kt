@@ -55,12 +55,6 @@ fun QuestMapView(
     LaunchedEffect(Unit) {
         viewModel.fetchData()
     }
-    
-    LaunchedEffect(tutorialViewModel.isAfterSignup) {
-        if (tutorialViewModel.isAfterSignup) {
-            tutorialViewModel.showTutorial(afterSignup = true)
-        }
-    }
 
     val topics = viewModel.topics
     val allSubtopics = viewModel.subtopics

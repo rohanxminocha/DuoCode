@@ -18,7 +18,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,17 +36,18 @@ fun AuthView(
     tutorialViewModel: TutorialViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    LaunchedEffect(viewModel.shouldShowTutorial) {
-        if (viewModel.shouldShowTutorial) {
-            tutorialViewModel.showTutorial(afterSignup = true)
-            viewModel.tutorialShown()
-        }
+    
+    if (viewModel.shouldShowTutorial) {
+        tutorialViewModel.showTutorial(afterSignup = true)
+        viewModel.tutorialShown()
     }
+    
     if (tutorialViewModel.showTutorial) {
         TutorialCarousel(
             slides = tutorialViewModel.tutorialSlides,
             onDismiss = {
                 tutorialViewModel.dismissTutorial()
+                navController.navigate(DASHBOARD)
             }
         )
         return
@@ -104,7 +104,11 @@ fun AuthView(
                 onClick = {
                     viewModel.authenticate(
                         context = context,
-                        onSuccess = { navController.navigate(DASHBOARD) },
+                        onSuccess = { 
+                            if (viewModel.isLogin) {
+                                navController.navigate(DASHBOARD)
+                            }
+                        },
                         onMessage = { message ->
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         }

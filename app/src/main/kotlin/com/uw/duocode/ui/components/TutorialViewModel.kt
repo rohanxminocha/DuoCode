@@ -23,6 +23,9 @@ class TutorialViewModel : ViewModel() {
     
     fun dismissTutorial() {
         showTutorial = false
+    }
+    
+    fun resetAfterSignup() {
         isAfterSignup = false
     }
     
