@@ -1,9 +1,8 @@
 package com.uw.duocode.data.model
 
 data class Notification(
-    val notificationId: String = "",
-    val userId: String = "",
-    val time: Long = System.currentTimeMillis(),
+    val id: String = "",
+    val title: String = "",
     val message: String = "",
-    val isEnabled: Boolean = true
+    val type: String = "" // e.g., "dailyReminder" or "streakAlert"
 )
