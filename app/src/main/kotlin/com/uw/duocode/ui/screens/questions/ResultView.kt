@@ -56,7 +56,10 @@ fun ResultView(
                             modifier = Modifier.weight(1f)
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
             )
         },
         bottomBar = {

@@ -46,6 +46,9 @@ fun SettingsView(
         topBar = {
             SmallTopAppBar(
                 title = { Text("Settings", style = MaterialTheme.typography.titleLarge) },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
