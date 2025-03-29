@@ -7,11 +7,16 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uw.duocode.data.model.UserSubtopicProgress
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 
 data class ChallengeData(
-    val title: String,
-    val subTitle: String,
-    val isCompleted: Boolean
+    val title: String = "",
+    val subTitle: String = "",
+    val completed: Boolean = false,
+    val dateCompleted: Date? = null,
+    val subtopicId: String = ""
 )
 
 class ChallengesViewModel(
@@ -26,72 +31,92 @@ class ChallengesViewModel(
         private set
     private val userId: String get() = auth.currentUser?.uid.toString()
 
-    private val subtopicsMapping = mapOf(
-        "1dL9iqYFfmv0KjubQN1k" to "1-Dimensional DP",
-        "3KFDkaMUldzOYB265HhU" to "Static Arrays",
-        "3Mb9iVeOqU475Zj3BwyA" to "Queues",
-        "4ZYUDUddEfItaBKCFivf" to "Dynamic Arrays",
-        "7QBjY3TB0CVu3ZrR1Oh2" to "Stacks",
-        "ANXFboJHfR4Mfc2lv42G" to "Search Array",
-        "CQ8NqMZAKQCc9XrEo4q" to "Breadth-First Search",
-        "GABlt2fzYt99zyB9WrDL" to "Search Range",
-        "Mq9KI04lKaWEyB9OT6cP" to "Binary Search Tree",
-        "OaAD5Flszoi2FMWhaIfY" to "Doubly Linked Lists",
-        "Oj1HrmRv6qyslpc8t52B" to "Heap Properties",
-        "PCNnC1lDdtyQEzTQVglL" to "Adjacency List",
-        "WLb6xyl82xGisd7msKYY" to "Binary Tree",
-        "WPsWVNS2rVKG2zcfeH1D" to "Heapify",
-        "dCE0IT7YZ3RZMPLCfd8X" to "Hashing",
-        "qWYdCytlaOhoeCaGYX73" to "Intro to Graphs",
-        "sfFzjXaPQfL2fiFLG80h" to "Singly Linked Lists",
-        "snaPr7iMCcZy1IpoewHM" to "Depth-First Search",
-        "wvAjMA3fQrK9ReRQDnPq" to "2-Dimensional DP"
-    )
-
     fun loadChallenges() {
         isLoading = true
         error = null
 
-        db.collection("users")
-            .document(userId)
-            .collection("subtopics")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val progressList = querySnapshot.documents.mapNotNull { doc ->
-                    doc.toObject(UserSubtopicProgress::class.java)?.apply {
-                        id = doc.id
-                    }
-                }
+        val userDocRef = db.collection("users").document(userId)
+        userDocRef.collection("subtopics").get()
+            .addOnSuccessListener { progressSnapshot ->
+                userDocRef.collection("challenges").get()
+                    .addOnSuccessListener { challengeSnapshot ->
+                        val challengeMap = challengeSnapshot.documents.associateBy { it.id }
+                        val thresholds = listOf(
+                            "Beginner" to 2,
+                            "Intermediate" to 5,
+                            "Expert" to 10
+                        )
 
-                challenges = createChallengesFromProgress(progressList)
-                isLoading = false
+                        val batch = db.batch()
+
+                        for (progressDoc in progressSnapshot.documents) {
+                            val progress = progressDoc.toObject(UserSubtopicProgress::class.java)
+                                ?: continue
+
+                            thresholds.forEach { (levelName, threshold) ->
+                                if (progress.correctAnswers >= threshold) {
+                                    val challengeId = "${progressDoc.id}-$levelName"
+                                    val snap = challengeMap[challengeId] ?: return@forEach
+                                    val challengeData = snap.toObject(ChallengeData::class.java) ?: return@forEach
+
+                                    if (!challengeData.completed) {
+                                        val challengeDocRef = userDocRef
+                                            .collection("challenges")
+                                            .document(challengeId)
+
+                                        batch.update(challengeDocRef, mapOf(
+                                            "completed" to true,
+                                            "dateCompleted" to Date()
+                                        ))
+                                    }
+                                }
+                            }
+                        }
+
+                        batch.commit()
+                            .addOnSuccessListener {
+                                userDocRef.collection("challenges").get()
+                                    .addOnSuccessListener { updatedSnapshot ->
+                                        challenges = updatedSnapshot.documents.mapNotNull {
+                                            it.toObject(ChallengeData::class.java)
+                                        }
+                                        isLoading = false
+                                    }
+                                    .addOnFailureListener { e ->
+                                        error = "Error loading challenges: ${e.message}"
+                                        isLoading = false
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                error = "Error updating challenges: ${e.message}"
+                                isLoading = false
+                            }
+                    }
+                    .addOnFailureListener { e ->
+                        error = "Error loading existing challenges: ${e.message}"
+                        isLoading = false
+                    }
             }
             .addOnFailureListener { e ->
-                error = "Error loading challenges: ${e.message}"
+                error = "Error loading subtopic progress: ${e.message}"
                 isLoading = false
             }
     }
-    
-    // This method is extracted for easier testing
-    internal fun createChallengesFromProgress(progressList: List<UserSubtopicProgress>): List<ChallengeData> {
-        val challengeList = mutableListOf<ChallengeData>()
-        progressList.forEach { progress ->
-            val subtopicName = subtopicsMapping[progress.id] ?: progress.id
-            listOf(
-                5 to "Beginner",
-                10 to "Intermediate",
-                15 to "Expert"
-            ).forEach { (threshold, levelName) ->
-                val isCompleted = progress.correctAnswers >= threshold
-                challengeList.add(
-                    ChallengeData(
-                        title = "$subtopicName $levelName",
-                        subTitle = "Finish $threshold questions in $subtopicName",
-                        isCompleted = isCompleted
-                    )
-                )
+
+    fun countCompletedDaysThisMonth(): Int {
+        val now = LocalDate.now()
+        val currentYear = now.year
+        val currentMonth = now.monthValue
+
+        return challenges.filter { it.completed && it.dateCompleted != null }
+            .map { it.dateCompleted!! }
+            .map { date ->
+                date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             }
-        }
-        return challengeList
+            .filter { localDate -> localDate.year == currentYear && localDate.monthValue == currentMonth }
+            .map { localDate -> localDate.dayOfMonth }
+            .toSet()
+            .size
     }
+
 }

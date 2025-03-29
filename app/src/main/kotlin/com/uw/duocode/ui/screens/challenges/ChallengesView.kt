@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -57,6 +58,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.uw.duocode.ui.components.ProgressBar
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ChallengesView(
@@ -70,13 +75,15 @@ fun ChallengesView(
         challengesViewModel.loadChallenges()
     }
 
-    //hard coded data for month + progress
-    val currentMonth = "March"
-    val progress = 21f/31f
+    val currentMonth = SimpleDateFormat("MMMM", Locale.getDefault()).format(Date())
+    val calendar = Calendar.getInstance()
+    val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    val daysCompleted = challengesViewModel.countCompletedDaysThisMonth()
+    val progress = daysCompleted.toFloat()/daysInMonth.toFloat()
     val challenges = challengesViewModel.challenges
-
-    val completedChallenges = challenges.filter { it.isCompleted }
-    val availableChallenges = challenges.filter { !it.isCompleted }
+    val completedChallenges = challenges.filter { it.completed }
+    val availableChallenges = challenges.filter { !it.completed }.take(3)
+    println(challenges)
 
     if (showLeaderboardDialog) {
         Dialog(
@@ -404,7 +411,7 @@ fun ChallengesView(
                 Text(
                     text = currentMonth,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = Color.White
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -417,9 +424,9 @@ fun ChallengesView(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "21/31 days",
+                    text = "$daysCompleted/$daysInMonth days",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = Color.White,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
@@ -431,7 +438,7 @@ fun ChallengesView(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(600.dp)
+                .weight(1f)
         ) {
             if (completedChallenges.isNotEmpty()) {
                 item {
