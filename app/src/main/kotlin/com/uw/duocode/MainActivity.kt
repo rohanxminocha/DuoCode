@@ -12,14 +12,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.uw.duocode.ui.components.TutorialViewModel
 import com.uw.duocode.ui.navigation.SetupNavGraph
-import com.uw.duocode.ui.theme.DuocodeTheme
 import com.uw.duocode.ui.notification.createNotificationChannel
+import com.uw.duocode.ui.notification.scheduleDailyNotificationWork
+import com.uw.duocode.ui.theme.DuocodeTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel(applicationContext, this)
-
+        scheduleDailyNotificationWork(applicationContext)
         enableEdgeToEdge()
 
         setContent {
