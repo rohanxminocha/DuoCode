@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.uw.duocode.data.model.UserSubtopicProgress
@@ -15,9 +16,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
+import kotlin.math.exp
 
 class ChallengesViewModelTest {
     
@@ -70,32 +73,96 @@ class ChallengesViewModelTest {
         assertTrue(viewModel.isLoading)
     }
     
-//    @Test
-//    fun `challenges are created correctly from progress`() {
-//        // Create a test progress item
-//        val testProgressItem = UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10)
-//
-//        // Create a test challenge manually based on the mapping in the ViewModel
-//        val expectedChallenges = listOf(
-//            ChallengeData(
-//                title = "1-Dimensional DP Beginner",
-//                subTitle = "Finish 5 questions in 1-Dimensional DP",
-//                completed = true
-//            ),
-//            ChallengeData(
-//                title = "1-Dimensional DP Intermediate",
-//                subTitle = "Finish 10 questions in 1-Dimensional DP",
-//                completed = true
-//            ),
-//            ChallengeData(
-//                title = "1-Dimensional DP Expert",
-//                subTitle = "Finish 15 questions in 1-Dimensional DP",
-//                completed = false
-//            )
-//        )
-//
-//        // Verify the challenge creation logic works as expected
-//        val actualChallenges = viewModel.createChallengesFromProgress(listOf(testProgressItem))
-//        assertEquals(expectedChallenges, actualChallenges)
-//    }
-} 
+    @Test
+    fun `challenges are created correctly from progress`() {
+        // Create a test progress item
+        val testProgressItem = UserSubtopicProgressWithId("1-Dimensional DP", UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10))
+        // Create a test challenge manually based on the mapping in the ViewModel
+        val expectedChallenges = listOf(
+            ChallengeData(
+                title = "1-Dimensional DP Beginner",
+                subTitle = "Finish 2 questions in 1-Dimensional DP",
+                completed = false
+            ),
+            ChallengeData(
+                title = "1-Dimensional DP Intermediate",
+                subTitle = "Finish 5 questions in 1-Dimensional DP",
+                completed = false
+            ),
+            ChallengeData(
+                title = "1-Dimensional DP Expert",
+                subTitle = "Finish 10 questions in 1-Dimensional DP",
+                completed = false
+            )
+        )
+
+        // Create mocked DocumentSnapshot objects that return the expected ChallengeData when toObject() is called.
+        val beginnerDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(beginnerDoc.toObject(ChallengeData::class.java)).thenReturn(expectedChallenges[0])
+
+        val intermediateDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(intermediateDoc.toObject(ChallengeData::class.java)).thenReturn(expectedChallenges[1])
+
+        val expertDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(expertDoc.toObject(ChallengeData::class.java)).thenReturn(expectedChallenges[2])
+
+        val challengeMap = mapOf(
+            "1-Dimensional DP-Beginner" to beginnerDoc,
+            "1-Dimensional DP-Intermediate" to intermediateDoc,
+            "1-Dimensional DP-Expert" to expertDoc
+        )
+
+
+        // Call the extracted function.
+        val actualPairs = viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
+        val actualChallenges = actualPairs.map { it.second }
+
+        assertEquals(expectedChallenges, actualChallenges)
+    }
+
+    @Test
+    fun `only 1 new challenge`() {
+        // Create a test progress item
+        val testProgressItem = UserSubtopicProgressWithId("1-Dimensional DP", UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10))
+        // Create a test challenge manually based on the mapping in the ViewModel
+        val beginner = ChallengeData(
+                title = "1-Dimensional DP Beginner",
+                subTitle = "Finish 2 questions in 1-Dimensional DP",
+                completed = true
+        )
+        val intermediate = ChallengeData(
+                title = "1-Dimensional DP Intermediate",
+                subTitle = "Finish 5 questions in 1-Dimensional DP",
+                completed = true
+        )
+        val expert = ChallengeData(
+                title = "1-Dimensional DP Expert",
+                subTitle = "Finish 10 questions in 1-Dimensional DP",
+                completed = false
+        )
+
+        // Create mocked DocumentSnapshot objects that return the expected ChallengeData when toObject() is called.
+        val beginnerDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(beginnerDoc.toObject(ChallengeData::class.java)).thenReturn(beginner)
+
+        val intermediateDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(intermediateDoc.toObject(ChallengeData::class.java)).thenReturn(intermediate)
+
+        val expertDoc = Mockito.mock(DocumentSnapshot::class.java)
+        `when`(expertDoc.toObject(ChallengeData::class.java)).thenReturn(expert)
+
+        val challengeMap = mapOf(
+            "1-Dimensional DP-Beginner" to beginnerDoc,
+            "1-Dimensional DP-Intermediate" to intermediateDoc,
+            "1-Dimensional DP-Expert" to expertDoc
+        )
+
+
+        // Call the extracted function.
+        val actualPairs = viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
+        val actualChallenges = actualPairs.map { it.second }
+        val expectedChallenges = listOf(expert)
+
+        assertEquals(expectedChallenges, actualChallenges)
+    }
+}

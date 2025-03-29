@@ -5,11 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uw.duocode.data.model.UserSubtopicProgress
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
+
+data class UserSubtopicProgressWithId(
+    val id: String,
+    val progress: UserSubtopicProgress
+)
 
 data class ChallengeData(
     val title: String = "",
@@ -18,6 +24,7 @@ data class ChallengeData(
     val dateCompleted: Date? = null,
     val subtopicId: String = ""
 )
+
 
 class ChallengesViewModel(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
@@ -31,6 +38,32 @@ class ChallengesViewModel(
         private set
     private val userId: String get() = auth.currentUser?.uid.toString()
 
+    fun createChallengesFromProgress(
+        progressItems: List<UserSubtopicProgressWithId>,
+        challengeMap: Map<String, DocumentSnapshot>
+    ): List<Pair<String, ChallengeData>> {
+        val thresholds = listOf(
+            "Beginner" to 2,
+            "Intermediate" to 5,
+            "Expert" to 10
+        )
+        val result = mutableListOf<Pair<String, ChallengeData>>()
+
+        progressItems.forEach { progressWithId ->
+            thresholds.forEach { (levelName, threshold) ->
+                if (progressWithId.progress.correctAnswers >= threshold) {
+                    val challengeId = "${progressWithId.id}-$levelName"
+                    val snapshot = challengeMap[challengeId]
+                    val challengeData = snapshot?.toObject(ChallengeData::class.java)
+                    if (challengeData != null && !challengeData.completed) {
+                        result.add(challengeId to challengeData)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
     fun loadChallenges() {
         isLoading = true
         error = null
@@ -38,41 +71,23 @@ class ChallengesViewModel(
         val userDocRef = db.collection("users").document(userId)
         userDocRef.collection("subtopics").get()
             .addOnSuccessListener { progressSnapshot ->
+                val progressItems = progressSnapshot.documents.mapNotNull { doc ->
+                    doc.toObject(UserSubtopicProgress::class.java)?.let { progress ->
+                        UserSubtopicProgressWithId(doc.id, progress)
+                    }
+                }
                 userDocRef.collection("challenges").get()
                     .addOnSuccessListener { challengeSnapshot ->
                         val challengeMap = challengeSnapshot.documents.associateBy { it.id }
-                        val thresholds = listOf(
-                            "Beginner" to 2,
-                            "Intermediate" to 5,
-                            "Expert" to 10
-                        )
-
+                        val challengesToUpdate = createChallengesFromProgress(progressItems, challengeMap)
                         val batch = db.batch()
-
-                        for (progressDoc in progressSnapshot.documents) {
-                            val progress = progressDoc.toObject(UserSubtopicProgress::class.java)
-                                ?: continue
-
-                            thresholds.forEach { (levelName, threshold) ->
-                                if (progress.correctAnswers >= threshold) {
-                                    val challengeId = "${progressDoc.id}-$levelName"
-                                    val snap = challengeMap[challengeId] ?: return@forEach
-                                    val challengeData = snap.toObject(ChallengeData::class.java) ?: return@forEach
-
-                                    if (!challengeData.completed) {
-                                        val challengeDocRef = userDocRef
-                                            .collection("challenges")
-                                            .document(challengeId)
-
-                                        batch.update(challengeDocRef, mapOf(
-                                            "completed" to true,
-                                            "dateCompleted" to Date()
-                                        ))
-                                    }
-                                }
-                            }
+                        challengesToUpdate.forEach { (challengeId, _) ->
+                            val challengeDocRef = userDocRef.collection("challenges").document(challengeId)
+                            batch.update(challengeDocRef, mapOf(
+                                "completed" to true,
+                                "dateCompleted" to Date()
+                            ))
                         }
-
                         batch.commit()
                             .addOnSuccessListener {
                                 userDocRef.collection("challenges").get()
@@ -118,5 +133,4 @@ class ChallengesViewModel(
             .toSet()
             .size
     }
-
 }
