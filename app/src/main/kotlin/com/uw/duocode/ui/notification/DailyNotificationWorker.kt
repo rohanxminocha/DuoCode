@@ -75,7 +75,7 @@ class DailyNotificationWorker(
             applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE
         )
         val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.drawable.group_8)
+            .setSmallIcon(R.drawable.duocode_notif)
             .setContentTitle(notification.title)
             .setContentText(notification.message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
