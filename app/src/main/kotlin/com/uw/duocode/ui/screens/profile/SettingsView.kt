@@ -26,7 +26,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
-import com.uw.duocode.R
 import com.uw.duocode.ui.navigation.AUTH
 import com.uw.duocode.ui.notification.scheduleDailyNotificationWork
 
@@ -181,7 +180,7 @@ private fun showTestNotification(context: Context) {
     )
 
     val notification = androidx.core.app.NotificationCompat.Builder(context, "reminder_channel_id")
-        .setSmallIcon(R.drawable.group_8)
+        .setSmallIcon(android.R.drawable.ic_popup_reminder)
         .setContentTitle("DuoCode Test")
         .setContentText("This is a test notification.")
         .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)
