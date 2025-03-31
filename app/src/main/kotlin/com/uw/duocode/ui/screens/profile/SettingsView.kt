@@ -185,7 +185,7 @@ private fun showTestNotification(context: Context) {
     )
 
     val notification = androidx.core.app.NotificationCompat.Builder(context, "reminder_channel_id")
-        .setSmallIcon(R.drawable.duonotif)
+        .setSmallIcon(R.drawable.group_8)
         .setContentTitle("DuoCode Test")
         .setContentText("This is a test notification.")
         .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)

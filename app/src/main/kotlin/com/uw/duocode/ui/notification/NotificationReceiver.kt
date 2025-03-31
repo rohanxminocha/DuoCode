@@ -23,7 +23,7 @@ class NotificationReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.duonotif)
+            .setSmallIcon(R.drawable.group_8)
             .setContentTitle("DuoCode CheckIn")
             .setContentText("Did you complete today's quest?")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
