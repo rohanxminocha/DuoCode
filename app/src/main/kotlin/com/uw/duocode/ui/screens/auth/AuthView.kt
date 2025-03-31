@@ -25,15 +25,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uw.duocode.ui.components.TutorialCarousel
+import com.uw.duocode.ui.components.TutorialViewModel
 import com.uw.duocode.ui.navigation.DASHBOARD
 
 
 @Composable
 fun AuthView(
     navController: NavHostController,
-    viewModel: AuthViewModel = viewModel()
+    viewModel: AuthViewModel = viewModel(),
+    tutorialViewModel: TutorialViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    
+    if (viewModel.shouldShowTutorial) {
+        tutorialViewModel.showTutorial(afterSignup = true)
+        viewModel.tutorialShown()
+    }
+    
+    if (tutorialViewModel.showTutorial) {
+        TutorialCarousel(
+            slides = tutorialViewModel.tutorialSlides,
+            onDismiss = {
+                tutorialViewModel.dismissTutorial()
+                navController.navigate(DASHBOARD)
+            }
+        )
+        return
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +105,11 @@ fun AuthView(
                 onClick = {
                     viewModel.authenticate(
                         context = context,
-                        onSuccess = { navController.navigate(DASHBOARD) },
+                        onSuccess = { 
+                            if (viewModel.isLogin) {
+                                navController.navigate(DASHBOARD)
+                            }
+                        },
                         onMessage = { message ->
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         }

@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uw.duocode.data.model.User
 import com.uw.duocode.data.model.UserSubtopicProgress
+import com.uw.duocode.ui.screens.challenges.ChallengeData
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,9 @@ class AuthViewModel : ViewModel() {
     var password by mutableStateOf("")
     var name by mutableStateOf("")
     var isLoading by mutableStateOf(false)
+        private set
+    
+    var shouldShowTutorial by mutableStateOf(false)
         private set
 
     fun toggleAuthMode() {
@@ -75,6 +79,7 @@ class AuthViewModel : ViewModel() {
                                                 profilePictureUrl = profilePictureUrl
                                             )
                                             isLoading = false
+                                            shouldShowTutorial = true
                                             onMessage("Successfully created account")
                                             onSuccess()
                                         } catch (e: Exception) {
@@ -85,12 +90,15 @@ class AuthViewModel : ViewModel() {
                                                 profilePictureUrl = null
                                             )
                                             isLoading = false
+                                            shouldShowTutorial = true
                                             onMessage("Account created but couldn't generate profile picture")
+                                            // Navigate to dashboard
                                             onSuccess()
                                         }
                                     }
                                 } else {
                                     isLoading = false
+                                    shouldShowTutorial = true
                                     onMessage("Account created but couldn't set display name")
                                     onSuccess()
                                 }
@@ -106,6 +114,10 @@ class AuthViewModel : ViewModel() {
                     onMessage(e.localizedMessage ?: "Sign up failed")
                 }
         }
+    }
+
+    fun tutorialShown() {
+        shouldShowTutorial = false
     }
 
     private fun createUserInFirestore(
@@ -125,6 +137,7 @@ class AuthViewModel : ViewModel() {
         userCollection.document(userId).set(newUser)
             .addOnSuccessListener {
                 prepopulateUserSubtopicProgress(userId) // prepopulate progress records for all subtopics
+                prepopulateUserChallenges(userId)
             }
             .addOnFailureListener { e ->
                 println("Error creating user document for UID: $userId, error: ${e.message}")
@@ -154,6 +167,51 @@ class AuthViewModel : ViewModel() {
             }
             .addOnFailureListener { e ->
                 println("Error fetching subtopics for prepopulation: ${e.message}")
+            }
+    }
+
+    private fun prepopulateUserChallenges(userId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("subtopics")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val batch = db.batch()
+                querySnapshot.documents.forEach { doc ->
+                    val subtopicId = doc.id
+                    val subtopicName = doc.getString("name") ?: subtopicId
+                    listOf(
+                        2 to "Beginner",
+                        5 to "Intermediate",
+                        10 to "Expert"
+                    ).forEach { (threshold, levelName) ->
+                        val challengeId = "$subtopicId-$levelName"
+
+                        val challenge = ChallengeData(
+                            title = "$subtopicName $levelName",
+                            subTitle = "Finish $threshold questions in $subtopicName",
+                            completed = false,
+                            dateCompleted = null,
+                            subtopicId = subtopicId
+                        )
+
+                        val challengeDocRef = db.collection("users")
+                            .document(userId)
+                            .collection("challenges")
+                            .document(challengeId)
+
+                        batch.set(challengeDocRef, challenge)
+                    }
+                }
+                batch.commit()
+                    .addOnSuccessListener {
+                        println("Successfully prepopulated challenges for user: $userId")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Failed to commit challenge batch: ${e.message}")
+                    }
+            }
+            .addOnFailureListener { e ->
+                println("Error fetching subtopics for challenge prepopulation: ${e.message}")
             }
     }
 

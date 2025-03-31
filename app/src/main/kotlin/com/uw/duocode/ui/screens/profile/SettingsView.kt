@@ -2,15 +2,16 @@ package com.uw.duocode.ui.screens.profile
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.*
@@ -23,11 +24,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
+import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.uw.duocode.R
 import com.uw.duocode.ui.navigation.AUTH
-import com.uw.duocode.ui.notification.NotificationReceiver
-import java.util.Calendar
+import com.uw.duocode.ui.notification.scheduleDailyNotificationWork
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,13 +46,13 @@ fun SettingsView(
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { Text("Settings") },
+                title = { Text("Settings", style = MaterialTheme.typography.titleLarge) },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Go Back"
-                        )
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -60,21 +61,37 @@ fun SettingsView(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(16.dp)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Reminders",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "Reminders",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(28.dp)
+                        )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            text = "Reminders",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -102,13 +119,16 @@ fun SettingsView(
                                         }
                                     } else {
                                         sharedPreferences.edit()
-                                            .putBoolean("enabled_notifications", true).apply()
-                                        scheduleDailyNotification(context)
+                                            .putBoolean("enabled_notifications", true)
+                                            .apply()
+                                        scheduleDailyNotificationWork(context)
                                     }
                                 } else {
                                     sharedPreferences.edit()
-                                        .putBoolean("enabled_notifications", false).apply()
-                                    cancelNotification(context)
+                                        .putBoolean("enabled_notifications", false)
+                                        .apply()
+                                    WorkManager.getInstance(context)
+                                        .cancelUniqueWork("daily_notification_work")
                                 }
                             }
                         )
@@ -124,15 +144,19 @@ fun SettingsView(
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = "Account",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
                         onClick = {
@@ -142,40 +166,12 @@ fun SettingsView(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Sign Out")
+                        Text(text = "Sign Out", style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
         }
     }
-}
-
-private fun scheduleDailyNotification(context: Context) {
-    val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 18)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-    }
-    val intent = android.content.Intent(context, NotificationReceiver::class.java)
-    val pendingIntent = PendingIntent.getBroadcast(
-        context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    alarmManager.setRepeating(
-        AlarmManager.RTC_WAKEUP,
-        calendar.timeInMillis,
-        AlarmManager.INTERVAL_DAY,
-        pendingIntent
-    )
-}
-
-private fun cancelNotification(context: Context) {
-    val intent = android.content.Intent(context, NotificationReceiver::class.java)
-    val pendingIntent = PendingIntent.getBroadcast(
-        context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    alarmManager.cancel(pendingIntent)
 }
 
 private fun showTestNotification(context: Context) {
