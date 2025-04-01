@@ -18,7 +18,6 @@ class MatchViewModel(
 ) : ViewModel() {
     private val matchColors = listOf(
         Color(0xFFFF9800), // Orange
-        Color(0xFF4CAF50), // Green
         Color(0xFFFFEB3B), // Yellow
         Color(0xFF03A9F4), // Light Blue
         Color(0xFFE91E63), // Pink

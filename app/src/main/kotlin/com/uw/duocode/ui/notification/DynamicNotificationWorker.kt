@@ -46,7 +46,7 @@ class DynamicNotificationWorker(
             )
 
             val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.duocode_round)
+                .setSmallIcon(R.drawable.duocode_notif)
                 .setContentTitle(randomTemplate.title)
                 .setContentText(randomTemplate.message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
