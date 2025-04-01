@@ -1,6 +1,8 @@
 package com.uw.duocode.ui.screens.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +19,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uw.duocode.R
 import com.uw.duocode.ui.components.TutorialCarousel
 import com.uw.duocode.ui.components.TutorialViewModel
 import com.uw.duocode.ui.navigation.DASHBOARD
@@ -37,6 +45,7 @@ fun AuthView(
     tutorialViewModel: TutorialViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val image = painterResource(R.drawable.duocode)
     
     if (viewModel.shouldShowTutorial) {
         tutorialViewModel.showTutorial(afterSignup = true)
@@ -55,7 +64,16 @@ fun AuthView(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.secondary,
+                        MaterialTheme.colorScheme.surface
+                    )
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -65,19 +83,43 @@ fun AuthView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = if (viewModel.isLogin) "Login" else "Sign Up",
-                style = MaterialTheme.typography.headlineMedium
+            Image(
+                painter = image,
+                contentDescription = "DuoCode Logo",
+                modifier = Modifier
+                    .size(180.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "DuoCode",
+                style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = if (viewModel.isLogin)
+                    "Resume your coding journey"
+                else
+                    "Join us to begin coding journey",
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             if (!viewModel.isLogin) {
                 OutlinedTextField(
                     value = viewModel.name,
                     onValueChange = { viewModel.name = it },
                     label = { Text("Name") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -86,7 +128,11 @@ fun AuthView(
                 value = viewModel.email,
                 onValueChange = { viewModel.email = it },
                 label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -96,7 +142,11 @@ fun AuthView(
                 onValueChange = { viewModel.password = it },
                 label = { Text("Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                )
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -105,7 +155,7 @@ fun AuthView(
                 onClick = {
                     viewModel.authenticate(
                         context = context,
-                        onSuccess = { 
+                        onSuccess = {
                             if (viewModel.isLogin) {
                                 navController.navigate(DASHBOARD)
                             }
@@ -115,13 +165,16 @@ fun AuthView(
                         }
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
                 enabled = !viewModel.isLoading,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
                     text = if (viewModel.isLogin) "Login" else "Sign Up",
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -129,13 +182,15 @@ fun AuthView(
 
             TextButton(
                 onClick = { viewModel.toggleAuthMode() },
-                enabled = !viewModel.isLoading
+                enabled = !viewModel.isLoading,
+                modifier = Modifier.height(36.dp)
+                    .padding(top = 2.dp)
             ) {
                 Text(
                     text = if (viewModel.isLogin)
-                        "Need an account? Sign Up"
+                        "Don't have an account? Sign Up"
                     else
-                        "Have an account? Login"
+                        "Already have an account? Sign In"
                 )
             }
 
@@ -146,7 +201,9 @@ fun AuthView(
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         }
                     },
-                    enabled = !viewModel.isLoading
+                    enabled = !viewModel.isLoading,
+                    modifier = Modifier.height(40.dp)
+                        .padding(bottom = 2.dp)
                 ) {
                     Text("Forgot Password?")
                 }
