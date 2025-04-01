@@ -3,6 +3,14 @@
 ## Description
 A Duolingo-style learning app for Data Structures and Algorithms
 
+## Project Description
+We aim to help CS students strengthen their problem-solving skills by deepening their understanding of data structures and algorithms, 
+enabling them to excel in job interviews and apply these concepts in practical, real-world scenarios.
+
+## Video/Screenshots
+
+## Getting Started
+
 ## Team Details
 - Team Number: LAB101-7
 - Team Members:
@@ -10,9 +18,13 @@ A Duolingo-style learning app for Data Structures and Algorithms
   - Raiyan Sayeed - [mrbsayee@uwaterloo.ca](mailto:mrbsayee@uwaterloo.ca)
   - Rohan Minocha - [rminocha@uwaterloo.ca](mailto:rminocha@uwaterloo.ca)
   - Sara Zufishan - [szufisha@uwaterloo.ca](mailto:szufisha@uwaterloo.ca)
-- [Team Contract](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Team-Contract)
+
+## Documentation
 - [Project Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Project-Proposal)
 - [Design Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Design-Proposal)
+
+## Project Information
+- [Team Contract](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Team-Contract)
 - [Meeting Minutes](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Meeting-Minutes)
 
 ## Releases 
