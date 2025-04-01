@@ -16,13 +16,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Help
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -56,14 +59,20 @@ fun QuestMapView(
         viewModel.fetchData()
     }
 
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    if (currentUser != null) {
+        LaunchedEffect(currentUser.uid) {
+            viewModel.checkForNewQuestions(currentUser.uid)
+        }
+    }
+
     val topics = viewModel.topics
     val allSubtopics = viewModel.subtopics
     val userProgress = viewModel.userSubtopicsProgress // per-user progress
     val isLoading = viewModel.isLoading
     val error = viewModel.error
     val scrollState = rememberScrollState()
-    val currentUser = FirebaseAuth.getInstance().currentUser
-    
+
     if (tutorialViewModel.showTutorial) {
         TutorialCarousel(
             slides = tutorialViewModel.tutorialSlides,
@@ -94,7 +103,7 @@ fun QuestMapView(
                 modifier = Modifier.size(28.dp)
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,7 +114,7 @@ fun QuestMapView(
             Spacer(modifier = Modifier.height(56.dp))
 
             Text(
-                text = "Welcome back, ${currentUser?.displayName}! \uD83D\uDC4B",
+                text = "Welcome back, ${currentUser?.displayName ?: "User"}! \uD83D\uDC4B",
                 style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
             )
 
@@ -122,7 +131,6 @@ fun QuestMapView(
 
                 else -> {
                     val userProgressMap = userProgress.associateBy { it.id }
-
                     val sortedTopics = topics.sortedBy { it.order }
                     sortedTopics.forEachIndexed { topicIndex, topic ->
                         val subtopicInfos: List<SubtopicInfo> = allSubtopics
@@ -144,7 +152,6 @@ fun QuestMapView(
                         } else {
                             val prevTopic = sortedTopics[topicIndex - 1]
                             val prevSubs = allSubtopics.filter { it.topicId == prevTopic.id }
-
                             prevSubs.isNotEmpty() && prevSubs.all { s ->
                                 userProgressMap[s.id]?.completed == true
                             }
@@ -159,7 +166,8 @@ fun QuestMapView(
                                 userProgressMap[prevSub.id]?.completed == true
                             }
 
-                            val isSubtopicCompleted = (userProgressMap[subtopic.id]?.completed == true)
+                            val isSubtopicCompleted =
+                                (userProgressMap[subtopic.id]?.completed == true)
                             val buttonText = if (isSubtopicCompleted) "Review" else "Start"
 
                             LessonItem(
@@ -180,6 +188,12 @@ fun QuestMapView(
                 }
             }
         }
+
+        NewQuestionsDialog(
+            newQuestionsAvailable = viewModel.newQuestionsAvailable,
+            newQuestionsSubtopicNames = viewModel.newQuestionsSubtopicNames,
+            onDismiss = { currentUser?.uid?.let { viewModel.clearNewQuestionsFlag(it) } }
+        )
     }
 }
 
@@ -285,5 +299,59 @@ fun IconContainer(icon: ImageVector) {
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary
         )
+    }
+}
+
+@Composable
+fun NewQuestionsDialog(
+    newQuestionsAvailable: Boolean,
+    newQuestionsSubtopicNames: List<String>,
+    onDismiss: () -> Unit
+) {
+    if (newQuestionsAvailable) {
+        val subtopicsText = formatSubtopicNames(newQuestionsSubtopicNames)
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "🎉 New Questions Alert!",
+                        style = MaterialTheme.typography.headlineSmall.copy(fontSize = 20.sp),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterStart)
+                    )
+                    IconButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Close"
+                        )
+                    }
+                }
+            },
+            text = {
+                Text(
+                    text = "Woohoo!! We've added new questions to $subtopicsText just for you!",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            },
+            confirmButton = {},
+            dismissButton = {}
+        )
+    }
+}
+
+fun formatSubtopicNames(names: List<String>): String {
+    return when {
+        names.isEmpty() -> "various topics"
+        names.size == 1 -> names[0]
+        else -> {
+            val allButLast = names.dropLast(1).joinToString(", ")
+            val last = names.last()
+            "$allButLast & $last"
+        }
     }
 }

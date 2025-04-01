@@ -1,0 +1,537 @@
+[
+  {
+    "description": "Which operation is most efficient in a static array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Appending an element to the end",
+      "Inserting an element at the beginning",
+      "Random access by index",
+      "Removing an element from the middle"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which of the following statements about static arrays is false?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "They have a fixed size once declared",
+      "They allocate memory contiguously",
+      "They support insertion at the end in O(1) amortized time",
+      "They allow constant-time indexing"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Arrange these steps to insert an element at a specific index in a static array conceptually.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "EASY",
+    "options": [
+      "Identify the target index",
+      "Shift subsequent elements to the right",
+      "Place the new element at the target index"
+    ],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each static array operation with its typical time complexity.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Access an element by index": "O(1)",
+      "Insert an element at the front": "O(n)",
+      "Update an element by index": "O(1)"
+    },
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What does it mean for a static array to have a fixed size?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "It cannot store negative values",
+      "Once declared, its capacity cannot change at runtime",
+      "It automatically expands when new elements are added",
+      "It cannot be declared without initialization"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In a language like C, what typically happens if you write data outside the bounds of a static array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "The compiler automatically resizes the array",
+      "You get a compilation error every time",
+      "It results in undefined behavior, potentially overwriting other memory",
+      "The program automatically recovers with an exception"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Arrange the following tasks in the correct order for performing a binary search on a sorted static array.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Initialize low and high pointers",
+      "Compute the mid index",
+      "Compare the target with the element at mid",
+      "Adjust low or high pointers accordingly",
+      "Repeat until found or low exceeds high"
+    ],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each memory concept to its meaning in relation to static arrays.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Contiguous allocation": "Memory is allocated in one continuous block",
+      "Memory offset": "Distance from the start address to an element",
+      "Array name": "Often represents a pointer to the first element in low-level languages"
+    },
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What is a typical use case for a static array in embedded systems?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "To allow dynamic resizing during operation",
+      "To handle unknown amounts of data at runtime",
+      "For fixed-size buffers where memory usage must be predictable",
+      "To store data that frequently changes in size"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In terms of memory usage, why might a static array be preferable over a dynamic structure in certain applications?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "It always uses less memory than any dynamic structure",
+      "Its size can adapt to the exact number of elements",
+      "It eliminates the overhead of dynamic allocations, ensuring a predictable memory footprint",
+      "It's more secure against buffer overflows"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "3KFDkaMUldzOYB265HhU",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What is a primary advantage of dynamic arrays over static arrays?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "They use less memory",
+      "They can shrink without copying elements",
+      "They allow resizing at runtime",
+      "They have no overhead for reallocation"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which factor typically triggers a dynamic array to resize?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Any insertion operation",
+      "When the array is empty",
+      "When the number of elements reaches the current capacity",
+      "During every read operation"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Put these steps in order to remove an element from a dynamic array at a specific index.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "EASY",
+    "options": [
+      "Locate the element by index",
+      "Shift subsequent elements to fill the gap",
+      "Reduce the size by one"
+    ],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each concept to its role in a dynamic array.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Size": "Actual number of elements",
+      "Capacity": "Allocated space for elements",
+      "Amortized Analysis": "Method to determine average cost of reallocation",
+      "Resize Operation": "Creates a new array and copies old elements"
+    },
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "When adding elements to a dynamic array, what is the typical strategy for resizing?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Increment capacity by 1 each time",
+      "Double the capacity",
+      "Allocate capacity based on the next prime number",
+      "Reduce capacity to half"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "If the capacity is doubled every time the dynamic array runs out of space, what is the worst-case complexity of n consecutive insertions?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "O(n log n)",
+      "O(n^2)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Arrange the steps involved in shrinking a dynamic array when many elements have been removed.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Check if size is much smaller than capacity",
+      "Decide on a new capacity",
+      "Allocate new array with the reduced capacity",
+      "Copy elements to the new array",
+      "Deallocate old array"
+    ],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match these dynamic array challenges with their descriptions.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Frequent Resizing": "Inefficient if too many expansions or contractions occur",
+      "Memory Fragmentation": "Consecutive allocations might not be contiguous in some systems",
+      "Copy Overhead": "Costly operation when resizing and copying elements"
+    },
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What could be a disadvantage of dynamic arrays compared to linked lists?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "They require extra space for pointers",
+      "Insertion at arbitrary positions can be expensive due to shifting elements",
+      "They do not support random access by index",
+      "They can't be resized easily"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Under which scenario might a dynamic array not be the best choice?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "When insertion at the end is common",
+      "When random access is frequently needed",
+      "When memory must be allocated in small, repeated increments",
+      "When data is stored in sorted order"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "4ZYUDUddEfItaBKCFivf",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What is the typical method to determine if a stack is empty?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Check if top pointer is at -1 (or 0 in some implementations)",
+      "Check if top pointer equals the capacity",
+      "Traverse the entire stack",
+      "All of the above"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In a linked-list implementation of a stack, which pointer is typically used to represent the top?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "A pointer to the bottom node",
+      "A pointer to the head (most recently added node)",
+      "A pointer to the second node in the list",
+      "No pointers are needed in a linked-list stack"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Order the steps to check the top element of the stack without removing it (peek).",
+    "questionType": "DRAG_DROP",
+    "difficulty": "EASY",
+    "options": [
+      "Verify that the stack is not empty",
+      "Return the element at the top pointer"
+    ],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each stack usage scenario with its common application.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Function Call Stack": "Tracks active subroutines or methods in a program",
+      "Undo Operation": "Reverse the most recent action",
+      "Expression Evaluation": "Manages parentheses or operator precedence"
+    },
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which data structure principle do stacks implement?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "FIFO",
+      "LIFO",
+      "LILO",
+      "FILO"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In what situation might a recursive function cause a stack overflow?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "When the function has no return value",
+      "When the recursion depth exceeds the stack's capacity",
+      "When memory is allocated from the heap",
+      "When local variables are declared inside the function"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Put in order the actions the CPU performs for function calls using the stack.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Push current instruction pointer and local data",
+      "Jump to function code",
+      "Execute function",
+      "Pop stack frame and return to caller"
+    ],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each stack-based error to its description.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Stack Overflow": "Attempting to push onto a full stack",
+      "Stack Underflow": "Attempting to pop from an empty stack",
+      "Infinite Recursion": "Repeated function calls without a base case leading to overflow"
+    },
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which of the following operations is not constant time for a typical stack implementation?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Checking if empty",
+      "Pop",
+      "Push",
+      "Iterating through all elements"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which characteristic of a stack is most useful for parsing nested structures, like parentheses or HTML tags?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Its FIFO nature",
+      "Immediate random access",
+      "Its LIFO property",
+      "Ability to hold objects of different sizes"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "7QBjY3TB0CVu3ZrR1Oh2",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In hashing, what does the term 'bucket' usually refer to?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "A single memory address for storing the entire table",
+      "A slot or linked list where collisions are handled",
+      "A collection of all keys mapped to the same index",
+      "The area where hash codes are computed"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "What is the main purpose of rehashing in a hash table?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "To compress the data",
+      "To ensure keys remain in the same indices",
+      "To reduce collisions by adjusting the table size or the hash function",
+      "To remove duplicate keys automatically"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Arrange these steps for retrieving a value from a hash table.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "EASY",
+    "options": [
+      "Compute hash for the key",
+      "Locate the corresponding bucket",
+      "Search the bucket for the key",
+      "Return the associated value"
+    ],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each open addressing strategy with a brief description.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Linear Probing": "Increment index by a fixed step (usually 1) until an empty slot is found",
+      "Quadratic Probing": "Probe sequence increases quadratically",
+      "Double Hashing": "A second hash function is used to determine the step size"
+    },
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which of these is a reason for collisions to occur in hash tables?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Lack of memory in the system",
+      "Multiple keys producing the same hash value",
+      "Using prime numbers in the hash function",
+      "Using a large table size"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which statement accurately describes perfect hashing?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "A hashing technique that guarantees no collisions for a specific set of keys",
+      "A method that uses multiple hash functions always",
+      "A practice of resizing the table to fit exactly all keys",
+      "A universal hashing method used by all languages"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Arrange these actions to delete an element from a hash table using chaining.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Compute the hash for the key",
+      "Locate the bucket",
+      "Find the key in the linked list",
+      "Remove the node from the list"
+    ],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Match each term with the correct definition in hashing context.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Separate Chaining": "Storing collided keys in a linked list or another structure at that index",
+      "Primary Clustering": "Long runs of filled slots in linear probing",
+      "Hash Collisions": "Different keys generating the same index"
+    },
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "In open addressing, what is a typical drawback of linear probing?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "It requires too much extra memory",
+      "It can lead to primary clustering where consecutive slots fill up",
+      "It doesn't allow deletion of keys",
+      "It only works with prime table sizes"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  },
+  {
+    "description": "Which scenario most often leads to a higher load factor in a hash table than intended?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Frequent insertions without resizing",
+      "Frequent deletions",
+      "Using a large initial capacity",
+      "Using a perfect hash function"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "dCE0IT7YZ3RZMPLCfd8X",
+    "releaseDate": "2025-03-02T16:00:00Z"
+  }
+]
