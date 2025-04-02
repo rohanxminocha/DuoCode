@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -118,7 +117,7 @@ fun AuthView(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -131,7 +130,7 @@ fun AuthView(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 )
             )
 
@@ -145,9 +144,24 @@ fun AuthView(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 )
             )
+
+            if (!viewModel.isLogin) {
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = viewModel.confirmPassword,
+                    onValueChange = { viewModel.confirmPassword = it },
+                    label = { Text("Confirm Password") },
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    )
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -192,21 +206,6 @@ fun AuthView(
                     else
                         "Already have an account? Sign In"
                 )
-            }
-
-            if (viewModel.isLogin) {
-                TextButton(
-                    onClick = {
-                        viewModel.sendResetPassword { message ->
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    enabled = !viewModel.isLoading,
-                    modifier = Modifier.height(40.dp)
-                        .padding(bottom = 2.dp)
-                ) {
-                    Text("Forgot Password?")
-                }
             }
         }
 
