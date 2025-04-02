@@ -13,6 +13,7 @@ import com.uw.duocode.data.model.UserSubtopicProgress
 import com.uw.duocode.ui.screens.challenges.ChallengeData
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
 import kotlinx.coroutines.launch
+import androidx.compose.ui.graphics.Color
 
 
 class AuthViewModel : ViewModel() {
@@ -22,6 +23,7 @@ class AuthViewModel : ViewModel() {
 
     var email by mutableStateOf("")
     var password by mutableStateOf("")
+    var confirmPassword by mutableStateOf("")
     var name by mutableStateOf("")
     var isLoading by mutableStateOf(false)
         private set
@@ -52,6 +54,11 @@ class AuthViewModel : ViewModel() {
                     onMessage(e.localizedMessage ?: "Login failed")
                 }
         } else {
+            if (password != confirmPassword) {
+                isLoading = false
+                onMessage("Passwords do not match")
+                return
+            }
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
                     val user = authResult.user
@@ -213,23 +220,5 @@ class AuthViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 println("Error fetching subtopics for challenge prepopulation: ${e.message}")
             }
-    }
-
-    fun sendResetPassword(onMessage: (String) -> Unit) {
-        val auth = FirebaseAuth.getInstance()
-        if (email.isNotBlank()) {
-            isLoading = true
-            auth.sendPasswordResetEmail(email)
-                .addOnSuccessListener {
-                    isLoading = false
-                    onMessage("Password reset email sent")
-                }
-                .addOnFailureListener { e ->
-                    isLoading = false
-                    onMessage(e.localizedMessage ?: "Failed to send reset email")
-                }
-        } else {
-            onMessage("Please enter your email first")
-        }
     }
 }
