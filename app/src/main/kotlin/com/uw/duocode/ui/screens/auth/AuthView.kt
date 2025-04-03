@@ -15,33 +15,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uw.duocode.R
 import com.uw.duocode.ui.components.TutorialCarousel
 import com.uw.duocode.ui.components.TutorialViewModel
@@ -73,43 +62,6 @@ fun AuthView(
         return
     }
 
-    var passwordVisible by remember { mutableStateOf(false) }
-    var confirmPasswordVisible by remember { mutableStateOf(false) }
-
-    fun isPasswordValid(password: String): Boolean {
-        val lengthRequirement = password.length >= 6
-        val uppercaseRequirement = password.any { it.isUpperCase() }
-        val lowercaseRequirement = password.any { it.isLowerCase() }
-        val digitRequirement = password.any { it.isDigit() }
-        val specialCharRequirement = password.any { !it.isLetterOrDigit() }
-        return lengthRequirement && uppercaseRequirement && lowercaseRequirement &&
-                digitRequirement && specialCharRequirement
-    }
-
-    fun missingRequirements(password: String): List<String> {
-        val missing = mutableListOf<String>()
-        if (password.length < 6) {
-            missing.add("at least 6 characters")
-        }
-        if (!password.any { it.isUpperCase() }) {
-            missing.add("an uppercase letter")
-        }
-        if (!password.any { it.isLowerCase() }) {
-            missing.add("a lowercase letter")
-        }
-        if (!password.any { it.isDigit() }) {
-            missing.add("a digit")
-        }
-        if (!password.any { !it.isLetterOrDigit() }) {
-            missing.add("a special character")
-        }
-        return missing
-    }
-
-    val isSignUpEnabled = viewModel.isLogin ||
-            (isPasswordValid(viewModel.password)
-                    && viewModel.password == viewModel.confirmPassword)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -133,7 +85,8 @@ fun AuthView(
             Image(
                 painter = image,
                 contentDescription = "DuoCode Logo",
-                modifier = Modifier.size(180.dp)
+                modifier = Modifier
+                    .size(180.dp)
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -151,7 +104,7 @@ fun AuthView(
                 text = if (viewModel.isLogin)
                     "Resume your coding journey"
                 else
-                    "Join us to begin your coding journey",
+                    "Join us to begin coding journey",
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -159,9 +112,7 @@ fun AuthView(
             if (!viewModel.isLogin) {
                 OutlinedTextField(
                     value = viewModel.name,
-                    onValueChange = {
-                        viewModel.name = it.replace("\\s".toRegex(), "")
-                    },
+                    onValueChange = { viewModel.name = it },
                     label = { Text("Name") },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -174,9 +125,7 @@ fun AuthView(
 
             OutlinedTextField(
                 value = viewModel.email,
-                onValueChange = {
-                    viewModel.email = it.replace("\\s".toRegex(), "")
-                },
+                onValueChange = { viewModel.email = it },
                 label = { Text("Email") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -187,47 +136,17 @@ fun AuthView(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            val showPasswordError = !viewModel.isLogin &&
-                    viewModel.password.isNotEmpty() &&
-                    !isPasswordValid(viewModel.password)
-
             OutlinedTextField(
                 value = viewModel.password,
                 onValueChange = { viewModel.password = it },
                 label = { Text("Password") },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    IconButton(
-                        onClick = { passwordVisible = !passwordVisible },
-                        modifier = Modifier.padding(end = 8.dp)
-                    ) {
-                        Icon(
-                            imageVector = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                            contentDescription = if (passwordVisible) "Hide password" else "Show password",
-                            tint = Color.Gray
-                        )
-                    }
-                },
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                ),
-                isError = showPasswordError
-            )
-
-            if (showPasswordError) {
-                val missing = missingRequirements(viewModel.password)
-                val errorMessage = "Password must include: " + missing.joinToString(", ")
-                Text(
-                    text = errorMessage,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, start = 16.dp)
                 )
-            }
+            )
 
             if (!viewModel.isLogin) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -235,26 +154,12 @@ fun AuthView(
                     value = viewModel.confirmPassword,
                     onValueChange = { viewModel.confirmPassword = it },
                     label = { Text("Confirm Password") },
-                    visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            onClick = { confirmPasswordVisible = !confirmPasswordVisible },
-                            modifier = Modifier.padding(end = 8.dp)
-                        ) {
-                            Icon(
-                                imageVector = if (confirmPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                                contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password",
-                                tint = Color.Gray
-                            )
-                        }
-                    },
+                    visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                    ),
-                    isError = viewModel.confirmPassword.isNotEmpty() &&
-                            viewModel.confirmPassword != viewModel.password
+                    )
                 )
             }
 
@@ -277,7 +182,7 @@ fun AuthView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
-                enabled = !viewModel.isLoading && isSignUpEnabled,
+                enabled = !viewModel.isLoading,
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
@@ -292,8 +197,7 @@ fun AuthView(
             TextButton(
                 onClick = { viewModel.toggleAuthMode() },
                 enabled = !viewModel.isLoading,
-                modifier = Modifier
-                    .height(36.dp)
+                modifier = Modifier.height(36.dp)
                     .padding(top = 2.dp)
             ) {
                 Text(
