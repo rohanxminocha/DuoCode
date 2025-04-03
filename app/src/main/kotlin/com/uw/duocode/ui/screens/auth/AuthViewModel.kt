@@ -13,7 +13,6 @@ import com.uw.duocode.data.model.UserSubtopicProgress
 import com.uw.duocode.ui.screens.challenges.ChallengeData
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
 import kotlinx.coroutines.launch
-import androidx.compose.ui.graphics.Color
 
 
 class AuthViewModel : ViewModel() {
@@ -27,9 +26,22 @@ class AuthViewModel : ViewModel() {
     var name by mutableStateOf("")
     var isLoading by mutableStateOf(false)
         private set
-    
     var shouldShowTutorial by mutableStateOf(false)
         private set
+
+    private fun isPasswordValid(password: String): Boolean {
+        val lengthRequirement = password.length >= 6
+        val uppercaseRequirement = password.any { it.isUpperCase() }
+        val lowercaseRequirement = password.any { it.isLowerCase() }
+        val digitRequirement = password.any { it.isDigit() }
+        val specialCharRequirement = password.any { !it.isLetterOrDigit() }
+
+        return lengthRequirement
+                && uppercaseRequirement
+                && lowercaseRequirement
+                && digitRequirement
+                && specialCharRequirement
+    }
 
     fun toggleAuthMode() {
         isLogin = !isLogin
@@ -41,6 +53,17 @@ class AuthViewModel : ViewModel() {
         onMessage: (String) -> Unit
     ) {
         isLoading = true
+        if (email.contains("\\s".toRegex())) {
+            isLoading = false
+            onMessage("Email cannot contain whitespace")
+            return
+        }
+        if (!isLogin && name.contains("\\s".toRegex())) {
+            isLoading = false
+            onMessage("Name cannot contain whitespace")
+            return
+        }
+
         val auth = FirebaseAuth.getInstance()
         if (isLogin) {
             auth.signInWithEmailAndPassword(email, password)
@@ -59,6 +82,18 @@ class AuthViewModel : ViewModel() {
                 onMessage("Passwords do not match")
                 return
             }
+            if (!isPasswordValid(password)) {
+                isLoading = false
+                onMessage(
+                    "Password must be at least 6 characters long and include:\n" +
+                            "- 1 uppercase letter\n" +
+                            "- 1 lowercase letter\n" +
+                            "- 1 digit\n" +
+                            "- 1 special character"
+                )
+                return
+            }
+
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { authResult ->
                     val user = authResult.user
@@ -99,7 +134,6 @@ class AuthViewModel : ViewModel() {
                                             isLoading = false
                                             shouldShowTutorial = true
                                             onMessage("Account created but couldn't generate profile picture")
-                                            // Navigate to dashboard
                                             onSuccess()
                                         }
                                     }
