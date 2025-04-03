@@ -47,6 +47,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.uw.duocode.data.model.User
+import com.uw.duocode.ui.screens.questmap.QuestMapViewModel
+import com.uw.duocode.ui.utils.checkAndUnlockAchievements
 import kotlin.math.roundToInt
 
 
@@ -55,7 +57,9 @@ import kotlin.math.roundToInt
 fun ProfileView(
     navController: NavHostController,
     profileViewModel: ProfileViewModel = viewModel(),
-    friendViewModel: FriendViewModel = viewModel()
+    friendViewModel: FriendViewModel = viewModel(),
+    achievementsViewModel: AchievementsViewModel = viewModel(),
+    questMapViewModel: QuestMapViewModel = viewModel()
 ) {
     val context = LocalContext.current
     var showFriendsView by remember { mutableStateOf(false) }
@@ -63,6 +67,27 @@ fun ProfileView(
     LaunchedEffect(key1 = Unit) {
         profileViewModel.loadUserData()
         friendViewModel.loadPendingRequests()
+        achievementsViewModel.loadAchievements()
+        questMapViewModel.fetchData()
+    }
+
+    // kind of messy
+    LaunchedEffect(
+        key1 = questMapViewModel.userSubtopicsProgress,
+        key2 = questMapViewModel.topics,
+        key3 = questMapViewModel.subtopics
+    ) {
+        if (questMapViewModel.userSubtopicsProgress.isNotEmpty() &&
+            questMapViewModel.topics.isNotEmpty() &&
+            questMapViewModel.subtopics.isNotEmpty()
+        ) {
+            checkAndUnlockAchievements(
+                topics = questMapViewModel.topics,
+                subtopics = questMapViewModel.subtopics,
+                userProgress = questMapViewModel.userSubtopicsProgress,
+                achievementsViewModel = achievementsViewModel
+            )
+        }
     }
 
     var showProfilePictureOptions by remember { mutableStateOf(false) }
@@ -231,6 +256,9 @@ fun ProfileView(
             FriendsCard(
                 friendViewModel = friendViewModel,
                 onManageFriends = { showFriendsView = true }
+            )
+            AchievementsView(
+                achievementsViewModel = achievementsViewModel
             )
         }
     }

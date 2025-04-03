@@ -88,7 +88,6 @@ fun ChallengesView(
     val challenges = challengesViewModel.challenges
     val completedChallenges = challenges.filter { it.completed }
     val availableChallenges = challenges.filter { !it.completed }.take(3)
-    println(challenges)
 
     if (showLeaderboardDialog) {
         Dialog(
