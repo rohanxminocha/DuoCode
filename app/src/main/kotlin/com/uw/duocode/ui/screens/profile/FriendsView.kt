@@ -1,7 +1,6 @@
 package com.uw.duocode.ui.screens.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,13 +22,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +39,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,6 +47,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -62,13 +60,14 @@ import com.uw.duocode.data.model.Friend
 import com.uw.duocode.data.model.FriendRequest
 import com.uw.duocode.data.model.User
 
+
 @Composable
 fun FriendsView(
     viewModel: FriendViewModel = viewModel()
 ) {
     val context = LocalContext.current
     var selectedTabIndex by remember { mutableIntStateOf(0) }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -80,27 +79,29 @@ fun FriendsView(
                 onClick = { selectedTabIndex = 0 },
                 text = { Text("Friends") }
             )
+
             Tab(
                 selected = selectedTabIndex == 1,
                 onClick = { selectedTabIndex = 1 },
                 text = { Text("Requests") }
             )
+
             Tab(
                 selected = selectedTabIndex == 2,
                 onClick = { selectedTabIndex = 2 },
                 text = { Text("Add Friend") }
             )
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         when (selectedTabIndex) {
             0 -> FriendsList(viewModel)
             1 -> FriendRequestsList(viewModel)
             2 -> AddFriendSection(viewModel)
         }
     }
-    
+
     if (viewModel.errorMessage != null) {
         AlertDialog(
             onDismissRequest = { viewModel.clearError() },
@@ -117,21 +118,13 @@ fun FriendsView(
 
 @Composable
 fun FriendsList(viewModel: FriendViewModel) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         if (viewModel.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else if (viewModel.friends.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     text = "You don't have any friends yet",
                     style = MaterialTheme.typography.bodyLarge,
@@ -141,7 +134,7 @@ fun FriendsList(viewModel: FriendViewModel) {
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 items(viewModel.friends) { friend ->
                     FriendItem(friend)
@@ -157,12 +150,13 @@ fun FriendItem(friend: Friend) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(horizontal = 12.dp, vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -203,11 +197,10 @@ fun FriendItem(friend: Friend) {
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.width(12.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = friend.friendName,
                     style = MaterialTheme.typography.titleMedium,
@@ -215,6 +208,7 @@ fun FriendItem(friend: Friend) {
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
                 Text(
                     text = friend.friendEmail,
                     style = MaterialTheme.typography.bodyMedium,
@@ -229,21 +223,13 @@ fun FriendItem(friend: Friend) {
 
 @Composable
 fun FriendRequestsList(viewModel: FriendViewModel) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         if (viewModel.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else if (viewModel.pendingRequests.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     text = "No pending friend requests",
                     style = MaterialTheme.typography.bodyLarge,
@@ -258,14 +244,8 @@ fun FriendRequestsList(viewModel: FriendViewModel) {
                 items(viewModel.pendingRequests) { request ->
                     FriendRequestItem(
                         request = request,
-                        onAccept = {
-                            viewModel.acceptFriendRequest(request) {
-                            }
-                        },
-                        onReject = {
-                            viewModel.rejectFriendRequest(request) {
-                            }
-                        }
+                        onAccept = { viewModel.acceptFriendRequest(request) {} },
+                        onReject = { viewModel.rejectFriendRequest(request) {} }
                     )
                 }
             }
@@ -283,7 +263,8 @@ fun FriendRequestItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
@@ -332,12 +313,10 @@ fun FriendRequestItem(
                         )
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.width(12.dp))
-                
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
+
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = request.senderName,
                         style = MaterialTheme.typography.titleMedium,
@@ -345,6 +324,7 @@ fun FriendRequestItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+
                     Text(
                         text = request.senderEmail,
                         style = MaterialTheme.typography.bodyMedium,
@@ -354,42 +334,40 @@ fun FriendRequestItem(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = "Wants to be your friend",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.Center
             ) {
-                TextButton(
-                    onClick = onReject
-                ) {
+                TextButton(onClick = onReject) {
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = "Reject"
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(2.dp))
                     Text("Reject")
                 }
-                
+
                 Spacer(modifier = Modifier.width(8.dp))
-                
-                Button(
-                    onClick = onAccept
-                ) {
+
+                Button(onClick = onAccept) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = "Accept"
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+
+                    Spacer(modifier = Modifier.width(2.dp))
+
                     Text("Accept")
                 }
             }
@@ -399,11 +377,12 @@ fun FriendRequestItem(
 
 @Composable
 fun AddFriendSection(viewModel: FriendViewModel) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val searchEmail = viewModel.searchEmail
     val searchResults = viewModel.searchResults
     val isSearching = viewModel.isSearching
     val errorMessage = viewModel.errorMessage
-    
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -414,12 +393,16 @@ fun AddFriendSection(viewModel: FriendViewModel) {
             onValueChange = { viewModel.searchEmail = it },
             label = { Text("Search by email") },
             modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch = { viewModel.searchUserByEmail() }
+                onSearch = {
+                    viewModel.searchUserByEmail()
+                    keyboardController?.hide()
+                }
             ),
             trailingIcon = {
                 IconButton(onClick = { viewModel.searchUserByEmail() }) {
@@ -427,16 +410,16 @@ fun AddFriendSection(viewModel: FriendViewModel) {
                 }
             }
         )
-        
+
         Text(
             text = "Press Enter or click the search icon to start searching",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 4.dp, start = 4.dp)
         )
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         if (errorMessage != null) {
             Text(
                 text = errorMessage,
@@ -445,7 +428,7 @@ fun AddFriendSection(viewModel: FriendViewModel) {
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
-        
+
         if (isSearching) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -489,7 +472,8 @@ fun UserSearchResultItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Row(
             modifier = Modifier
@@ -535,12 +519,10 @@ fun UserSearchResultItem(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.width(12.dp))
-            
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = user.userId,
                     style = MaterialTheme.typography.titleMedium,
@@ -548,6 +530,7 @@ fun UserSearchResultItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
                 Text(
                     text = user.email,
                     style = MaterialTheme.typography.bodyMedium,
@@ -556,7 +539,7 @@ fun UserSearchResultItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            
+
             IconButton(onClick = onSendRequest) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -579,4 +562,4 @@ private fun getInitials(name: String): String {
             else -> "${parts[0].take(1)}${parts[1].take(1)}".uppercase()
         }
     }
-} 
+}

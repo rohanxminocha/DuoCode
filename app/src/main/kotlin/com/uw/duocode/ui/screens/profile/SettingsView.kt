@@ -47,9 +47,6 @@ fun SettingsView(
         topBar = {
             SmallTopAppBar(
                 title = { Text("Settings", style = MaterialTheme.typography.titleLarge) },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
@@ -136,8 +133,12 @@ fun SettingsView(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    TextButton(onClick = { showTestNotification(context) }) {
-                        Text("Test Notification")
+                    Button(
+                        onClick = { showTestNotification(context) },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(text = "Test Notification", style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }

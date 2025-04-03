@@ -45,7 +45,7 @@ class FriendViewModel : ViewModel() {
         loadPendingRequests()
     }
     
-    fun loadFriends() {
+    private fun loadFriends() {
         val currentUser = auth.currentUser ?: return
         
         isLoading = true

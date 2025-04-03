@@ -1,5 +1,6 @@
 package com.uw.duocode.ui.notification
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -16,6 +17,7 @@ import com.uw.duocode.data.model.Notification
 import kotlinx.coroutines.tasks.await
 
 
+@SuppressLint("MissingPermission")
 class DailyNotificationWorker(
     context: Context,
     workerParams: WorkerParameters
