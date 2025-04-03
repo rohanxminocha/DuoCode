@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 
 class MatchViewModelTest {
-    
+
     private lateinit var viewModel: MatchViewModel
     private val questionText = "Match the data structures with their characteristics"
     private val correctPairs = mapOf(
@@ -19,7 +19,7 @@ class MatchViewModelTest {
     )
     private var questionCompletedCalled = false
     private val progress = 0.5f
-    
+
     @Before
     fun setup() {
         questionCompletedCalled = false
@@ -30,7 +30,7 @@ class MatchViewModelTest {
             progress = progress
         )
     }
-    
+
     @Test
     fun testInitialState() {
         assertEquals(questionText, viewModel.questionText)
@@ -41,46 +41,46 @@ class MatchViewModelTest {
         assertEquals(0, viewModel.correctValues.size)
         assertFalse(viewModel.showErrorDialog)
         assertFalse(viewModel.allMatchesMade)
-        
+
         assertEquals(4, viewModel.shuffledKeys.size)
         assertEquals(4, viewModel.shuffledValues.size)
         assertEquals(8, viewModel.items.size)
     }
-    
+
     @Test
     fun testItemSelection() {
         val keyItem = viewModel.shuffledKeys.first()
-        
+
         assertNull(viewModel.selectedItem)
-        
+
         viewModel.onItemClicked(keyItem, true)
-        
+
         assertEquals(keyItem.index, viewModel.selectedItem?.index)
         assertEquals(keyItem.item, viewModel.selectedItem?.item)
         assertTrue(viewModel.selectedItem?.isKey ?: false)
-        
+
         viewModel.onItemClicked(keyItem, true)
-        
+
         assertNull(viewModel.selectedItem)
     }
-    
+
     @Test
     fun testCorrectMatch() {
         val keyItem = viewModel.shuffledKeys.first()
         val keyValue = keyItem.item
-        
+
         val valueItem = viewModel.shuffledValues.find {
-            it.item == correctPairs[keyValue] 
+            it.item == correctPairs[keyValue]
         }!!
-        
+
         viewModel.onItemClicked(keyItem, true)
-        
+
         viewModel.onItemClicked(valueItem, false)
-        
+
         assertTrue(viewModel.correctKeys.contains(keyItem.index))
         assertTrue(viewModel.correctValues.contains(valueItem.index))
         assertNull(viewModel.selectedItem)
-        
+
         assertFalse(viewModel.showErrorDialog)
     }
 
@@ -88,48 +88,48 @@ class MatchViewModelTest {
     fun testSwitchSelection() {
         val keyItem1 = viewModel.shuffledKeys[0]
         val keyItem2 = viewModel.shuffledKeys[1]
-        
+
         viewModel.onItemClicked(keyItem1, true)
-        
+
         assertEquals(keyItem1.index, viewModel.selectedItem?.index)
-        
+
         viewModel.onItemClicked(keyItem2, true)
-        
+
         assertEquals(keyItem2.index, viewModel.selectedItem?.index)
     }
-    
+
     @Test
     fun testAllMatchesCorrect() {
         assertFalse(viewModel.allMatchesMade)
-        
+
         for (keyItem in viewModel.shuffledKeys) {
             val keyValue = keyItem.item
-            val valueItem = viewModel.shuffledValues.find { 
-                it.item == correctPairs[keyValue] 
+            val valueItem = viewModel.shuffledValues.find {
+                it.item == correctPairs[keyValue]
             }!!
-            
+
             viewModel.onItemClicked(keyItem, true)
             viewModel.onItemClicked(valueItem, false)
         }
-        
+
         assertTrue(viewModel.allMatchesMade)
         assertEquals(viewModel.shuffledKeys.size, viewModel.correctKeys.size)
         assertEquals(viewModel.shuffledValues.size, viewModel.correctValues.size)
     }
-    
+
     @Test
     fun testContinueToNext() {
         val keyItem = viewModel.shuffledKeys.first()
         val keyValue = keyItem.item
-        val valueItem = viewModel.shuffledValues.find { 
-            it.item == correctPairs[keyValue] 
+        val valueItem = viewModel.shuffledValues.find {
+            it.item == correctPairs[keyValue]
         }!!
-        
+
         viewModel.onItemClicked(keyItem, true)
         viewModel.onItemClicked(valueItem, false)
-        
+
         viewModel.continueToNext()
-        
+
         assertTrue(questionCompletedCalled)
     }
-} 
+}
