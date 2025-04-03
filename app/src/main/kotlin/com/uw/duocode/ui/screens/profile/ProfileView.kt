@@ -10,19 +10,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,14 +61,13 @@ fun ProfileView(
 ) {
     val context = LocalContext.current
     var showFriendsView by remember { mutableStateOf(false) }
+    var showProfilePictureOptions by remember { mutableStateOf(false) }
+    var showPermissionDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(Unit) {
         profileViewModel.loadUserData()
         friendViewModel.loadPendingRequests()
     }
-
-    var showProfilePictureOptions by remember { mutableStateOf(false) }
-    var showPermissionDialog by remember { mutableStateOf(false) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -121,7 +122,8 @@ fun ProfileView(
             ChangeProfilePictureDialog(
                 onUploadGallery = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        if (ContextCompat.checkSelfPermission(
+                        if (
+                            ContextCompat.checkSelfPermission(
                                 context,
                                 Manifest.permission.READ_MEDIA_IMAGES
                             ) != PackageManager.PERMISSION_GRANTED
@@ -131,7 +133,8 @@ fun ProfileView(
                             imagePickerLauncher.launch("image/*")
                         }
                     } else {
-                        if (ContextCompat.checkSelfPermission(
+                        if (
+                            ContextCompat.checkSelfPermission(
                                 context,
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                             ) != PackageManager.PERMISSION_GRANTED
@@ -160,7 +163,10 @@ fun ProfileView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(500.dp),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             ) {
                 FriendsView(friendViewModel)
             }
@@ -178,60 +184,78 @@ fun ProfileView(
                         horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { navController.navigate("settings") }) {
+                        FloatingActionButton(
+                            onClick = { navController.navigate("settings") },
+                            modifier = Modifier.size(56.dp),
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                            elevation = FloatingActionButtonDefaults.elevation(
+                                defaultElevation = 0.dp,
+                                pressedElevation = 0.dp
+                            )
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = "Settings"
+                                contentDescription = "Settings",
+                                modifier = Modifier.size(28.dp)
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White,
                 )
             )
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
+            contentPadding = innerPadding,
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ProfilePictureSection(
-                isLoading = profileViewModel.isLoading,
-                isUpdating = profileViewModel.isUpdatingProfilePicture,
-                profilePictureUrl = profileViewModel.user?.profilePictureUrl,
-                onClick = { showProfilePictureOptions = true }
-            )
-
-            val auth = FirebaseAuth.getInstance()
-            val currentUser = auth.currentUser
-            currentUser?.let { user ->
-                user.displayName?.let { name ->
-                    Text(
-                        text = name,
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-
-                Text(
-                    text = user.email ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+            item {
+                ProfilePictureSection(
+                    isLoading = profileViewModel.isLoading,
+                    isUpdating = profileViewModel.isUpdatingProfilePicture,
+                    profilePictureUrl = profileViewModel.user?.profilePictureUrl,
+                    onClick = { showProfilePictureOptions = true }
                 )
             }
 
-            OverviewSection(profileViewModel.user)
+            item {
+                val auth = FirebaseAuth.getInstance()
+                val currentUser = auth.currentUser
+                currentUser?.let { user ->
+                    user.displayName?.let { name ->
+                        Text(
+                            text = name,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    Text(
+                        text = user.email ?: "",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
 
-            FriendsCard(
-                friendViewModel = friendViewModel,
-                onManageFriends = { showFriendsView = true }
-            )
+            item {
+                OverviewSection(profileViewModel.user)
+            }
+
+            item {
+                FriendsCard(
+                    friendViewModel = friendViewModel,
+                    onManageFriends = { showFriendsView = true }
+                )
+            }
         }
     }
 }
@@ -244,7 +268,7 @@ private fun ChangeProfilePictureDialog(
 ) {
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -256,7 +280,8 @@ private fun ChangeProfilePictureDialog(
 
         Button(
             onClick = onUploadGallery,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -271,7 +296,8 @@ private fun ChangeProfilePictureDialog(
 
         Button(
             onClick = onGenerateNew,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(
                 imageVector = Icons.Default.Refresh,
@@ -432,14 +458,14 @@ private fun OverviewSection(user: User?) {
             OverviewCard(
                 title = "Accuracy",
                 value = "$accuracy%",
-                icon = Icons.Filled.CheckCircle,
+                icon = Icons.Filled.PieChart,
                 modifier = Modifier.weight(1f)
             )
 
             OverviewCard(
-                title = "Time Spent",
+                title = "Quiz Time",
                 value = "$timeSpent mins",
-                icon = Icons.Filled.Timer,
+                icon = Icons.Filled.AccessTime,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -484,10 +510,11 @@ private fun OverviewCard(
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )
+
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.secondaryContainer
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -501,7 +528,8 @@ private fun FriendsCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
@@ -524,7 +552,8 @@ private fun FriendsCard(
                 ) {
                     Text(
                         text = "Friends",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
 
@@ -532,8 +561,6 @@ private fun FriendsCard(
                     Text("Manage Friends")
                 }
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             if (friendViewModel.isLoading) {
                 Box(
@@ -565,6 +592,7 @@ private fun FriendsCard(
                     friendViewModel.friends.take(3).forEach { friend ->
                         FriendItem(friend)
                     }
+
                     if (friendViewModel.friends.size > 3) {
                         TextButton(
                             onClick = onManageFriends,
