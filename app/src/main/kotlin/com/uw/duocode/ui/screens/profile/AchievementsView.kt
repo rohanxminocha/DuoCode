@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,9 +17,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import com.uw.duocode.ui.utils.getTopicIcon
 
 @Composable
-fun AchievementsView(achievementsViewModel: AchievementsViewModel) {
+fun AchievementsView(
+    achievementsViewModel: AchievementsViewModel
+) {
     val achievements = achievementsViewModel.achievements
     val isLoading = achievementsViewModel.isLoading
     val error = achievementsViewModel.error
@@ -35,6 +44,12 @@ fun AchievementsView(achievementsViewModel: AchievementsViewModel) {
     LaunchedEffect(Unit) {
         achievementsViewModel.loadAchievements()
     }
+
+    val unlockedAchievements = achievements.filter { it.unlocked }
+    val lockedAchievements = achievements.filter { !it.unlocked }
+
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    val tabTitles = listOf("Unlocked", "Locked")
 
     Column(
         modifier = Modifier
@@ -46,34 +61,59 @@ fun AchievementsView(achievementsViewModel: AchievementsViewModel) {
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
+
         when {
             isLoading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                return@Column
             }
             error != null -> {
                 Text(text = error ?: "Unknown error", color = Color.Red)
+                return@Column
             }
             achievements.isEmpty() -> {
-                Text(text = "No achievements yet. Start completing challenges!")
+                Text(text = "No achievements yet. Start completing questions!")
+                return@Column
             }
-            else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(8.dp),
-                    modifier = Modifier.fillMaxWidth().height(300.dp)
-                ) {
-                    items(achievements.size) { index ->
-                        AchievementItem(achievement = achievements[index])
-                    }
-                }
+        }
+
+        TabRow(selectedTabIndex = selectedTabIndex) {
+            tabTitles.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTabIndex == index,
+                    onClick = { selectedTabIndex = index },
+                    text = { Text(title) }
+                )
             }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        when (selectedTabIndex) {
+            0 -> AchievementGrid(achievements = unlockedAchievements)
+            1 -> AchievementGrid(achievements = lockedAchievements)
+        }
+    }
+}
+
+@Composable
+fun AchievementGrid(achievements: List<AchievementData>) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 0.dp, max = 400.dp)
+    ) {
+        items(achievements.size) { index ->
+            AchievementItem(achievement = achievements[index])
         }
     }
 }
 
 @Composable
 fun AchievementItem(achievement: AchievementData) {
-    val medalColor = if (achievement.unlocked) Color(0xFFFFD700) else Color.Gray // Gold vs Grey
+    val medalColor = if (achievement.unlocked) Color(0xFFFFD700) else Color.Gray
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -98,6 +138,12 @@ fun AchievementItem(achievement: AchievementData) {
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = achievement.description,
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
+            color = Color.Gray
+        )
     }
 }
-

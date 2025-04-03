@@ -274,7 +274,7 @@ class AuthViewModel : ViewModel() {
                         val achievement = AchievementData(
                             id = doc.id,
                             title = topic.name,
-                            description = "Complete the ${topic.name} challenges",
+                            description = "Complete ${topic.name}",
                             iconName = topic.iconKey,
                             unlocked = false,
                             dateUnlocked = null
