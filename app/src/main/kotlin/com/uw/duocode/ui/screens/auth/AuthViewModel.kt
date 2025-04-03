@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
+import com.uw.duocode.data.model.TopicInfo
 import com.uw.duocode.data.model.User
 import com.uw.duocode.data.model.UserSubtopicProgress
 import com.uw.duocode.ui.screens.challenges.ChallengeData
+import com.uw.duocode.ui.screens.profile.AchievementData
 import com.uw.duocode.ui.utils.ProfilePictureGenerator
 import kotlinx.coroutines.launch
 
@@ -26,6 +29,7 @@ class AuthViewModel : ViewModel() {
     var name by mutableStateOf("")
     var isLoading by mutableStateOf(false)
         private set
+    
     var shouldShowTutorial by mutableStateOf(false)
         private set
 
@@ -134,6 +138,7 @@ class AuthViewModel : ViewModel() {
                                             isLoading = false
                                             shouldShowTutorial = true
                                             onMessage("Account created but couldn't generate profile picture")
+                                            // Navigate to dashboard
                                             onSuccess()
                                         }
                                     }
@@ -179,6 +184,7 @@ class AuthViewModel : ViewModel() {
             .addOnSuccessListener {
                 prepopulateUserSubtopicProgress(userId) // prepopulate progress records for all subtopics
                 prepopulateUserChallenges(userId)
+                prepopulateUserAchievements(userId)
             }
             .addOnFailureListener { e ->
                 println("Error creating user document for UID: $userId, error: ${e.message}")
@@ -254,5 +260,60 @@ class AuthViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 println("Error fetching subtopics for challenge prepopulation: ${e.message}")
             }
+    }
+
+    private fun prepopulateUserAchievements(userId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("topics")
+            .get()
+            .addOnSuccessListener { topicsSnapshot ->
+                val batch = db.batch()
+                topicsSnapshot.documents.forEach { doc ->
+                    val topic = doc.toObject<TopicInfo>()
+                    if (topic != null) {
+                        val achievement = AchievementData(
+                            id = doc.id,
+                            title = topic.name,
+                            description = "Complete the ${topic.name} challenges",
+                            iconName = topic.iconKey,
+                            unlocked = false,
+                            dateUnlocked = null
+                        )
+                        val achievementDocRef = db.collection("users")
+                            .document(userId)
+                            .collection("achievements")
+                            .document(doc.id)
+                        batch.set(achievementDocRef, achievement)
+                    }
+                }
+                batch.commit()
+                    .addOnSuccessListener {
+                        println("Achievements prepopulated for user: $userId")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error prepopulating achievements: ${e.message}")
+                    }
+            }
+            .addOnFailureListener { e ->
+                println("Error fetching topics for achievements: ${e.message}")
+            }
+    }
+
+    fun sendResetPassword(onMessage: (String) -> Unit) {
+        val auth = FirebaseAuth.getInstance()
+        if (email.isNotBlank()) {
+            isLoading = true
+            auth.sendPasswordResetEmail(email)
+                .addOnSuccessListener {
+                    isLoading = false
+                    onMessage("Password reset email sent")
+                }
+                .addOnFailureListener { e ->
+                    isLoading = false
+                    onMessage(e.localizedMessage ?: "Failed to send reset email")
+                }
+        } else {
+            onMessage("Please enter your email first")
+        }
     }
 }
