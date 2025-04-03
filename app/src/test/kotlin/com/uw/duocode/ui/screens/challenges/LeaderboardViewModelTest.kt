@@ -13,24 +13,23 @@ import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 
 class LeaderboardViewModelTest {
-    
+
     private lateinit var viewModel: LeaderboardViewModel
-    
+
     @Mock
     private lateinit var mockFirestore: FirebaseFirestore
-    
+
     @Mock
     private lateinit var mockAuth: FirebaseAuth
-    
+
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
         viewModel = LeaderboardViewModel(mockAuth, mockFirestore)
     }
-    
+
     @Test
     fun `initial state has empty leaderboards and no errors`() {
-        // Verify initial state
         assertTrue(viewModel.globalLeaderboard.isEmpty())
         assertTrue(viewModel.friendsLeaderboard.isEmpty())
         assertFalse(viewModel.isLoading)
@@ -38,25 +37,20 @@ class LeaderboardViewModelTest {
         assertNull(viewModel.currentUserRank)
         assertNull(viewModel.currentUserFriendsRank)
     }
-    
+
     @Test
     fun `clearError sets error message to null`() {
-        // Set an error message
         viewModel.setErrorForTesting("Test error message")
-        
-        // Assert error is set
+
         assertEquals("Test error message", viewModel.errorMessage)
-        
-        // Call the method under test
+
         viewModel.clearError()
-        
-        // Assert error is cleared
+
         assertNull(viewModel.errorMessage)
     }
-    
+
     @Test
     fun `updateLeaderboardForTesting correctly sets leaderboard data`() {
-        // Create test data
         val testGlobalEntries = listOf(
             LeaderboardEntry(
                 userId = "user1",
@@ -73,7 +67,7 @@ class LeaderboardViewModelTest {
                 isCurrentUser = false
             )
         )
-        
+
         val testFriendsEntries = listOf(
             LeaderboardEntry(
                 userId = "user1",
@@ -85,27 +79,24 @@ class LeaderboardViewModelTest {
             LeaderboardEntry(
                 userId = "user3",
                 name = "Friend 1",
-                email = "friend1@example.com", 
+                email = "friend1@example.com",
                 questionsCompletedToday = 10,
                 isCurrentUser = false
             )
         )
-        
-        // Update the leaderboards using the test method
+
         viewModel.updateLeaderboardForTesting(testGlobalEntries, testFriendsEntries)
-        
-        // Verify the leaderboards were updated correctly
+
         assertEquals(testGlobalEntries, viewModel.globalLeaderboard)
         assertEquals(testFriendsEntries, viewModel.friendsLeaderboard)
-        
-        // Verify the test entries can be accessed
+
         assertEquals("User 1", viewModel.globalLeaderboard[0].name)
         assertEquals("User 2", viewModel.globalLeaderboard[1].name)
-        
+
         assertEquals("User 1", viewModel.friendsLeaderboard[0].name)
         assertEquals("Friend 1", viewModel.friendsLeaderboard[1].name)
-        
+
         assertEquals(20, viewModel.globalLeaderboard[0].questionsCompletedToday)
         assertEquals(10, viewModel.friendsLeaderboard[1].questionsCompletedToday)
     }
-} 
+}

@@ -23,61 +23,72 @@ import org.mockito.kotlin.any
 import kotlin.math.exp
 
 class ChallengesViewModelTest {
-    
+
     private lateinit var viewModel: ChallengesViewModel
-    
-    @Mock private lateinit var mockFirestore: FirebaseFirestore
-    @Mock private lateinit var mockAuth: FirebaseAuth
-    @Mock private lateinit var mockUser: FirebaseUser
-    @Mock private lateinit var mockUsersCollection: CollectionReference
-    @Mock private lateinit var mockUserDoc: DocumentReference
-    @Mock private lateinit var mockSubtopicsCollection: CollectionReference
-    @Mock private lateinit var mockQueryTask: Task<QuerySnapshot>
-    @Mock private lateinit var mockQuerySnapshot: QuerySnapshot
-    
+
+    @Mock
+    private lateinit var mockFirestore: FirebaseFirestore
+
+    @Mock
+    private lateinit var mockAuth: FirebaseAuth
+
+    @Mock
+    private lateinit var mockUser: FirebaseUser
+
+    @Mock
+    private lateinit var mockUsersCollection: CollectionReference
+
+    @Mock
+    private lateinit var mockUserDoc: DocumentReference
+
+    @Mock
+    private lateinit var mockSubtopicsCollection: CollectionReference
+
+    @Mock
+    private lateinit var mockQueryTask: Task<QuerySnapshot>
+
+    @Mock
+    private lateinit var mockQuerySnapshot: QuerySnapshot
+
     private val userId = "test-user-id"
-    
+
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        
-        // Setup Auth mock
+
         `when`(mockAuth.currentUser).thenReturn(mockUser)
         `when`(mockUser.uid).thenReturn(userId)
-        
-        // Initialize view model
+
         viewModel = ChallengesViewModel(mockAuth, mockFirestore)
     }
-    
+
     @Test
     fun `initial state has empty challenges and no error`() {
         assertTrue(viewModel.challenges.isEmpty())
         assertFalse(viewModel.isLoading)
         assertNull(viewModel.error)
     }
-    
+
     @Test
     fun `loadChallenges sets isLoading to true`() {
-        // Setup Firestore mocks for the chain
         `when`(mockFirestore.collection("users")).thenReturn(mockUsersCollection)
         `when`(mockUsersCollection.document(userId)).thenReturn(mockUserDoc)
         `when`(mockUserDoc.collection("subtopics")).thenReturn(mockSubtopicsCollection)
         `when`(mockSubtopicsCollection.get()).thenReturn(mockQueryTask)
         `when`(mockQueryTask.addOnSuccessListener(any())).thenReturn(mockQueryTask)
         `when`(mockQueryTask.addOnFailureListener(any())).thenReturn(mockQueryTask)
-        
-        // Call the method
+
         viewModel.loadChallenges()
-        
-        // Verify loading state is set to true
+
         assertTrue(viewModel.isLoading)
     }
-    
+
     @Test
     fun `challenges are created correctly from progress`() {
-        // Create a test progress item
-        val testProgressItem = UserSubtopicProgressWithId("1-Dimensional DP", UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10))
-        // Create a test challenge manually based on the mapping in the ViewModel
+        val testProgressItem = UserSubtopicProgressWithId(
+            "1-Dimensional DP",
+            UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10)
+        )
         val expectedChallenges = listOf(
             ChallengeData(
                 title = "1-Dimensional DP Beginner",
@@ -96,7 +107,6 @@ class ChallengesViewModelTest {
             )
         )
 
-        // Create mocked DocumentSnapshot objects that return the expected ChallengeData when toObject() is called.
         val beginnerDoc = Mockito.mock(DocumentSnapshot::class.java)
         `when`(beginnerDoc.toObject(ChallengeData::class.java)).thenReturn(expectedChallenges[0])
 
@@ -112,9 +122,8 @@ class ChallengesViewModelTest {
             "1-Dimensional DP-Expert" to expertDoc
         )
 
-
-        // Call the extracted function.
-        val actualPairs = viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
+        val actualPairs =
+            viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
         val actualChallenges = actualPairs.map { it.second }
 
         assertEquals(expectedChallenges, actualChallenges)
@@ -122,26 +131,26 @@ class ChallengesViewModelTest {
 
     @Test
     fun `only 1 new challenge`() {
-        // Create a test progress item
-        val testProgressItem = UserSubtopicProgressWithId("1-Dimensional DP", UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10))
-        // Create a test challenge manually based on the mapping in the ViewModel
+        val testProgressItem = UserSubtopicProgressWithId(
+            "1-Dimensional DP",
+            UserSubtopicProgress(id = "1dL9iqYFfmv0KjubQN1k", correctAnswers = 10)
+        )
         val beginner = ChallengeData(
-                title = "1-Dimensional DP Beginner",
-                subTitle = "Finish 2 questions in 1-Dimensional DP",
-                completed = true
+            title = "1-Dimensional DP Beginner",
+            subTitle = "Finish 2 questions in 1-Dimensional DP",
+            completed = true
         )
         val intermediate = ChallengeData(
-                title = "1-Dimensional DP Intermediate",
-                subTitle = "Finish 5 questions in 1-Dimensional DP",
-                completed = true
+            title = "1-Dimensional DP Intermediate",
+            subTitle = "Finish 5 questions in 1-Dimensional DP",
+            completed = true
         )
         val expert = ChallengeData(
-                title = "1-Dimensional DP Expert",
-                subTitle = "Finish 10 questions in 1-Dimensional DP",
-                completed = false
+            title = "1-Dimensional DP Expert",
+            subTitle = "Finish 10 questions in 1-Dimensional DP",
+            completed = false
         )
 
-        // Create mocked DocumentSnapshot objects that return the expected ChallengeData when toObject() is called.
         val beginnerDoc = Mockito.mock(DocumentSnapshot::class.java)
         `when`(beginnerDoc.toObject(ChallengeData::class.java)).thenReturn(beginner)
 
@@ -157,9 +166,8 @@ class ChallengesViewModelTest {
             "1-Dimensional DP-Expert" to expertDoc
         )
 
-
-        // Call the extracted function.
-        val actualPairs = viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
+        val actualPairs =
+            viewModel.createChallengesFromProgress(listOf(testProgressItem), challengeMap)
         val actualChallenges = actualPairs.map { it.second }
         val expectedChallenges = listOf(expert)
 
