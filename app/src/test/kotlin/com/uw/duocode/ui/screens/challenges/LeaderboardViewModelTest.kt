@@ -30,7 +30,6 @@ class LeaderboardViewModelTest {
 
     @Test
     fun `initial state has empty leaderboards and no errors`() {
-        // Verify initial state
         assertTrue(viewModel.globalLeaderboard.isEmpty())
         assertTrue(viewModel.friendsLeaderboard.isEmpty())
         assertFalse(viewModel.isLoading)
@@ -41,22 +40,17 @@ class LeaderboardViewModelTest {
 
     @Test
     fun `clearError sets error message to null`() {
-        // Set an error message
         viewModel.setErrorForTesting("Test error message")
 
-        // Assert error is set
         assertEquals("Test error message", viewModel.errorMessage)
 
-        // Call the method under test
         viewModel.clearError()
 
-        // Assert error is cleared
         assertNull(viewModel.errorMessage)
     }
 
     @Test
     fun `updateLeaderboardForTesting correctly sets leaderboard data`() {
-        // Create test data
         val testGlobalEntries = listOf(
             LeaderboardEntry(
                 userId = "user1",
@@ -91,14 +85,11 @@ class LeaderboardViewModelTest {
             )
         )
 
-        // Update the leaderboards using the test method
         viewModel.updateLeaderboardForTesting(testGlobalEntries, testFriendsEntries)
 
-        // Verify the leaderboards were updated correctly
         assertEquals(testGlobalEntries, viewModel.globalLeaderboard)
         assertEquals(testFriendsEntries, viewModel.friendsLeaderboard)
 
-        // Verify the test entries can be accessed
         assertEquals("User 1", viewModel.globalLeaderboard[0].name)
         assertEquals("User 2", viewModel.globalLeaderboard[1].name)
 

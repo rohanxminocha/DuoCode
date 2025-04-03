@@ -15,21 +15,17 @@ class HomeViewModelTest {
 
     @Test
     fun `initial state has first tab selected`() {
-        // Verify initial state
         assertEquals(0, viewModel.selectedTab)
     }
 
     @Test
     fun `onTabSelected updates selectedTab value`() {
-        // Test selecting the second tab
         viewModel.onTabSelected(1)
         assertEquals(1, viewModel.selectedTab)
 
-        // Test selecting the third tab
         viewModel.onTabSelected(2)
         assertEquals(2, viewModel.selectedTab)
 
-        // Test selecting the first tab again
         viewModel.onTabSelected(0)
         assertEquals(0, viewModel.selectedTab)
     }
