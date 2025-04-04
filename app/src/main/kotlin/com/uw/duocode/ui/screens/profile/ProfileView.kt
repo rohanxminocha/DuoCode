@@ -512,8 +512,7 @@ private fun OverviewCard(
 ) {
     Card(
         modifier = modifier
-            .height(70.dp)
-            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
+            .height(70.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(

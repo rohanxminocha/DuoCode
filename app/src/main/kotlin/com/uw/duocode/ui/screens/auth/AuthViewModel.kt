@@ -138,7 +138,6 @@ class AuthViewModel : ViewModel() {
                                             isLoading = false
                                             shouldShowTutorial = true
                                             onMessage("Account created but couldn't generate profile picture")
-                                            // Navigate to dashboard
                                             onSuccess()
                                         }
                                     }
@@ -274,7 +273,7 @@ class AuthViewModel : ViewModel() {
                         val achievement = AchievementData(
                             id = doc.id,
                             title = topic.name,
-                            description = "Complete ${topic.name}",
+                            description = "Mastered ${topic.name}",
                             iconName = topic.iconKey,
                             unlocked = false,
                             dateUnlocked = null
