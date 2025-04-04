@@ -28,7 +28,7 @@ enabling them to excel in job interviews and apply these concepts in practical, 
 ## Project Information
 - [Team Contract](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Team-Contract)
 - [Meeting Minutes](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Meeting-Minutes)
-- [Design diagrams] (https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Design-Diagrams)
+- [Design diagrams](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Design-Diagrams)
 - [User documentation]
 
 
