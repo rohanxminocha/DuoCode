@@ -56,6 +56,16 @@ classDiagram
         -subtopicsMapping: Map
         +loadChallenges()
     }
+    
+    class AchievementsViewModel {
+        -achievements: List~AchievementData~
+        -isLoading: Boolean
+        -error: String?
+        -auth: FirebaseAuth
+        -db: FirebaseFirestore
+        +loadAchievements()
+        +unlockAchievement(achievementId)
+    }
 
     class ProfileViewModel {
         -user: User?
@@ -88,6 +98,7 @@ classDiagram
     DOMAIN_LAYER -- QuestMapViewModel
     DOMAIN_LAYER -- QuestionLoadingViewModel
     DOMAIN_LAYER -- ChallengesViewModel
+    DOMAIN_LAYER -- AchievementsViewModel
     DOMAIN_LAYER -- ProfileViewModel
     DOMAIN_LAYER -- FriendViewModel
     
@@ -164,6 +175,15 @@ classDiagram
         +title: String
         +description: String
     }
+
+    class AchievementData {
+        +id: String
+        +title: String
+        +description: String
+        +iconName: String
+        +unlocked: Boolean
+        +dateUnlocked: Date?
+    }
     
     DATA_LAYER -- User
     DATA_LAYER -- Topic
@@ -176,6 +196,7 @@ classDiagram
     DATA_LAYER -- Friend
     DATA_LAYER -- FriendRequest
     DATA_LAYER -- Achievement
+    DATA_LAYER -- AchievementData
 
     %% Relationships between classes
     MultipleChoiceQuestion --|> Question
@@ -192,6 +213,8 @@ classDiagram
     
     FriendViewModel --> Friend : manages
     FriendViewModel --> FriendRequest : processes
+
+    AchievementsViewModel --> AchievementData : manages
 ```
 
 ## Layer Description
