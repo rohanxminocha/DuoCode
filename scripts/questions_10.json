@@ -1,0 +1,335 @@
+[
+  {
+    "description": "Which precondition must be met for binary search to work on an array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Array must be sorted",
+      "Array must be unsorted",
+      "Array must be in descending order only",
+      "Array can have any order"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What is the time complexity of binary search on a sorted array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(log n)",
+      "O(1)"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Order the steps in performing binary search on a sorted array.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Initialize low and high pointers",
+      "Calculate the mid index",
+      "Compare the target with mid element",
+      "Update pointers based on comparison",
+      "Repeat until target is found or search space is empty"
+    ],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match each term related to binary search with its description.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Low Pointer": "Starting index of the search range",
+      "High Pointer": "Ending index of the search range",
+      "Mid Calculation": "Computing the middle index using (low + high) / 2"
+    },
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which of the following best explains the divide-and-conquer strategy in binary search?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "It divides the array into two halves and searches both simultaneously",
+      "It sorts the array before searching",
+      "It repeatedly divides the search interval in half, reducing the problem size",
+      "It uses recursion to traverse each element"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What happens when the binary search algorithm does not find the target element in a sorted array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "It returns the index of the nearest element",
+      "It returns an error",
+      "It returns a null or negative indicator",
+      "It returns the middle element"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Arrange the steps for a recursive binary search implementation.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Check base case (empty array)",
+      "Calculate mid",
+      "Compare target with mid element",
+      "Recursively call binary search on left or right subarray"
+    ],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which pointer update is incorrect in binary search?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "If target is less than mid, update high pointer to mid - 1",
+      "If target is greater than mid, update low pointer to mid + 1",
+      "If target equals mid, return mid",
+      "If target is less than mid, update low pointer to mid + 1"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which scenario is most likely to cause an infinite loop in a binary search algorithm?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Using integer division for mid calculation",
+      "Not updating pointers correctly when target is not found",
+      "Sorting the array before search",
+      "Having a sorted array with duplicate elements"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match the binary search algorithm characteristics with their outcomes.",
+    "questionType": "MATCHING",
+    "difficulty": "EASY",
+    "matches": {
+      "Efficiency": "O(log n) time complexity",
+      "Prerequisite": "Sorted array",
+      "Technique": "Divide and conquer"
+    },
+    "subtopicId": "ANXFboJHfR4Mfc2lv42G",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What is the primary objective of a search range algorithm in a sorted array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "To find the first occurrence of a target element",
+      "To find any occurrence of a target element",
+      "To locate the starting and ending indices of a target value's consecutive occurrences",
+      "To sort the array"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which modification is typically applied to binary search to determine the lower bound of a search range?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Use a recursive approach",
+      "Adjust the mid calculation",
+      "Continue searching in the left half even after finding the target",
+      "Return immediately upon first match"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Arrange the steps to find the upper bound of a search range using binary search.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Initialize pointers",
+      "Perform binary search to find any occurrence of the target",
+      "Adjust search to the right half to find the last occurrence",
+      "Return the index when no further target is found"
+    ],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match the terms with their roles in search range algorithms.",
+    "questionType": "MATCHING",
+    "difficulty": "EASY",
+    "matches": {
+      "Lower Bound": "First index where target appears",
+      "Upper Bound": "Last index where target appears",
+      "Search Range": "Range from lower to upper bound of target"
+    },
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What is the typical time complexity for finding a search range in a sorted array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n log n)"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which scenario is an expected outcome when a search range algorithm does not find the target?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Return an empty range",
+      "Return the entire array",
+      "Return the index 0",
+      "Return a range with negative indices"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Arrange the steps to perform a search range operation combining both lower and upper bound searches.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Perform lower bound binary search",
+      "Perform upper bound binary search",
+      "Combine results to form a range",
+      "Return the search range"
+    ],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match the terms with their roles in search range algorithms.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Lower Bound Search": "Modifies binary search to continue leftwards upon finding the target",
+      "Upper Bound Search": "Modifies binary search to continue rightwards upon finding the target"
+    },
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What is the significance of handling duplicate elements in search range algorithms?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "It allows for a faster search",
+      "It ensures the search range accurately captures all occurrences",
+      "It makes the algorithm O(1)",
+      "It avoids using binary search"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which algorithmic technique is most commonly employed in finding the search range in a sorted array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Linear search",
+      "Binary search",
+      "Hashing",
+      "Depth-first search"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match the outcome with its respective boundary in search range algorithms.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "First Occurrence": "Lower bound",
+      "Last Occurrence": "Upper bound",
+      "Total Count": "Difference between upper and lower bound plus one"
+    },
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Which of the following adjustments is critical when modifying binary search to find the search range for a target?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "HARD",
+    "options": [
+      "Halving the array repeatedly",
+      "Checking adjacent elements for duplicates",
+      "Changing the condition to continue searching even after a match is found",
+      "Reversing the sorted order of the array"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Arrange the conceptual process for determining the complete search range in a sorted array containing duplicates.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Perform binary search to find one occurrence",
+      "Extend search to find lower bound",
+      "Extend search to find upper bound",
+      "Calculate total count from bounds"
+    ],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "What is a common edge case to consider when implementing a search range algorithm?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Array with only one element",
+      "Array with all identical elements",
+      "Empty array",
+      "All of the above"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  },
+  {
+    "description": "Match each scenario with its typical response in a search range algorithm implementation.",
+    "questionType": "MATCHING",
+    "difficulty": "HARD",
+    "matches": {
+      "Target not found": "Return [-1, -1] or an empty range",
+      "Target found once": "Lower and upper bounds are the same",
+      "Multiple occurrences": "Lower bound and upper bound differ"
+    },
+    "subtopicId": "GABlt2fzYt99zyB9WrDL",
+    "releaseDate": "2025-04-04T14:00:00Z"
+  }
+]
