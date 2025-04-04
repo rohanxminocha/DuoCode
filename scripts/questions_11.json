@@ -1,0 +1,280 @@
+[
+  {
+    "description": "Which of the following best describes a singly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "A collection of nodes where each node contains data and a pointer to the next node",
+      "A fixed-size sequential array",
+      "A collection of nodes where each node points to both previous and next nodes",
+      "A tree structure with parent and child relationships"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "What is an advantage of using a singly linked list over an array?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Faster random access",
+      "Dynamic size and ease of insertion/deletion",
+      "Memory is contiguous",
+      "Simpler implementation"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Order the steps to insert a new node at the beginning of a singly linked list.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "EASY",
+    "options": [
+      "Create a new node",
+      "Point new node's next to current head",
+      "Update head to new node"
+    ],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Match the components of a singly linked list node with their roles.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Data": "Stores the actual value",
+      "Next Pointer": "Reference to the next node in the list"
+    },
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which pointer is present in a singly linked list node?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Previous pointer",
+      "Next pointer",
+      "Both previous and next pointers",
+      "Random pointer"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Arrange the steps for deleting a node (not at head) from a singly linked list.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Find the node preceding the node to delete",
+      "Update its next pointer to skip the deleted node",
+      "Free or delete the targeted node"
+    ],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "What is the time complexity of searching for an element in a singly linked list in the worst case?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n^2)"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "sfFzjXaPQfL2fiFLG80h",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which of the following best describes a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Nodes have pointers to both next and previous nodes",
+      "Nodes have only next pointers",
+      "Nodes are arranged in a fixed array",
+      "Nodes are stored in contiguous memory"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "What additional pointer does a doubly linked list node contain compared to a singly linked list node?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Next pointer",
+      "Previous pointer",
+      "Child pointer",
+      "Parent pointer"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Order the steps for inserting a new node after a given node in a doubly linked list.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Create new node",
+      "Set new node's previous pointer to the given node",
+      "Set new node's next pointer to the given node's next",
+      "Update given node's next node's previous pointer to new node (if exists)",
+      "Set given node's next pointer to new node"
+    ],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Match each operation in a doubly linked list with its advantage.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Backward Traversal": "Allows moving from any node to its previous node",
+      "Efficient Deletion": "Can remove a node without traversing from the head",
+      "Bidirectional Insertion": "Enables insertion before or after a given node"
+    },
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which scenario is best suited for using a doubly linked list?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Implementing a stack",
+      "Implementing a queue",
+      "Browser history navigation",
+      "Static array operations"
+    ],
+    "correctAnswer": [2],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Arrange the steps for deleting a node from a doubly linked list.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Update the previous node's next pointer to the current node's next",
+      "Update the next node's previous pointer to the current node's previous",
+      "Free the current node"
+    ],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "What is a potential disadvantage of doubly linked lists compared to singly linked lists?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Increased memory usage due to extra pointer",
+      "Inability to traverse backwards",
+      "Complex insertion operations",
+      "They require contiguous memory allocation"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "OaAD5Flszoi2FMWhaIfY",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which principle best defines a queue data structure?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Last-In-First-Out (LIFO)",
+      "First-In-First-Out (FIFO)",
+      "Random Access",
+      "Priority-Based"
+    ],
+    "correctAnswer": [1],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which operation removes an element from the front of a queue?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Enqueue",
+      "Push",
+      "Pop",
+      "Dequeue"
+    ],
+    "correctAnswer": [3],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Arrange the steps for enqueuing an element into a queue implemented using linked lists.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "MEDIUM",
+    "options": [
+      "Create a new node",
+      "Check if the queue is empty",
+      "If empty, set both front and rear to the new node",
+      "If not empty, add new node at the rear and update rear pointer"
+    ],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Match each queue operation with its description.",
+    "questionType": "MATCHING",
+    "difficulty": "MEDIUM",
+    "matches": {
+      "Enqueue": "Add an element at the rear",
+      "Dequeue": "Remove an element from the front",
+      "Peek": "Return the front element without removing it"
+    },
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Which of the following distinguishes a queue from a stack?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "EASY",
+    "options": [
+      "Queues use FIFO order while stacks use LIFO",
+      "Queues allow insertion at both ends",
+      "Queues support random access",
+      "Queues are implemented using arrays only"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "Arrange the steps to dequeue an element from a queue implemented with an array.",
+    "questionType": "DRAG_DROP",
+    "difficulty": "HARD",
+    "options": [
+      "Retrieve the element at the front",
+      "Shift all elements one position to the left",
+      "Update the front index or pointer"
+    ],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  },
+  {
+    "description": "What is a circular queue, and why is it used?",
+    "questionType": "MULTIPLE_CHOICE",
+    "difficulty": "MEDIUM",
+    "options": [
+      "A queue that wraps around to use empty space at the front when rear reaches the end, to optimize space",
+      "A queue that uses a stack for storage",
+      "A queue implemented using linked lists for faster operations",
+      "A queue that sorts its elements automatically"
+    ],
+    "correctAnswer": [0],
+    "subtopicId": "3Mb9iVeOqU475Zj3BwyA",
+    "releaseDate": "2025-04-02T10:00:00Z"
+  }
+]
