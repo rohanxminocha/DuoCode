@@ -22,6 +22,7 @@ enabling them to excel in job interviews and apply these concepts in practical, 
 ## Documentation
 - [Project Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Project-Proposal)
 - [Design Proposal](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Design-Proposal)
+- [Design Diagrams](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Design-Diagrams)
 
 ## Project Information
 - [Team Contract](https://git.uwaterloo.ca/rminocha/duocode/-/wikis/Team-Contract)
