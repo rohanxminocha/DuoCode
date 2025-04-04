@@ -45,7 +45,7 @@ def update_users_with_new_subtopics(subtopic_ids):
 
 def main():
     print("[release_questions] Checking for newly releaseable questions in 'questions_test' ...")
-    release_new_questions_test()
+    release_new_questions()
     print("[release_questions] Done!")
 
 if __name__ == '__main__':
