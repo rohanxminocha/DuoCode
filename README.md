@@ -16,7 +16,7 @@ To get started with using DuoCode,
 1. Download the release APK from [here](https://git.uwaterloo.ca/rminocha/duocode/-/blob/main/releases/release-1.0.0.apk?ref_type=heads)
 2. You can install the application on any Android device running Android 9 (API 28) and higher
 3. You will have to allow app installs from unknown sources if you have never installed an APK on your device before
-4. Once you have open DuoCode, you will be prompted to sign up and you can continue with our app from there.
+4. Once you have DuoCode open, you will be prompted to create an account and you can continue with our app from there
 
 ## Team Details
 - Team Number: LAB101-7
